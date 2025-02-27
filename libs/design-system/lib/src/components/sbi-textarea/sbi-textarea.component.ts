@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ElementRef } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { SbiErrorComponent } from '../sbi-error/sbi-error.component';
@@ -47,8 +47,15 @@ export class SbiTextareaComponent implements OnInit {
 
     @Input() errorMessages: Record<string, string> | undefined;
 
-    
+    @Input() size: 'default' | 'small' = 'default';
+
+    constructor(private elementRef: ElementRef) {
+    }
+
     public ngOnInit(): void {
+        if (this.size === 'small') {
+            this.elementRef.nativeElement.querySelector('.sbi-textarea').classList.add('small');
+        }
     }
         
     public clearControl() {
