@@ -1,0 +1,37 @@
+$feedback-label-wrapper-box-shadow: #23242508 !default;
+$feedback-box-shadow: #2324250f !default;
+
+.sbi-feedback-container {
+  min-width: 500px;
+  background-color: var(--surface-primary);
+  box-shadow: 0 0 2px 0 $feedback-box-shadow, 0 0 6px 0 $feedback-box-shadow, 0 6px 12px 0 $feedback-box-shadow;
+  border-radius: 16px;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+
+  .button {
+    ::ng-deep .sbi-button {
+      width: 100%;
+    }
+  }
+}
+
+.sbi-feedback-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+// todo: Заменить на константу мобилки
+@media (max-width: 550px) {
+  .sbi-feedback-container {
+    width: 100%;
+    min-width: auto;
+  }
+
+  .sbi-feedback-content {
+    gap: 16px;
+  }
+}

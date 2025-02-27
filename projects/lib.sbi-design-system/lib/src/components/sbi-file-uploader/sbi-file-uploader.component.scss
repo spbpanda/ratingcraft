@@ -1,0 +1,292 @@
+$default-box-shadow: #3338640f !default;
+
+.sbi-file-upload-container {
+  height: 100%;
+
+  &__header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    &__label-wrapper {
+      display: flex;
+      flex-direction: column;
+    }
+
+    &__label {
+      font-size: 16px;
+      font-weight: 600;
+      line-height: 24px;
+      letter-spacing: -0.5px;
+      text-align: left;
+      text-underline-position: from-font;
+      text-decoration-skip-ink: none;
+      color: var(--text-primary);
+    }
+
+    &__note {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 21px;
+      letter-spacing: -0.01em;
+      text-align: left;
+      text-underline-position: from-font;
+      text-decoration-skip-ink: none;
+      color: var(--text-secondary);
+    }
+  }
+
+  // todo: удалить, как будет реализован кастомный status
+  &__required {
+    border-radius: 1000px;
+    border: 1px solid var(--brand-brandorange);
+    color: var(--brand-brandorange);
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2px 8px;
+    height: 22px;
+    min-width: 90px;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px;
+    letter-spacing: -0.02em;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+  }
+}
+
+.sbi-file-uploader {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  background: var(--surface-primary);
+  border: 1px dashed var(--border-primary);
+  position: relative;
+  gap: 8px;
+  border-radius: 12px;
+
+  &.invalid {
+    border-color: var(--brand-brandorange);
+  }
+
+  &__container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 10px;
+    align-items: center;
+    width: 100%;
+
+    &__label {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 21px;
+      letter-spacing: -0.01em;
+      text-align: left;
+      text-underline-position: from-font;
+      text-decoration-skip-ink: none;
+      color: var(--text-secondary);
+    }
+
+    &__label-wrapper {
+      display: flex;
+      flex-direction: column;
+      overflow-x: scroll;
+      overflow-y: hidden;
+    }
+
+    &__files {
+      display: flex;
+      flex-direction: row;
+      margin-top: 8px;
+      position: relative;
+      z-index: 2;
+    }
+
+    &__file:not(:first-child) {
+      margin-left: 8px;
+    }
+
+    &__file {
+      display: flex;
+      flex-direction: row;
+      height: 24px;
+
+      &__icon {
+        cursor: pointer;
+
+        ::ng-deep svg path {
+          fill: var(--surface-neutral-50);
+          fill-opacity: 1;
+        }
+      }
+
+      &__label {
+        max-width: 150px;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 24px;
+        text-align: left;
+        text-underline-position: from-font;
+        text-decoration-skip-ink: none;
+        color: var(--brand-brandblue);
+      }
+    }
+
+    &__button {
+      min-width: 170px;
+      margin-left: 24px;
+    }
+  }
+}
+
+.file-input {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  opacity: 0;
+  cursor: pointer;
+
+  &__disable {
+    cursor: default;
+  }
+}
+
+.sbi-file-over {
+  background-color: var(--alice-accent-100);
+  border: 1px solid var(--brand-brandgreen);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 77px;
+
+  &__label {
+    color: var(--brand-brandgreen);
+
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 21px;
+    letter-spacing: -0.01em;
+    text-align: center;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+  }
+
+  .spinner {
+    cursor: pointer;
+
+    ::ng-deep .loading-indicator {
+      width: 24px;
+      height: 24px;
+    }
+  }
+}
+
+.sbi-file-uploader__container__label-wrapper::-webkit-scrollbar-thumb,
+.sbi-file-uploader__container__label-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.invalid {
+  color: var(--brand-brandorange);
+}
+
+.desktop {
+  display: block;
+}
+
+.mobile {
+  display: none;
+}
+
+.tablet {
+  display: none;
+}
+
+// todo: Заменить на переменную, отвечающую за размер планшета
+@media (max-width: 1150px) {
+  .desktop {
+    display: none;
+  }
+
+  .tablet {
+    display: block;
+  }
+  .sbi-file-upload-container {
+    box-shadow: 0 0 2px 0 $default-box-shadow, 0 0 6px 0 $default-box-shadow, 0 6px 12px 0 $default-box-shadow;
+    padding: 10px;
+    border-radius: 16px;
+
+    &__header {
+      flex-direction: column-reverse;
+
+      &__label-wrapper {
+        margin-bottom: 8px;
+      }
+    }
+
+    &__required {
+      max-width: 90px;
+      margin-bottom: 8px;
+    }
+  }
+
+  .file-input {
+    display: none;
+  }
+  .sbi-file-uploader {
+    background: transparent;
+    border: none;
+
+    &__container {
+      padding: 0;
+      display: block;
+
+      &__button {
+        margin-left: 0;
+      }
+
+      &__files {
+        margin-bottom: 16px;
+      }
+
+      &__label {
+        margin-top: 8px;
+      }
+    }
+  }
+}
+
+// todo: Заменить на переменную, отвечающую за размер мобилки
+@media (max-width: 550px) {
+  .tablet {
+    display: none;
+  }
+ 
+  .mobile {
+    display: block;
+  }
+
+  .sbi-file-uploader__container__files {
+    flex-direction: column;
+  }
+
+  .sbi-file-uploader__container__button {
+    ::ng-deep .sbi-button {
+      width: 100%;
+    }
+  }
+
+  .sbi-file-uploader__container__file:not(:first-child) {
+    margin: 0;
+  }
+
+  .sbi-file-uploader__container__label {
+    text-align: center;
+  }
+}

@@ -1,0 +1,139 @@
+// .spinner {
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+//     background: #26C93C;
+//     box-shadow: 0px 8px 16px 0px #24C9213D;
+//     border-radius: 50%;
+// }
+// /* Размеры */
+// .spinner-xl {
+//     width: 88px;
+//     height: 88px;
+
+//     .loader {
+//         width: 40px;
+//         height: 40px;
+//     }
+// }
+// .spinner-l {
+//     width: 88px;
+//     height: 88px;
+//     .loader {
+//         width: 40px;
+//         height: 40px;
+//     }
+// }
+// .spinner-m {
+//     width: 48px;
+//     height: 48px;
+//     .loader {
+//         width: 28.8px;
+//         height: 28.8px;
+//     }
+// }
+// .spinner-s {
+//     width: 40px;
+//     height: 40px;
+//     .loader {
+//         width: 24px;
+//         height: 24px;
+//     }
+// }
+
+// .loader {
+//     border: 3px solid;
+//     border-radius: 50%; /* Делаем круг */
+//     background: conic-gradient(
+//       from 0deg at 50% 50%,
+//       rgba(255, 255, 255, 0) -318.77deg,
+//       #FFFFFF 5deg,
+//       rgba(255, 255, 255, 0) 41.23deg,
+//       #FFFFFF 365deg
+//     );
+//     -webkit-mask: radial-gradient(
+//       circle,
+//       transparent 50%,
+//       black 51%
+//     ); /* Маска для создания "дырки" в центре */
+//     animation: spin 1.3s linear infinite;
+// }
+
+// // /* Размеры */
+// // .spinner-xl {
+// //     width: 144px;
+// //     height: 144px;
+// //     // background-color: #26C93C1F;
+// // }
+
+
+// /* Анимация вращения */
+// @keyframes spin {
+//     0% {
+//         transform: rotate(0deg);
+//     }
+
+//     100% {
+//         transform: rotate(360deg);
+//     }
+// }
+
+// /* Анимация пульсации тени */
+// @keyframes shadowPulse {
+//     0% {
+//         box-shadow: 6px 17px 24px 0px #494b5900;
+//     }
+
+//     50% {
+//         box-shadow: 6px 17px 24px 0px #494B590A;
+//         /* Увеличиваем тень */
+//     }
+
+//     100% {
+//         box-shadow: 6px 17px 24px 0px #494b5900;
+//     }
+// }
+
+.loading-indicator {
+    position: relative;
+    width: 144px;
+    height: 144px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: rgba(38, 201, 60, 0.12); // Внешний светлый круг
+    box-shadow: 6px 17px 24px rgba(73, 75, 89, 0.04);
+    border-radius: 50%;
+  
+    .spinner {
+      width: 80%;
+      height: 80%;
+      transform: rotate(-90deg); // Повернуть начало круга вверх
+    }
+  
+    .background {
+      fill: none;
+      stroke: #26C93C; // Основной зелёный цвет
+      stroke-opacity: 0.2; // Полупрозрачный фон круга
+      stroke-width: 10;
+    }
+  
+    .progress {
+      fill: none;
+      stroke-width: 10;
+      stroke-linecap: round; // Закруглённые края
+      stroke-dasharray: 288; // Полная длина окружности
+      stroke-dashoffset: 75; // Длина видимой части
+      animation: spin 1.5s linear infinite;
+    }
+  }
+  
+  // Анимация вращения
+  @keyframes spin {
+    0% {
+      stroke-dashoffset: 288; // Начинаем с полного круга
+    }
+    100% {
+      stroke-dashoffset: 0; // Завершаем цикл
+    }
+  }

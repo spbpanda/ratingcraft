@@ -1,0 +1,48 @@
+.sbi-tab-group {
+  --mat-tab-header-active-label-text-color: var(--text-primary);
+  --mat-tab-header-inactive-label-text-color: var(--text-secondary);
+  --mat-tab-header-inactive-hover-label-text-color: var(--text-primary);
+  --mdc-tab-indicator-active-indicator-color: var(--brand-brandgreen);
+  --mdc-tab-indicator-active-indicator-height: 3px;
+  --mdc-tab-indicator-active-indicator-shape: 0;
+  --mat-tab-header-divider-height: 0;
+  --mat-tab-header-inactive-ripple-color: transparent;
+  background-color: var(--surface-secondary);
+  border-radius: 16px;
+}
+:host ::ng-deep {
+  .align-stretch .mat-mdc-tab-labels {
+    .mdc-tab.mat-mdc-tab {
+      flex-grow: 1 !important;
+    }
+  }
+
+  .align-start, .align-end, .align-center {
+    .mat-mdc-tab-labels {
+      .mdc-tab {
+        flex-grow: 0 !important;
+      }
+    }
+  }
+  .mat-mdc-tab:not(.mdc-tab--active) {
+    &:hover {
+      .mdc-tab-indicator__content {
+        opacity: 1;
+        border-color: var(--border-primary);
+        border-width: 3px;
+      }
+    }
+  }
+}
+.sbi-tab {
+  &--large {
+    font-size: 16px;
+    letter-spacing: -0.5px;
+    line-height: 24px;
+  }
+  &--small {
+    line-height: 21px;
+    letter-spacing: -0.14px;
+    font-size: 14px;
+  }
+}

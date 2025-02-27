@@ -1,0 +1,104 @@
+$disabled-opacity: 0.4;
+
+mat-form-field {
+    width: 100%;
+}
+
+.sbi-textarea {
+    --mdc-filled-text-field-container-color: var(--surface-primary);
+    --mat-form-field-hover-state-layer-opacity: 0;
+    --mat-form-field-focus-state-layer-opacity: 0;
+}
+
+::ng-deep {
+    .mat-mdc-form-field.sbi-textarea {
+        .mdc-line-ripple {
+            display: none;
+        }
+
+        // Textarea
+        .mat-mdc-input-element {
+            font-size: 16px;
+            font-weight: 400;
+            line-height: 24px;
+            letter-spacing: -0.5px;
+            text-align: left;
+            color: var(--text-primary);
+            padding: 16px 0;
+        }
+
+        // Default
+        .mdc-text-field--filled.mdc-text-field:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) {
+            background: var(--surface-primary);
+            border-radius: 12px;
+            border: 1px solid var(--border-primary);
+            min-height: 56px;
+            padding: 16px;
+
+            &:hover {
+                border-color: var(--border-fockus);
+            }
+
+            &.mdc-text-field--focused {
+                border-color: var(--border-accent);
+            }
+
+            .mdc-floating-label {
+                color: var(--text-secondary);
+            }
+        }
+
+        // Invalid
+        .mdc-text-field--filled.mdc-text-field.mdc-text-field--invalid:not(.mdc-text-field--disabled) {
+            background: var(--surface-primary);
+            border-radius: 12px;
+            border: 1px solid var(--border-warning);
+            padding: 16px;
+            color: var(--text-warning);
+
+            &:hover {
+                border-color: var(--state-warning-hover);
+            }
+
+            .mdc-floating-label {
+                color: var(--text-warning);
+            }
+
+            .mat-mdc-input-element {
+                color: var(--text-warning);
+            }
+        }
+
+        // Disabled
+        .mdc-text-field--filled.mdc-text-field.mdc-text-field--disabled {
+            background-color: var(--surface-neutral-5);
+            border-radius: 12px;
+            border: none;
+            padding: 16px;
+            opacity: 1;
+
+            .mdc-floating-label {
+                color: var(--text-secondary);
+            }
+
+            .mat-mdc-input-element {
+                color: var(--text-secondary);
+            }
+        }
+
+        // Label
+        .mdc-floating-label {
+            font-size: 14px;
+            line-height: 20px;
+            color: var(--text-secondary);
+            margin-top: -8px;
+        }
+
+        // Counter
+        .mat-mdc-form-field-hint {
+            color: var(--text-secondary);
+            font-size: 14px;
+            line-height: 20px;
+        }
+    }
+}

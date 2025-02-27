@@ -1,0 +1,12 @@
+@import '../../../assets/styles/common-styles/options.scss';
+@import '../../../assets/styles/common-styles/input';
+
+mat-form-field {
+  width: 100%;
+}
+
+.sbi-autocomplete-option {
+  ::ng-deep .mat-pseudo-checkbox-minimal {
+    display: none !important;
+  }
+}

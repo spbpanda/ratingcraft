@@ -1,0 +1,87 @@
+:host ::ng-deep {
+    .sbi-button {
+        &.mat-primary {
+            --mat-filled-button-ripple-color: var(--state-accent-pressed);
+            &:hover {
+                --mdc-filled-button-container-color: var(--state-accent-hover);
+            }
+            &.mat-mdc-button-disabled {
+                --mdc-filled-button-disabled-label-text-color: var(--text-contrast);
+                --mdc-filled-button-disabled-container-color: var(--surface-accent); 
+                opacity: 0.4;
+            }
+        }
+        &--warn {
+            &.mat-primary {
+                --mdc-filled-button-label-text-color: var(--text-contrast);
+                --mdc-filled-button-container-color: var(--surface-warning);
+    
+                --mat-filled-button-ripple-color: var(--state-warning-pressed);
+                &:hover {
+                    --mdc-filled-button-container-color: var(--state-warning-hover);
+                }
+                &.mat-mdc-button-disabled {
+                    --mdc-filled-button-disabled-label-text-color: var(--text-contrast);
+                    --mdc-filled-button-disabled-container-color: var(--surface-warning); 
+                    opacity: 0.4;
+                }
+            }
+        }
+        &--tint {
+            &.mat-primary {
+                --mdc-filled-button-label-text-color: var(--text-accent);
+                --mdc-filled-button-container-color: var(--surface-accenttint);
+    
+                --mat-filled-button-ripple-color: var(--state-accent-tint---pressed);
+                &:hover {
+                    --mdc-filled-button-container-color: var(--state-accent-tint---hover);
+                }
+                &.mat-mdc-button-disabled {
+                    --mdc-filled-button-disabled-container-color: var(--surface-accenttint);
+                    --mdc-filled-button-disabled-label-text-color: var(--text-accent);
+                    opacity: 0.4;
+                }
+            }
+        }
+        &--overlay {
+            &.mat-primary {
+                --mdc-filled-button-label-text-color: var(--text-primary);
+                --mdc-filled-button-container-color: var(--surface-primary);
+                --mat-filled-button-ripple-color: var(--surface-neutral-5);
+                &:hover {
+                    --mat-filled-button-hover-state-layer-opacity: 0;
+                    --mdc-filled-button-container-color: var(--surface-neutral-5);
+                }
+                &.mat-mdc-button-disabled {
+                    --mdc-filled-button-disabled-container-color: var(--surface-primary);
+                    --mdc-filled-button-disabled-label-text-color: var(--text-primary);
+                    opacity: 0.4;
+                }
+            }
+        }
+        .mdc-button__label:has(sbi-icon) {
+            display: flex;
+            flex-direction: row;
+            sbi-icon {
+                height: 24px;
+                width: 24px;
+                svg path {
+                    fill: var(--text-contrast);
+                }
+            }
+        }
+    }
+}
+.sbi-button {
+    --mdc-filled-button-container-shape: 16px;
+    --mdc-filled-button-label-text-size: 15px;
+    --mdc-filled-button-label-text-weight: 600;
+    line-height: 24px;
+
+    &--large {
+        --mdc-filled-button-container-height: 56px;
+    }
+    &--small {
+        --mdc-filled-button-container-height: 40px;
+    }
+}

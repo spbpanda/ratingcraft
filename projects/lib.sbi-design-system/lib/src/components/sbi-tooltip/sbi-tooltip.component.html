@@ -1,0 +1,8 @@
+<div class="tooltip-container" [ngClass]="tooltipPosition">
+    @if (content) {
+        <ng-container *ngTemplateOutlet="content; context: context"></ng-container>
+    } @else {
+        {{ contentText }}
+    }
+    <div class="tooltip-arrow"></div>
+</div>

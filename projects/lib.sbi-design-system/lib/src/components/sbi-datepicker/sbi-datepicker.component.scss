@@ -1,0 +1,244 @@
+@import '../../../assets/styles/common-styles/options.scss';
+@import '../../../assets/styles/common-styles/input';
+
+// date-picker
+$default-box-shadow: #3338640f !default;
+
+mat-form-field {
+  width: 100%;
+}
+
+::ng-deep {
+  .mat-datepicker-content {
+    --mat-datepicker-calendar-container-shape: 16px;
+    --mat-datepicker-calendar-date-text-color: var(--text-primary);
+    --mat-datepicker-calendar-header-text-color: var(--text-primary);
+    --mat-datepicker-calendar-body-label-text-color: var(--text-primary);
+    width: 290px !important;
+    background-color: var(--surface-primary) !important;
+    box-shadow: 0 0 2px 0 $default-box-shadow, 0 0 6px 0 $default-box-shadow, 0 6px 12px 0 $default-box-shadow;
+
+    .mat-calendar.sbi-calendar {
+      --mat-datepicker-calendar-date-selected-state-background-color: var(--surface-primary);
+      --mat-datepicker-calendar-date-today-outline-color: var(--border-accent);
+      --mat-datepicker-calendar-date-focus-state-background-color: var(--state-accent-tint---hover);
+      height: auto;
+      width: auto;
+      box-shadow: none !important;
+
+      .mat-calendar-table-header-divider,
+      .mat-calendar-table-header-divider:after {
+        display: none;
+      }
+
+      .mat-calendar-table-header {
+        span {
+          font-size: 16px !important;
+          font-weight: 500 !important;
+          line-height: 24px !important;
+          letter-spacing: normal !important;
+          text-align: center !important;
+          text-underline-position: auto !important;
+          text-decoration-skip-ink: none !important;
+          height: 44px !important;
+          padding-bottom: 8px !important;
+        }
+      }
+
+      .mat-calendar-body-today {
+        box-shadow: none;
+        color: var(--text-accent);
+        --mat-datepicker-calendar-date-outline-color: var(--border-accent);
+
+        &:hover {
+          border-color: var(--state-accent-hover);
+          color: var(--state-accent-hover);
+        }
+      }
+
+      .mat-calendar-body-cell:not(.mat-calendar-body-disabled) {
+        --mat-datepicker-calendar-date-hover-state-background-color: transparent;
+
+        .mat-calendar-body-cell-content {
+          border-radius: 100% !important;
+
+          &.mat-calendar-body-selected:not(.mat-calendar-body-comparison-identical):not(.mat-calendar-body-today) {
+            --mat-datepicker-calendar-date-selected-state-background-color: var(--surface-accent);
+            --mat-datepicker-calendar-date-selected-state-text-color: var(--text-contrast);
+            border-radius: 100% !important;
+          }
+        }
+
+        &:hover {
+          .mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(
+              .mat-calendar-body-comparison-identical
+            ):not(.mat-calendar-body-today) {
+            --mat-datepicker-calendar-date-hover-state-background-color: var(--state-accent-tint---hover);
+          }
+        }
+      }
+
+      .mat-calendar-body-label {
+        opacity: 0;
+      }
+
+      .mat-calendar-controls {
+        margin: 0 !important;
+      }
+
+      .datepicker-header {
+        .date-picker-arrows .date-picker-arrow-wrapper {
+          &:hover {
+            background-color: var(--state-accent-tint---hover) !important;
+          }
+        }
+
+        .label-wrapper {
+          &:hover {
+            background-color: var(--state-accent-tint---hover);
+          }
+
+          .label {
+            color: var(--text-primary) !important;
+          }
+        }
+      }
+    }
+
+    .mat-datepicker-actions {
+      margin: 16px;
+      display: flex;
+      gap: 16px;
+      justify-content: space-between;
+
+      sbi-button,
+      .sbi-button {
+        flex: 1;
+      }
+    }
+
+    .time-picker {
+      display: flex !important;
+      justify-content: center;
+      flex-direction: row;
+      align-items: center;
+      padding: 8px;
+      border-top: 1px solid var(--border-color, #ccc);
+      margin-top: 8px;
+
+      .time-block {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .time-value {
+        text-align: center;
+        min-width: 24px;
+        padding: 4px 0;
+        border-bottom: 1px solid var(--border-color, #ccc);
+      }
+
+      .separator {
+        margin: 0 4px;
+        align-self: center;
+        padding-bottom: 4px;
+        color: var(--text-primary);
+        font-weight: 400;
+      }
+
+      .arrow {
+        background: none;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        color: var(--text-primary);
+        font-size: 12px;
+        line-height: 1;
+        font-weight: 100;
+        margin: 8px 0;
+
+        &:hover {
+          color: var(--text-accent);
+        }
+
+        &.up {
+          margin-bottom: 12px;
+        }
+
+        &.down {
+          margin-top: 12px;
+        }
+      }
+    }
+  }
+
+  .mat-calendar-body-cell {
+    &.in-range {
+      .mat-calendar-body-cell-content {
+        background-color: var(--state-accent-tint---hover);
+        border-radius: 0;
+      }
+    }
+
+    &.range-start {
+      .mat-calendar-body-cell-content {
+        background-color: var(--surface-accent) !important;
+        color: var(--text-primary-inverse) !important;
+        border-top-right-radius: 0 !important;
+        border-bottom-right-radius: 0 !important;
+        border-top-left-radius: 50% !important;
+        border-bottom-left-radius: 50% !important;
+      }
+    }
+
+    &.range-end {
+      .mat-calendar-body-cell-content {
+        background-color: var(--surface-accent) !important;
+        color: var(--text-primary-inverse) !important;
+        border-top-left-radius: 0 !important;
+        border-bottom-left-radius: 0 !important;
+        border-top-right-radius: 50% !important;
+        border-bottom-right-radius: 50% !important;
+      }
+    }
+  }
+}
+
+:host ::ng-deep {
+  --mdc-icon-button-icon-size: 19px;
+}
+
+.range-inputs {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+// Стили для блока выбора времени
+.time-picker {
+  display: flex !important;
+  justify-content: center;
+  flex-direction: row;
+  align-items: center;
+  padding: 8px;
+  border-top: 1px solid var(--border-color, #ccc);
+  margin-top: 8px;
+}
+
+.time-display {
+  font-size: 18px;
+  margin: 4px 0;
+}
+
+.time-controls {
+  display: flex;
+  gap: 8px;
+}
+
+.arrow {
+  background: transparent;
+  border: none;
+  font-size: 16px;
+  cursor: pointer;
+}

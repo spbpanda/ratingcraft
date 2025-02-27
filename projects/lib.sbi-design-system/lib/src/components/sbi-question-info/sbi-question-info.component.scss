@@ -1,0 +1,14 @@
+.sbi-question-info {
+    width: 24px;
+    height: 24px;
+
+    ::ng-deep div,
+    ::ng-deep svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    ::ng-deep svg path {
+        fill: var(--icons-tertiary) !important;
+    }
+}

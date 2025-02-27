@@ -1,0 +1,51 @@
+:host {
+    display: inline-flex;
+    width: 28px;
+    height: 28px;
+
+    &.disabled {
+        cursor: default;
+        pointer-events: none;
+        opacity: 0.4;
+    }
+
+    .sbi-icon-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        width: 28px;
+        height: 28px;
+        border: none;
+        outline: none;
+        background-color: transparent;
+        cursor: pointer;
+        transition: background-color 0.3s ease, color 0.3s ease;
+        border-radius: 8px;
+
+
+        ::ng-deep svg path {
+            fill: var(--status-icon-neutral-50);
+        }
+
+        &--warn:hover,
+        &--warn:focus-visible,
+        &--warn:disabled {
+            background-color: var(--surface-warningtint);
+
+            ::ng-deep svg path {
+                fill: var(--alice-warning-500);
+            }
+        }
+
+        &--primary:hover,
+        &--primary:focus-visible,
+        &--primary:disabled {
+            background-color: var(--surface-accenttint);
+
+            ::ng-deep svg path {
+                fill: var(--icons-accent);
+            }
+        }
+    }
+}

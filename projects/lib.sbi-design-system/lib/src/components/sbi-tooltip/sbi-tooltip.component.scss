@@ -1,0 +1,68 @@
+$arrow-color: #363738;
+.tooltip-container {
+  position: relative;
+  background-color: $arrow-color;
+  color: #ffffff;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 14px;
+  max-width: 500px;
+}
+
+.tooltip-arrow {
+  position: absolute;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 8px solid $arrow-color;
+  top: -8px;
+  left: 50%; /* Начальная позиция по центру */
+  transform: translateX(-50%); /* Центрируем стрелку */
+}
+
+
+/* Позиция сверху */
+.tooltip-container.top {
+  margin-bottom: 8px;
+  .tooltip-arrow {
+    border-bottom-color: transparent;
+    top: 100%;
+    left: 50%;
+    border-top: 8px solid $arrow-color;
+  }
+}
+
+/* Позиция снизу */
+.tooltip-container.bottom {
+  margin-top: 8px;
+  .tooltip-arrow {
+    border-top-color: $arrow-color;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
+/* Позиция слева */
+.tooltip-container.left {
+  margin-right: 8px;
+  .tooltip-arrow {
+    left: 100%;
+    top: 50%;
+    transform: translateY(50%);
+    rotate: 90deg;
+  }
+}
+
+/* Позиция справа */
+.tooltip-container.right {
+  margin-left: 8px;
+  .tooltip-arrow {
+    right: 100%;
+    top: 50%;
+    left: auto;
+    transform: translateY(50%);
+    rotate: 270deg;
+  }
+}

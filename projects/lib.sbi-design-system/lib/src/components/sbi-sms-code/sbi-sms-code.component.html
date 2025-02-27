@@ -1,0 +1,30 @@
+<div class="sms-code-container" [attr.data-testid]="testId">
+  <form [formGroup]="smsCodeForm" (paste)="onPaste($event)" class="form-container">
+    <div class="code-inputs" [attr.data-testid]="testId + '-input'">
+      <input
+        *ngFor="let control of codeControls; let i = index"
+        class="input-field"
+        type="text"
+        maxlength="1"
+        #smsCodeInputField
+        [class.valid]="successMessage"
+        [class.invalid]="errorMessage"
+        [attr.data-testid]="testId + '-input-' + i"
+        [formControl]="control"
+        (input)="onInput(i, $event)"
+        (keydown)="onKeyDown(i, $event)"
+      />
+    </div>
+    <div *ngIf="errorMessage" [attr.data-testid]="testId + '-error-message'" class="error-message">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" [attr.data-testid]="testId + '-success-message'" class="success-message">{{ successMessage }}</div>
+  </form>
+
+  <ng-container *ngIf="showResendLink; else timerTemplate">
+    <a (click)="resendCode()" class="resend-link" [attr.data-testid]="testId + '-resend-link'">{{resendCodeLabel}}</a>
+  </ng-container>
+  <ng-template #timerTemplate>
+    <span class="timer" [attr.data-testid]="testId + '-timer'">{{timerLabel}} {{ getTimerMinutes() }}:{{ getTimerSeconds() }}</span>
+  </ng-template>
+</div>
+
+<input [attr.data-testid]="testId + '-code-value'" [hidden]="true" [value]="codeValue" autocomplete="one-time-code" name="sms" inputmode="numeric" />

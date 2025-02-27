@@ -1,0 +1,73 @@
+$feedback-label-wrapper-box-shadow: #23242508 !default;
+$feedback-box-shadow: #2324250f !default;
+
+.sbi-feedback-label-wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 10px;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 2px 5px 1px $feedback-label-wrapper-box-shadow, 0 2px 4px 0 $feedback-box-shadow;
+}
+
+.label {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -0.5px;
+  text-align: center;
+  background: linear-gradient(0deg, #08a652 18.66%, #17b897 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.sbi-points-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+
+  .point {
+    cursor: pointer;
+    margin: 0 auto;
+    width: 42px;
+    height: 42px;
+
+    ::ng-deep svg {
+      width: 42px;
+      height: 42px;
+
+      path {
+        fill: var(--text-secondary);
+      }
+    }
+  }
+
+  .hovered-03 {
+    ::ng-deep svg path {
+      fill: var(--brand-brandgreen);
+      fill-opacity: 0.3;
+    }
+  }
+
+  .active {
+    ::ng-deep svg path {
+      fill: var(--brand-brandgreen);
+      fill-opacity: 1;
+    }
+  }
+
+  .hovered-07 {
+    ::ng-deep svg path {
+      fill: var(--brand-brandgreen);
+      fill-opacity: 0.6;
+    }
+  }
+}
+
+// todo: Заменить на константу мобилки
+@media (max-width: 550px) {
+  .sbi-feedback-label-wrapper {
+    box-shadow: none;
+  }
+}

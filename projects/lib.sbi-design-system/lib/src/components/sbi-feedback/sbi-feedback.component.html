@@ -1,0 +1,26 @@
+<div class="sbi-feedback-container">
+  <div class="sbi-feedback-content">
+    @if (step() === 1) {
+    <ng-content select="points-content"></ng-content>
+    } @if (step() === 2) {
+    <ng-content select="questions-content"></ng-content>
+    } @if (step() === 3) {
+    <ng-content select="thanks-content"></ng-content>
+    } @if (status === 'success') {
+    <sbi-feedback-points
+      *ngIf="step() === 1"
+      [pointsCount]="pointsCount"
+      [label]="pointsLabel"
+      [testId]="testId + '-points'"
+      (selectPoints)="selectedPoints.set($event)"></sbi-feedback-points>
+    <sbi-feedback-questions
+      *ngIf="step() === 2"
+      [questions]="questions"
+      [testId]="testId + 'question'"
+      (changeSelectedFeedbackQuestions)="selectedQuestions.set($event)"></sbi-feedback-questions>
+    }
+  </div>
+  <sbi-button [disabled]="disabled()" class="button" size="large" appearance="primary" (clickBtn)="onSendFeedback()">
+    {{ buttonLabel() }}
+  </sbi-button>
+</div>

@@ -1,0 +1,70 @@
+<div class="sbi-file-upload-container">
+  <div class="sbi-file-upload-container__header">
+    <div class="sbi-file-upload-container__header__label-wrapper">
+      <div class="sbi-file-upload-container__header__label" *ngIf="label">{{ label }}</div>
+      <div class="sbi-file-upload-container__header__note" *ngIf="note">{{ note }}</div>
+    </div>
+    <!--todo: Заменить на status, когда он будет реализован-->
+    <div class="sbi-file-upload-container__required" *ngIf="required">{{ requiredLabel }}</div>
+  </div>
+  <div
+    class="sbi-file-uploader"
+    sbiUploadFile
+    [class.invalid]="!!errorMessage"
+    [class.sbi-file-over]="uploaderOvered() || filesIsLoading"
+    (fileDropped)="!disabled && fileDirectiveHandler($event)"
+    (uploaderOvered)="uploaderOvered.set($event)">
+    <input
+      *ngIf="files.length < maxFileCount"
+      class="file-input"
+      #sbiFileUploader
+      [class.disabled]="disabled"
+      [type]="!disabled ? 'file' : 'null'"
+      [multiple]="isMultiple"
+      (change)="fileBrowseHandler($event)" />
+    @if (!uploaderOvered() && !filesIsLoading) {
+    <div class="sbi-file-uploader__container">
+      <div class="sbi-file-uploader__container__label-wrapper">
+        @if (!!errorMessage) {
+        <div class="sbi-file-uploader__container__label invalid desktop">{{ errorMessage }}</div>
+        } @else {
+        <div class="sbi-file-uploader__container__label desktop">{{ uploadFileLabel }}</div>
+        }
+
+        <div class="sbi-file-uploader__container__files" *ngIf="files.length">
+          <div class="sbi-file-uploader__container__file" *ngFor="let file of files">
+            <div class="sbi-file-uploader__container__file__label" [ngClass]="{ invalid: !file.isValid }">
+              {{ file.file.name }}
+            </div>
+            <div class="sbi-file-uploader__container__file__label" [ngClass]="{ invalid: !file.isValid }">
+              .{{ getFileType(file.file) }}
+            </div>
+            <sbi-icon
+              class="sbi-file-uploader__container__file__icon"
+              [iconImage]="clearIcon"
+              (click)="deleteFile(file)"></sbi-icon>
+          </div>
+        </div>
+      </div>
+      <sbi-button
+        class="sbi-file-uploader__container__button"
+        size="small"
+        appearance="tint"
+        [disabled]="files.length >= maxFileCount"
+        (click)="openUploadFileByButton()">
+        {{ uploadFileButtonLabel }}
+      </sbi-button>
+
+      @if (!!errorMessage) {
+      <div class="sbi-file-uploader__container__label invalid tablet">{{ errorMessage }}</div>
+      } @if (!!errorMessage) {
+      <div class="sbi-file-uploader__container__label invalid mobile">{{ errorMessage }}</div>
+      }
+    </div>
+    } @else { @if (filesIsLoading) {
+    <sbi-progress-spinner class="spinner" size="s" type="primary" (click)="onDropLoading()"></sbi-progress-spinner>
+    } @else {
+    <div class="sbi-file-over__label">{{ uploaderOveredLabel }}</div>
+    } }
+  </div>
+</div>

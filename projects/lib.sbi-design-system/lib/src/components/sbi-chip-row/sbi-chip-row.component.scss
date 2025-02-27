@@ -1,0 +1,15 @@
+.sbi-chip-row {
+  display: flex;
+  flex-direction: row;
+  overflow-x: scroll;
+  overflow-y: hidden;
+
+  &__chip:not(:first-child) {
+    margin-left: 4px;
+  }
+}
+
+.sbi-chip-row::-webkit-scrollbar-thumb,
+.sbi-chip-row::-webkit-scrollbar {
+  display: none;
+}

@@ -1,0 +1,31 @@
+<mat-form-field
+    class="sbi-textarea"
+    [ngClass]="{ 'sbi-textarea_disabled': readonly }"
+    appearance="fill"
+>
+    <mat-label *ngIf="label">{{ label }}</mat-label>
+    <textarea
+        [formControl]="control"
+        matInput
+        [readonly]="readonly"
+        [placeholder]="placeholder"
+        [cdkTextareaAutosize]="isAutoResize"
+        [style.resize]="isAutoResize ? 'none' : 'vertical'"
+        [style.height]="height"
+        #autosize="cdkTextareaAutosize"
+        [cdkAutosizeMinRows]="isAutoResize ? minRows : null"
+        [cdkAutosizeMaxRows]="isAutoResize ? maxRows : null"
+        [maxlength]="maxLength"
+        [id]="testId"
+    >
+    </textarea>
+    <!-- <div
+        *ngIf="control.value && !control.disabled && suffixIconType === 'clear' && !readonly"
+        (click)="clearControl()"
+        class="close-icon"
+        matSuffix>
+    </div> -->
+    <mat-hint *ngIf="maxLength" align="end">{{control.value?.length || 0}} / {{ maxLength }}</mat-hint>
+</mat-form-field>
+
+<sbi-error *ngIf="control.invalid && control.touched" [errors]="control.errors" [errorMessages]="errorMessages"></sbi-error> 

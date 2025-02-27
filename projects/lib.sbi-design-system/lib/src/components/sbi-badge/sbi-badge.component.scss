@@ -1,0 +1,65 @@
+.sbi-badge-container {
+  background: none;
+  border-radius: 1000px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  padding: 2px 8px;
+
+  .label {
+    font-weight: 400;
+  }
+}
+
+:host {
+  .large {
+    .sbi-badge-container {
+      .label {
+        font-size: 14px;
+        line-height: 22px;
+      }
+    }
+  }
+
+  .regular {
+    .sbi-badge-container {
+      .label {
+        font-size: 12px;
+        line-height: 16px;
+      }
+    }
+  }
+
+  .small {
+    .sbi-badge-container {
+      padding: 4px;
+    }
+  }
+
+  .accent {
+    background-color: var(--surface-accent);
+
+    .label {
+      color: var(--text-contrast);
+    }
+  }
+
+  .tint {
+    background-color: var(--surface-accenttint);
+
+    .label {
+      color: var(--text-accent);
+    }
+  }
+
+  .primary {
+    background-color: var(--surface-primary);
+    box-shadow: 0 1px 3px 1px #16182C14, 0 1px 2px 0 #33386426;
+
+    .label {
+      color: var(--text-primary);
+    }
+  }
+}

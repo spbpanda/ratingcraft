@@ -1,0 +1,24 @@
+<mat-chip
+  class="sbi-chip primary"
+  [ngClass]="{
+    'selected': selected,
+    'invalid': invalid,
+    'with-clear-icon': showClearIcon,
+  }"
+  [attr.data-testid]="testId"
+  [disabled]="disabled"
+  (click)="onChipClick($event)">
+  <div class="sbi-chip-content-wrapper">
+    <ng-content select="[prefix]"></ng-content>
+    <div class="label" [class.invalid]="invalid" [class.disabled]="disabled" *ngIf="label">{{ label }}</div>
+    <div
+      *ngIf="showClearIcon && !disabled"
+      class="clear-icon"
+      [attr.data-testid]="testId + '-clear-icon'"
+      [class.invalid]="invalid"
+      (click)="onClearChip($event)">
+      <sbi-icon [iconImage]="clearIcon"></sbi-icon>
+    </div>
+    <ng-content select="[suffix]"></ng-content>
+  </div>
+</mat-chip>

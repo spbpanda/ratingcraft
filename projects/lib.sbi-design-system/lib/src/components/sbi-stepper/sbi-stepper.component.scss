@@ -1,0 +1,111 @@
+$white: #FFFFFF !default;
+$disable: #0000001F !default;
+$green: #26C93C !default;
+$light-green: #26C93C1F !default;
+$black:  #171D21 !default;
+
+$disable-background: #0000001F !default;
+$disabled-text: #00000052 !default;
+
+.sbi-stepper {
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 52px;
+    border: 1px solid var(--border-secondary);
+    border-radius: 100px;
+    padding: 8px;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.sbi-step {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    gap: 0.5rem;
+    justify-content: flex-start;
+    padding-right: 20px;
+
+    &.disabled {
+        .sbi-step__circle {
+            background-color: var(--surface-neutral-50);
+    
+            &_number {
+                color: var(--text-contrast);
+            }
+        }
+
+        .sbi-step__name {
+            color: var(--text-tertiary);
+        }
+    }
+
+    &.completed {
+        .sbi-step__circle {
+            background: var(--surface-accenttint);
+    
+            &_number {
+                color: var(--text-contrast);
+            }
+        }
+    }
+
+    &.active {
+        .sbi-step__circle-wrapper {
+            display: flex;
+            width: 36px;
+            height: 36px;
+            justify-content: center;
+            align-items: center;
+            border: 1px solid var(--border-accent);
+            border-radius: 50%;
+
+            .sbi-step__circle {
+                background-color: var(--surface-accent);
+        
+                &_number {
+                    color: var(--text-contrast);
+                }
+            }
+        }
+    }
+    
+    &__circle {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+
+        &_number {
+            text-align: center;
+            font-size: 14px;
+            font-weight: 600;
+            line-height: 20px;
+        }
+    }
+
+    &__name {
+        color: var(--text-primary);
+        font-size: 14px;
+        line-height: 20px;
+        white-space: nowrap;
+    }
+}
+
+.active-cursor {
+    cursor: pointer;
+}
+
+@media (max-width: 745px) {
+    .sbi-stepper {
+        border: none;
+    }
+}

@@ -1,0 +1,26 @@
+<div class="sbi-checkbox-wrapper" [attr.data-testid]="testId">
+  <div class="sbi-checkbox-content">
+    <input
+      *ngIf="control"
+      [attr.data-testid]="testId + '-check-box'"
+      class="sbi-checkbox"
+      type="checkbox"
+      [formControl]="control"
+      (change)="onCheckboxValueChanged()" />
+    <div
+      *ngIf="label"
+      class="sbi-checkbox-label"
+      [ngClass]="{ link: isLink, invalid: control.invalid && control.dirty, disabled: control.disabled }"
+      (click)="onClickToLink()"
+      [attr.data-testid]="testId + '-check-box-label'">
+      <div class="label">{{ label }}</div>
+      <div *ngIf="note" class="note">{{ note }}</div>
+    </div>
+  </div>
+  @if(control.invalid && control.dirty && showErrors) {
+    <sbi-error
+      [testId]="testId + '-error-message'"
+      [errors]="control.errors"
+      [errorMessages]="errorMessages"></sbi-error>
+  }
+</div>

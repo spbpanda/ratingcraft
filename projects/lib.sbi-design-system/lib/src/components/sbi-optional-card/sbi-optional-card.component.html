@@ -1,0 +1,72 @@
+<div class="sbi-card-badge" [class]="[size]" [attr.data-testid]="testId">
+  <sbi-badge
+    class="sbi-card-badge-container"
+    *ngIf="!!badgeContent"
+    [type]="badgeType"
+    [size]="size === 'small' ? size : badgeSize"
+    [content]="badgeContent"></sbi-badge>
+  <div class="sbi-card-container" (click)="onCardClick()">
+    <ng-template [ngTemplateOutlet]="activeElement"></ng-template>
+    <div class="sbi-card-container__label-wrapper">
+      <div *ngIf="label" class="sbi-card-container__label-wrapper__label">{{ label }}</div>
+      <div
+        *ngIf="note"
+        class="sbi-card-container__label-wrapper__note"
+        [ngClass]="{ link: isLink }"
+        (click)="onLinkClick()">
+        {{ note }}
+      </div>
+    </div>
+    <sbi-icon
+      [sbiTooltip]="tooltipContent"
+      [tooltipPosition]="tooltipPosition"
+      *ngIf="showInfoIcon"
+      class="icon"
+      [iconImage]="questionIcon"
+      [testId]="testId + '-question-icon'"></sbi-icon>
+    <sbi-checkbox
+      *ngIf="(type === 'icons' || type === 'illustration') && showCheckbox"
+      class="checkbox"
+      [control]="control"
+      [testId]="testId + '-checkbox'"
+      (click)="$event.stopPropagation()"
+      (valueChanged)="onClick()"></sbi-checkbox>
+  </div>
+</div>
+
+<ng-template #activeElement>
+  <ng-container [ngSwitch]="type">
+    <sbi-checkbox
+      *ngSwitchCase="'checkbox'"
+      class="checkbox"
+      [control]="control"
+      [testId]="testId + '-checkbox'"
+      (click)="$event.stopPropagation()"
+      (valueChanged)="onClick()"></sbi-checkbox>
+    <sbi-radio-button
+      *ngSwitchCase="'radio'"
+      [options]="radioOptions"
+      class="radio"
+      [control]="control"
+      [testId]="testId + '-radio'"></sbi-radio-button>
+    <sbi-slide-toggle
+      *ngSwitchCase="'switch'"
+      class="toggle"
+      [control]="control"
+      [testId]="testId + '-switch'"
+      (click)="$event.stopPropagation()"
+      (valueChanged)="onClick()"></sbi-slide-toggle>
+    <sbi-icon *ngSwitchCase="'icons'" class="icon" [iconImage]="icon" [testId]="testId + '-icons'"></sbi-icon>
+    @if (!!illustrationIcon) {
+      <sbi-icon
+        *ngSwitchCase="'illustration'"
+        class="illustration"
+        [iconImage]="illustrationIcon"
+        [testId]="testId + '-illustration'"></sbi-icon>
+    } @else {
+      <ng-container *ngSwitchCase="'illustration'">
+        <ng-content select="illustration-content"></ng-content>
+      </ng-container>
+    }
+  </ng-container>
+</ng-template>
