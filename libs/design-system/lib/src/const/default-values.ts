@@ -1,3 +1,0 @@
-export const DEFAULT_MIN_VALUE = 0;
-export const DEFAULT_MAX_VALUE = 999999999;
-export const DEFAULT_STEP_SLIDER_VALUE = 1;

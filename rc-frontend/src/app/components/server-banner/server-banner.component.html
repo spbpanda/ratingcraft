@@ -1,0 +1,16 @@
+<div class="server-banner">
+    <div class="server-banner__number">{{index+1}}</div>
+    <div class="server-banner__name">{{server.name}}</div>
+    <div class="server-banner__slogan">{{server.slogan}}</div>
+    <div class="server-banner__banner">
+        @if (server.banner) {
+            <img class="image" [src]="server.banner" alt="Server Image">
+        } @else {
+            <img class="image" src="/assets/RatingCraft.jpg" alt="Server Image">
+        }
+    </div>
+    <div class="server-banner__play">{{server.address}}</div>
+    <div class="server-banner__rating">{{server.rating}}</div>
+    <div class="server-banner__online">{{server.online}}</div>
+    <div class="server-banner__version">{{server.version}}</div>
+</div>

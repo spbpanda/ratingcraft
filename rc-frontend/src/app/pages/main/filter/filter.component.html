@@ -1,0 +1,19 @@
+<h2>Фильтр</h2>
+<form [formGroup]="form" class="col">
+    <div class="row row-4-1">
+        <sbi-input [control]="form.controls.search" [label]="'Поиск по названию сервера или IP'" (clearControl)="findServers()"></sbi-input>
+        <sbi-button (click)="findServers()">Найти</sbi-button>
+    </div>
+    <div class="row">
+        <sbi-autocomplete placeholder="Основное" [control]="form.controls.bases" [options]="bases()"
+            [displayFunc]="displayViewValue"></sbi-autocomplete>
+        <sbi-autocomplete placeholder="Мини-игры" [control]="form.controls.miniGames" [options]="miniGames()"
+            [displayFunc]="displayViewValue"></sbi-autocomplete>
+    </div>
+    <div class="row">
+        <sbi-autocomplete placeholder="Моды" [control]="form.controls.mods" [options]="mods()"
+            [displayFunc]="displayViewValue"></sbi-autocomplete>
+        <sbi-autocomplete placeholder="Плагины" [control]="form.controls.plugins" [options]="plugins()"
+            [displayFunc]="displayViewValue"></sbi-autocomplete>
+    </div>
+</form>

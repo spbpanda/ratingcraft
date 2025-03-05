@@ -1,0 +1,13 @@
+:host {
+    position: sticky;
+    top: 0;
+    
+    .spacer {
+        flex: 1 1 auto;
+    }
+    
+    .rc-toolbar {
+        background: var(--surface-secondary);
+        box-shadow: 6px 17px 24px 0px #494B590A;
+    }
+}
