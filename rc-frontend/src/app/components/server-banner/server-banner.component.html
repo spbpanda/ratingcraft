@@ -1,16 +1,38 @@
 <div class="server-banner">
-    <div class="server-banner__number">{{index+1}}</div>
-    <div class="server-banner__name">{{server.name}}</div>
-    <div class="server-banner__slogan">{{server.slogan}}</div>
-    <div class="server-banner__banner">
-        @if (server.banner) {
-            <img class="image" [src]="server.banner" alt="Server Image">
-        } @else {
-            <img class="image" src="/assets/RatingCraft.jpg" alt="Server Image">
-        }
+    <div class="row" (click)="redirectToServer(server.id)">
+        <!-- <div class="server-banner__number">{{index+1}}</div> -->
+        <div class="server-banner__name">{{server.name}}</div>
+        <div class="server-banner__slogan">{{server.slogan}}</div>
     </div>
-    <div class="server-banner__play">{{server.address}}</div>
-    <div class="server-banner__rating">{{server.rating}}</div>
-    <div class="server-banner__online">{{server.online}}</div>
-    <div class="server-banner__version">{{server.version}}</div>
+    <div class="row">
+        <div class="server-banner__banner">
+            <!-- @if (server.banner) {
+                <img class="image" [src]="server.banner" alt="Server Image">
+            } @else {
+                <img class="image" src="/assets/RatingCraft.jpg" alt="Server Image">
+            } -->
+            <img class="image" src="/assets/RatingCraft.jpg" alt="Server Image">
+        </div>
+        <div class="row">
+            <div class="server-banner__rating">
+                <mat-icon>star_rate</mat-icon>
+                Баллы: <b>{{server.rating}}</b>
+            </div>
+            <div class="server-banner__online">
+                <mat-icon>sentiment_very_satisfied</mat-icon>
+                Онлайн: {{server.online}}
+            </div>
+            <div class="server-banner__version">
+                <mat-icon>games</mat-icon>
+                Версия: {{server.version}}
+            </div>
+        </div>
+        <div class="server-banner__buttons">
+            <div class="server-banner__play">
+                 <sbi-chip [showClearIcon]="false" [label]="server.address"></sbi-chip>
+                <rc-button>Копировать IP</rc-button> 
+            </div>
+            <rc-button [type]="'submit'">Играть</rc-button>
+        </div>
+    </div>
 </div>

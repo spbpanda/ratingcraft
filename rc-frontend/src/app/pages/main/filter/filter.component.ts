@@ -4,6 +4,7 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { SbiInputComponent, SbiButtonComponent, SbiAutocompleteComponent, SelectableItem } from '@sbi/design-system';
 import { RcBackendService } from '../../../services/rc-backend.service';
 import { Observable, of, take } from 'rxjs';
+import { RcButtonComponent } from '../../../components/rc-button/rc-button.component';
 
 @Component({
   selector: 'rc-filter',
@@ -16,6 +17,7 @@ import { Observable, of, take } from 'rxjs';
     SbiInputComponent,
     SbiButtonComponent,
     SbiAutocompleteComponent,
+    RcButtonComponent,
 ],
   templateUrl: './filter.component.html',
   styleUrl: './filter.component.scss'

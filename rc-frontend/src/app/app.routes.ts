@@ -13,7 +13,7 @@ export const routes: Routes = [
 
     // },
     // {path: 'auth/callback', loadComponent: () => import('./auth-callback/auth-callback.component').then(mod => mod.AuthCallbackComponent)},
-    // {path: 'server-info/:id', loadComponent: () => import('./server-info/server-info.component').then(mod => mod.ServerInfoComponent)},
+    {path: 'server-info/:id', loadComponent: () => import('./pages/server-info/server-info.component').then(mod => mod.ServerInfoComponent)},
     {path: 'about-us', loadComponent: () => import('./pages/about-us/about-us.component').then(mod => mod.AboutUsComponent)},
     // {path: 'faq', loadComponent: () => import('./faq/faq.component').then(mod => mod.FaqComponent)},
 

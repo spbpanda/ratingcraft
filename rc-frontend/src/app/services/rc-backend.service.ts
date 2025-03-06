@@ -62,4 +62,8 @@ export class RcBackendService {
       }) // Обновляем сигнал
     );
   }
+
+  getServerInfo(id: number) {
+    return this.http.get(`http://localhost:5000/servers/${id}`);
+  }
 }

@@ -2,7 +2,8 @@
 <form [formGroup]="form" class="col">
     <div class="row row-4-1">
         <sbi-input [control]="form.controls.search" [label]="'Поиск по названию сервера или IP'" (clearControl)="findServers()"></sbi-input>
-        <sbi-button (click)="findServers()">Найти</sbi-button>
+        <!-- <sbi-button (click)="findServers()">Найти</sbi-button> -->
+        <rc-button (click)="findServers()" [type]="'submit'">Найти</rc-button>
     </div>
     <div class="row">
         <sbi-autocomplete placeholder="Основное" [control]="form.controls.bases" [options]="bases()"

@@ -1,0 +1,22 @@
+@if (server) {
+    <div class="banner">
+        <!-- @if (server.banner) {
+            <img [src]="server.banner" alt="Server Image">
+        } @else {
+            <img src="/assets/RatingCraft.jpg" alt="Server Image">
+        } -->
+        <img src="/assets/RatingCraft.jpg" alt="Server Image">
+    </div>
+    <div class="rc-page">
+        <div class="row">
+            <div class="col">
+                <div class="server-info__name">{{server.name}}</div>
+                <div class="server-info__slogan">{{server.slogan}}</div>
+            </div>
+        </div>
+    </div>
+} @else {
+    <div>Загрузка данных...</div>
+}
+<!-- <div class="row"></div>
+<div class="col"></div> -->

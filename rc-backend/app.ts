@@ -91,6 +91,12 @@ app.post('/servers', (req, res) => {
   res.json(filteredServers);
 });
 
+app.get('/servers/:id', (req, res) => {
+  const id = parseInt(req.params.id);
+  const server = servers.find((server: any) => server.id === id);
+  res.json(server ?? undefined);
+})
+
 
 const filterServers = (servers: Server[], criteria: {
   search?: string;
