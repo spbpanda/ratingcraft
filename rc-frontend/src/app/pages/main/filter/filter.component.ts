@@ -18,7 +18,7 @@ import { RcButtonComponent } from '../../../components/rc-button/rc-button.compo
     SbiButtonComponent,
     SbiAutocompleteComponent,
     RcButtonComponent,
-],
+  ],
   templateUrl: './filter.component.html',
   styleUrl: './filter.component.scss'
 })

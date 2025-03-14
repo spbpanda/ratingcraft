@@ -108,11 +108,11 @@ const filterServers = (servers: Server[], criteria: {
 }) => {
   return servers.filter(server => {
     const nameMatch = criteria.search ? server.name.toLowerCase().includes(criteria.search.toLowerCase()) || server.address.toLowerCase().includes(criteria.search.toLowerCase()) : true;
-    const versionMatch = criteria.versions ? criteria.versions.includes(server.version) : true;
-    const basesMatch = criteria.bases ? criteria.bases.every(baseId => server.bases.includes(baseId)) : true;
-    const modsMatch = criteria.mods ? criteria.mods.every(modId => server.mods.includes(modId)) : true;
-    const pluginsMatch = criteria.plugins ? criteria.plugins.every(pluginId => server.plugins.includes(pluginId)) : true;
-    const miniGamesMatch = criteria.miniGames ? criteria.miniGames.every(miniGameId => server.miniGames.includes(miniGameId)) : true;
+    const versionMatch = criteria.versions ? criteria.versions.includes(server.version.id) : true;
+    const basesMatch = criteria.bases ? criteria.bases.every(baseId => server.bases.filter(item => item.id === baseId)) : true;
+    const modsMatch = criteria.mods ? criteria.mods.every(modId => server.mods.filter(item => item.id === modId)) : true;
+    const pluginsMatch = criteria.plugins ? criteria.plugins.every(pluginId => server.plugins.filter(item => item.id === pluginId)) : true;
+    const miniGamesMatch = criteria.miniGames ? criteria.miniGames.every(miniGameId => server.miniGames.filter(item => item.id === miniGameId)) : true;
     return nameMatch && versionMatch && basesMatch && modsMatch && pluginsMatch && miniGamesMatch;
   });
 };

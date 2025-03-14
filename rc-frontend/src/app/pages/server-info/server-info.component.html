@@ -7,16 +7,118 @@
         } -->
         <img src="/assets/RatingCraft.jpg" alt="Server Image">
     </div>
-    <div class="rc-page">
+    <div class="rc-page server-info">
         <div class="row">
             <div class="col">
                 <div class="server-info__name">{{server.name}}</div>
                 <div class="server-info__slogan">{{server.slogan}}</div>
             </div>
         </div>
+        <div class="content">
+            <div class="content__title">Информация</div>
+            <div class="content__info">
+                <div class="content__info-label">IP-адрес:порт</div>
+                <div class="content__info-value">{{ server.address }}:{{ server.port }}</div>
+            </div>
+            <div class="content__info">
+                <div class="content__info-label">Версия</div>
+                <div class="content__info-value">{{ server.version }}</div>
+            </div>
+            <div class="content__info">
+                <div class="content__info-label">Игроки онлайн</div>
+                <div class="content__info-value">{{ server.online }} max</div>
+            </div>
+            <div class="content__info">
+                <div class="content__info-label">Место в топе</div>
+                <div class="content__info-value">Место в топе</div>
+            </div>
+            <div class="content__info">
+                <div class="content__info-label">Баллы</div>
+                <div class="content__info-value">{{ server.rating }}</div>
+            </div>
+            <div class="content__info">
+                <div class="content__info-label">Сайт сервера</div>
+                <div class="content__info-value"><a [href]="server.site" class="link" target="_blank">{{server.site}}</a></div>
+            </div>
+            <div class="content__info">
+                <div class="content__info-label">Группа сервера в ВК</div>
+                <div class="content__info-value"><a [href]="server.vk" class="link" target="_blank">{{server.vk}}</a></div>
+            </div>
+            <div class="content__info">
+                <div class="content__info-label">Discord</div>
+                <div class="content__info-value"><a [href]="server.discord" class="link" target="_blank">{{server.discord}}</a></div>
+            </div>
+        </div>
+        <sbi-divider></sbi-divider>
+        <div class="content">
+          <div class="content__title">Основные параметры</div>
+          <div class="content__info">
+            <ng-container *ngIf="server.bases && server.bases.length > 0; else noData">
+                <div class="content__info-value" *ngFor="let base of server.bases">
+                    {{ base.value }}
+                </div>
+            </ng-container>
+          </div>
+        </div>
+        <div class="content">
+          <div class="content__title">Моды</div>
+          <div class="content__info">
+            <ng-container *ngIf="server.mods && server.mods.length > 0; else noData">
+                <div class="content__info-value" *ngFor="let mod of server.mods">
+                    {{ mod.value }}
+                </div>
+            </ng-container>
+          </div>
+        </div>
+        <div class="content">
+          <div class="content__title">Плагины</div>
+          <div class="content__info">
+            <ng-container *ngIf="server.plugins && server.plugins.length > 0; else noData">
+                <div class="content__info-value" *ngFor="let plugin of server.plugins">
+                    {{ plugin.value }}
+                </div>
+            </ng-container>
+          </div>
+        </div>
+        <div class="content">
+          <div class="content__title">Мини-игры</div>
+          <div class="content__info">
+            <ng-container *ngIf="server.miniGames && server.miniGames.length > 0; else noData">
+                <div class="content__info-value" *ngFor="let miniGame of server.miniGames">
+                    {{ miniGame.value }}
+                </div>
+            </ng-container>
+          </div>
+        </div>
+        <sbi-divider></sbi-divider>
+        <div class="content">
+            <div class="content__title">Описание сервера</div>
+            <div class="content__info">
+                <div class="content__info-value" [innerHtml]="server.description"></div>
+            </div>
+        </div>
+        <sbi-divider></sbi-divider>
+        <div class="content">
+            <div class="content__title">Скриншоты</div>
+            <div class="content__info">
+                <div class="screenshot-gallery">
+                  <div 
+                    *ngFor="let screenshot of server.screenshots; let i = index" 
+                    class="screenshot-thumbnail"
+                    (click)="openImageDialog(screenshot)"
+                  >
+                    <img [src]="screenshot" alt="Screenshot {{ i + 1 }}" />
+                  </div>
+                </div>
+              </div>
+        </div>
+
     </div>
 } @else {
     <div>Загрузка данных...</div>
 }
 <!-- <div class="row"></div>
 <div class="col"></div> -->
+<ng-template #noData>
+    <div>Данных нет</div>
+</ng-template>

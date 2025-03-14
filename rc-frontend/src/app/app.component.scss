@@ -3,17 +3,22 @@
     flex-direction: column;
     height: 100%;
 
-    .rc-pages {
+    .rc-router {
         flex: 1 1 auto;
         margin: 1rem 10%;
-        background: var(--surface-secondary);
-        border-radius: 1rem;
-        box-shadow: 0px 0px 2px 0px #2324250F, 0px 0px 6px 0px #2324250F,  0px 6px 12px 0px #2324250F;
+        display: flex;
+        flex-direction: column;
+
+        .rc-pages {
+            background: var(--surface-secondary);
+            border-radius: 1rem;
+            box-shadow: 0px 0px 2px 0px #2324250F, 0px 0px 6px 0px #2324250F,  0px 6px 12px 0px #2324250F;
+        }
     }
 }
 @media (max-width: 1024px) {
     .rc-app {
-        .rc-pages {
+        .rc-router {
             margin: 1rem 5%;
         }
     }
@@ -21,10 +26,12 @@
 
 @media (max-width: 768px) {
     .rc-app {
-        .rc-pages {
+        .rc-router {
             margin: 0;
-            box-shadow: none;
-            border-radius: 0;
+            .rc-pages {
+                box-shadow: none;
+                border-radius: 0;
+            }
         }
     }
 }

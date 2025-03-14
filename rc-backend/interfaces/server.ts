@@ -1,3 +1,5 @@
+import { Item } from "./item";
+
 export interface Server {
     id: number; // Assuming you'll need to define id as a number
     name: string;
@@ -11,7 +13,7 @@ export interface Server {
     rating: number;
     ownerId: string;
     createDate: Date; // Assuming this is a JavaScript Date object
-    version: number;
+    version: Item;
     site: string;
     vk: string;
     discord: string;
@@ -19,8 +21,8 @@ export interface Server {
     launcher: string;
     screenshots: string[];
     borderColor: string;
-    bases: number[];
-    mods: number[];
-    plugins: number[];
-    miniGames: number[];
+    bases: Item[];
+    mods: Item[];
+    plugins: Item[];
+    miniGames: Item[];
 }

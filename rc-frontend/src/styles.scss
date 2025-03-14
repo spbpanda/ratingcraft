@@ -6,9 +6,20 @@ html, body {
     padding: 0;
 }
 
+@font-face {
+	font-family: 'Minecraft Rus Regular';
+	src: url('./assets/fonts/minecraft_rus_regular.eot'); /* IE 9 Compatibility Mode */
+	src: url('./assets/fonts/minecraft_rus_regular.eot?#iefix') format('embedded-opentype'), /* IE < 9 */
+		url('./assets/fonts/minecraft_rus_regular.woff2') format('woff2'), /* Super Modern Browsers */
+		url('./assets/fonts/minecraft_rus_regular.woff') format('woff'), /* Firefox >= 3.6, any other modern browser */
+		url('./assets/fonts/minecraft_rus_regular.ttf') format('truetype'), /* Safari, Android, iOS */
+		url('./assets/fonts/minecraft_rus_regular.svg#minecraft_rus_regular') format('svg'); /* Chrome < 4, Legacy iOS */
+}
+
 body {
     background: var(--surface-background);
     color: var(--text-primary);
+    font-family: 'Minecraft Rus Regular';
 }
 
 .rc-page {
