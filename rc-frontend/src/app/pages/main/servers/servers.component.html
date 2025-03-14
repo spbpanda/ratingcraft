@@ -1,2 +1,4 @@
 <h2>Мониторинг серверов Minecraft</h2>
-<rc-server-banner *ngFor="let server of servers(); index as i; track: server" [server]="server" [index]="i"></rc-server-banner>
+@for (server of servers(); track $index) {
+    <rc-server-banner [server]="server" [index]="$index"></rc-server-banner>
+}

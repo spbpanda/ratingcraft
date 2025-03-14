@@ -11,6 +11,7 @@ export class RcBackendService {
   readonly miniGames = signal<any[]>([]);
   readonly mods = signal<any[]>([]);
   readonly plugins = signal<any[]>([]);
+  readonly versions = signal<any[]>([]);
   readonly servers = signal<any[]>([]);
 
   constructor(private http: HttpClient) {}
@@ -44,6 +45,14 @@ export class RcBackendService {
     return this.http.get('http://localhost:5000/plugins').pipe(
       map((res: any) => res.map((item: any) => ({ value: item, viewValue: item.value }))),
       tap((res: any) => this.plugins.set(res)),
+      shareReplay(1)
+    );
+  }
+
+  loadVersions() {
+    return this.http.get('http://localhost:5000/versions').pipe(
+      map((res: any) => res.map((item: any) => ({ ...item, active: false }))),
+      tap((res: any) => this.versions.set(res)),
       shareReplay(1)
     );
   }

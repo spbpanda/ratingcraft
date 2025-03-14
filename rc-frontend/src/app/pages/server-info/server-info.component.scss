@@ -57,14 +57,6 @@
                     margin-block: 0;
                 }
 
-                .link {
-                    cursor: pointer;
-                    color: var(--brand-brandblue);
-                    text-decoration: none;
-                    &:hover {
-                      text-decoration: underline;
-                    }
-                }
             }
         }
     }
@@ -114,10 +106,6 @@
 
                     p {
                         margin-block: 0;
-                    }
-
-                    a {
-                        color: rgb(4, 185, 4);
                     }
                 }
             }

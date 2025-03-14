@@ -16,4 +16,9 @@
         <sbi-autocomplete placeholder="Плагины" [control]="form.controls.plugins" [options]="plugins()"
             [displayFunc]="displayViewValue"></sbi-autocomplete>
     </div>
+    <div class="row-simple">
+        @for (version of versions(); track version) {
+            <sbi-suggest-chip [label]="version.value" [active]="version.active" (click)="changeSelected(version)"></sbi-suggest-chip>
+        }
+    </div>
 </form>

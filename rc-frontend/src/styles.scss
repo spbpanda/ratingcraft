@@ -62,3 +62,19 @@ body {
         }
     }
 }
+.row-simple {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.link {
+    cursor: pointer;
+    color: var(--brand-brandblue);
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+}
