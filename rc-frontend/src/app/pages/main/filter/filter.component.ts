@@ -1,10 +1,11 @@
 import { NgFor, NgIf } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { SbiInputComponent, SbiAutocompleteComponent, SbiSuggestChipComponent } from '@sbi/design-system';
 import { RcBackendService } from '../../../services/rc-backend.service';
 import { take } from 'rxjs';
 import { RcButtonComponent } from '../../../components/rc-button/rc-button.component';
+import { Item } from '../../../common/interfaces/filter';
 
 @Component({
   selector: 'rc-filter',
@@ -20,6 +21,7 @@ import { RcButtonComponent } from '../../../components/rc-button/rc-button.compo
   styleUrl: './filter.component.scss'
 })
 export class FilterComponent {
+  @Output() onFindServers = new EventEmitter();
   rcBackend = inject(RcBackendService);
 
   bases: any = this.rcBackend.bases;
@@ -31,12 +33,12 @@ export class FilterComponent {
   selectedChips: {id:number, value: string}[] = [];
 
   form = new FormGroup({
-    search: new FormControl(''),
-    bases: new FormControl([]),
-    miniGames: new FormControl([]),
-    mods: new FormControl([]),
-    plugins: new FormControl([]),
-    versions: new FormControl<any>([])
+    search: new FormControl<string>(''),
+    bases: new FormControl<Item[]>([]),
+    miniGames: new FormControl<Item[]>([]),
+    mods: new FormControl<Item[]>([]),
+    plugins: new FormControl<Item[]>([]),
+    versions: new FormControl<Item[]>([])
   });
 
   constructor() {}
@@ -47,11 +49,11 @@ export class FilterComponent {
     this.rcBackend.loadMods().pipe(take(1)).subscribe();
     this.rcBackend.loadPlugins().pipe(take(1)).subscribe();
     this.rcBackend.loadVersions().pipe(take(1)).subscribe();
-    this.rcBackend.findServers({}).pipe(take(1)).subscribe();
   }
 
   findServers() {
-    this.rcBackend.findServers(this.form.value).pipe(take(1)).subscribe();
+    this.rcBackend.updateFilterDetails(this.form.value)
+    this.rcBackend.findServers().pipe(take(1)).subscribe();
   }
 
   displayViewValue(val: {id:number, value: string}) {
@@ -62,8 +64,8 @@ export class FilterComponent {
   changeSelected(chip: {id:number, value: string, active: boolean}) {
     chip.active = !chip.active;
     if (this.form.controls.versions.value) {
-      if (this.form.controls.versions.value.some((ch: { id: number; value: string; active: boolean; }) => ch === chip)) {
-        this.form.controls.versions.setValue(this.form.controls.versions.value.filter((ch: { id: number; value: string; active: boolean; }) => ch !== chip)); 
+      if (this.form.controls.versions.value.some((ch: Item) => ch === chip)) {
+        this.form.controls.versions.setValue(this.form.controls.versions.value.filter((ch: Item) => ch !== chip)); 
       } else {
         this.form.controls.versions.setValue([...this.form.controls.versions.value, chip]);
       }

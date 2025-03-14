@@ -1,6 +1,9 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { map, shareReplay, tap } from 'rxjs';
+import { Filter } from '../common/interfaces/filter';
+import { Paginator } from '../common/interfaces/paginator';
+import { ApiResponse } from '../common/interfaces/server';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +15,9 @@ export class RcBackendService {
   readonly mods = signal<any[]>([]);
   readonly plugins = signal<any[]>([]);
   readonly versions = signal<any[]>([]);
-  readonly servers = signal<any[]>([]);
+  readonly servers = signal<any>([]);
+  readonly paginator = signal<Paginator>({page: 1, pageSize: 10}); 
+  readonly filter = signal<Filter | null>(null)
 
   constructor(private http: HttpClient) {}
 
@@ -57,22 +62,35 @@ export class RcBackendService {
     );
   }
 
-  findServers(req: { 
-    search?: string | null, 
-    versions?: number[] | null, 
-    bases?: number[] | null, 
-    mods?: number[] | null, 
-    plugins?: number[] | null, 
-    miniGames?: number[] | null 
-  }) {
-    return this.http.post('http://localhost:5000/servers', { ...req }).pipe(
+  findServers() {
+    return this.http.post('http://localhost:5000/servers', { ...this.filter() }).pipe(
       tap((res: any) => {
-        this.servers.set(res)
+        this.servers.set(res.data);
+        this.paginator.set({total: res.total, page: res.page, pageSize: res.pageSize});
+        console.log(this.paginator())
       }) // Обновляем сигнал
     );
   }
 
   getServerInfo(id: number) {
     return this.http.get(`http://localhost:5000/servers/${id}`);
+  }
+
+
+  // Обновление search, versions, bases, mods, plugins, miniGames
+  updateFilterDetails(details: Partial<Filter>) {
+    this.filter.update(currentFilter => ({
+        ...currentFilter,
+        ...details
+    }));
+  }
+
+  // Обновление page и pageSize
+  updateFilterPagination(page: number, pageSize: number) {
+    this.filter.update(currentFilter => ({
+        ...currentFilter,
+        page,
+        pageSize
+    }));
   }
 }

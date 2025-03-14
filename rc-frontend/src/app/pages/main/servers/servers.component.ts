@@ -1,21 +1,37 @@
-import { JsonPipe, NgFor } from '@angular/common';
 import { RcBackendService } from './../../../services/rc-backend.service';
-import { Component, inject } from '@angular/core';
+import { Component, EventEmitter, inject, Output, ViewChild } from '@angular/core';
 import { ServerBannerComponent } from '../../../components/server-banner/server-banner.component';
+import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
+import { take } from 'rxjs';
 
 @Component({
   selector: 'rc-servers',
   standalone: true,
   imports: [
-    JsonPipe,
-    NgFor,
-    ServerBannerComponent
+    ServerBannerComponent,
+    MatPaginatorModule
   ],
   templateUrl: './servers.component.html',
   styleUrl: './servers.component.scss'
 })
 export class ServersComponent {
-  rcBackendService = inject(RcBackendService);
-  servers = this.rcBackendService.servers;
+  @Output() onFindServers: EventEmitter<any> = new EventEmitter();
+  rcBackend = inject(RcBackendService);
+  servers = this.rcBackend.servers;
+  paginatorBack = this.rcBackend.paginator;
+  pageSize = 10;
+  pageIndex = 0;
+  
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
 
+  ngOnInit() {
+    console.log(this.paginatorBack().total)
+  }
+  
+  onPageChange(event: PageEvent): void {
+    this.pageIndex = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.rcBackend.updateFilterPagination(this.pageIndex, this.pageSize);
+    this.rcBackend.findServers().pipe(take(1)).subscribe();
+  }
 }

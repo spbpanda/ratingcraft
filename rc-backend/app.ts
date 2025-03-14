@@ -78,7 +78,7 @@ app.delete('/api/servers/:id', (req, res) => {
 });
 
 app.post('/servers', (req, res) => {
-  const { search, versions, bases, mods, plugins, miniGames } = req.body;
+  const { search, versions, bases, mods, plugins, miniGames, page = 0, pageSize = 10 } = req.body;
 
   let filteredServers: Server[] = filterServers(servers, {
     search: typeof search === 'string' ? search : undefined,
@@ -88,7 +88,18 @@ app.post('/servers', (req, res) => {
     plugins: Array.isArray(plugins) && plugins.length > 0 ? plugins.map(plugin => Number(plugin)) : undefined,
     miniGames: Array.isArray(miniGames) && miniGames.length > 0 ? miniGames.map(miniGame => Number(miniGame)) : undefined,
   });
-  res.json(filteredServers);
+
+  // Пагинация
+  const startIndex = page * pageSize;
+  const endIndex = startIndex + pageSize;
+  const paginatedServers = filteredServers.slice(startIndex, endIndex);
+
+  res.json({
+    data: paginatedServers,
+    total: filteredServers.length, // Общее количество серверов для пагинации
+    page,
+    pageSize,
+  });
 });
 
 app.get('/servers/:id', (req, res) => {
