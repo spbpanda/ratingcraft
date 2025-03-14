@@ -6,6 +6,10 @@
     <span class="spacer"></span>
     <sbi-dark-slider></sbi-dark-slider>
 
-    <sbi-button appearance="primary-tint">Войти<mat-icon>person</mat-icon></sbi-button>
+    @if (authService.isUserLoggedIn() && user) {
+        <div>{{user.name}}</div>
+    } @else {
+        <sbi-button appearance="primary-tint" (click)="openLoginDialog()">Войти<mat-icon>person</mat-icon></sbi-button>
+    }
       
 </mat-toolbar>

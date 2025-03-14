@@ -30,7 +30,6 @@ export class ServerInfoComponent {
     if (serverId) {
       this.rcBackendService.getServerInfo(Number(serverId)).pipe(take(1)).subscribe((serverInfo: any) => {
         this.server = serverInfo;
-        console.log(this.server);
       })
     }
   }

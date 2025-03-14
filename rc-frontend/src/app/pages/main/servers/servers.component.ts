@@ -23,10 +23,6 @@ export class ServersComponent {
   pageIndex = 0;
   
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-
-  ngOnInit() {
-    console.log(this.paginatorBack().total)
-  }
   
   onPageChange(event: PageEvent): void {
     this.pageIndex = event.pageIndex;

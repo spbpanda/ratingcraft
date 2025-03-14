@@ -67,7 +67,6 @@ export class RcBackendService {
       tap((res: any) => {
         this.servers.set(res.data);
         this.paginator.set({total: res.total, page: res.page, pageSize: res.pageSize});
-        console.log(this.paginator())
       }) // Обновляем сигнал
     );
   }
