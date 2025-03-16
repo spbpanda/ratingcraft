@@ -92,4 +92,8 @@ export class RcBackendService {
         pageSize
     }));
   }
+
+  addServer(address: string, port: number) {
+    return this.http.post('http://localhost:5000/add-server', { address: address, port: port });
+  }
 }

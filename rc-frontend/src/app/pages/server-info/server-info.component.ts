@@ -21,14 +21,14 @@ import { SbiDividerComponent } from '@sbi/design-system';
 })
 export class ServerInfoComponent {
   private activatedRoute = inject(ActivatedRoute);
-  private rcBackendService = inject(RcBackendService);
+  private rcBackend = inject(RcBackendService);
   readonly dialog = inject(MatDialog);
   server: any = null;
 
   ngOnInit() {
     const serverId = this.activatedRoute.snapshot.paramMap.get('id');
     if (serverId) {
-      this.rcBackendService.getServerInfo(Number(serverId)).pipe(take(1)).subscribe((serverInfo: any) => {
+      this.rcBackend.getServerInfo(Number(serverId)).pipe(take(1)).subscribe((serverInfo: any) => {
         this.server = serverInfo;
       })
     }

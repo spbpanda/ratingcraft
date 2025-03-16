@@ -238,5 +238,17 @@
     "launcher": "",
     "borderColor": "",
     "screenshots": []
+  },
+  {
+    "id": 12,
+    "address": "play.alumenator.net",
+    "port": null,
+    "createDate": "2025-03-16T16:42:28.783Z"
+  },
+  {
+    "id": 13,
+    "address": "qweqwe",
+    "port": null,
+    "createDate": "2025-03-16T16:48:45.455Z"
   }
 ]

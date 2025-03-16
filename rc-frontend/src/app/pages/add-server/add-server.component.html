@@ -2,7 +2,20 @@
     <div class="header">
         Добавь свой <span class="bg-text-gradient">Minecraft сервер</span> в мониторинг
     </div>
+    <div class="row">
+        На этой странице ты можешь добавить свой или знакомый тебе сервер в Наш топ серверов Minecraft.<br /><br />
+        Если порт сервера отличается от стандартного 25565, нужно указать его самостоятельно.<br />
+    </div>
+    @if (authService.isUserLoggedIn()) {
+        <div class="row row-4-1">
+            <sbi-input [control]="address" [label]="'Адрес сервера'" [placeholder]="'Например, play.alumenator.net:25565'"></sbi-input>
+            <rc-button [type]="'submit'" (click)="addServer()">Добавить</rc-button>
+        </div>
+    } @else {
+        <span>Перед тем как добавить сервер в Наш топ серверов, необходимо авторизоваться.</span>
+    }
     <div>
-        
+
+        Дополнительная информация почему стоит выбрать этот мониторинг
     </div>
 </div>

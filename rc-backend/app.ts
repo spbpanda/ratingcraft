@@ -61,22 +61,46 @@ app.get('/versions', (req, res) => {
 // Servers Сервера
 let servers = readJsonFile('./data/servers.json');
 
-// POST route for creating a new server
-app.post('/api/servers', (req, res) => {
-  const newServer = { ...req.body, id: servers.length + 1 }; // Assign a new ID
+// Добавление нового сервера
+app.post('/add-server', (req, res): any => {
+  const { address, port, ...rest } = req.body;
+
+  // Проверка обязательных полей
+  if (!address) {
+    return res.status(400).json({ error: 'Address are required' });
+  }
+
+  // Создание нового сервера
+  const newServer: Server = {
+      id: servers.length + 1, // Генерация нового ID
+      address,
+      port,
+      ...rest, // Остальные параметры (если есть)
+      createDate: new Date(), // Автоматически добавляем дату создания
+  };
+
+  // Добавление сервера в массив
   servers.push(newServer);
-  fs.writeFileSync('./data/servers.json', JSON.stringify(servers, null, 2)); // Save updated data
-  res.status(201).json(newServer);
+
+  // Сохранение данных в файл
+  try {
+    fs.writeFileSync('./data/servers.json', JSON.stringify(servers, null, 2));
+    res.status(201).json(newServer);
+  } catch (err) {
+    console.error('Error writing to file:', err);
+    res.status(500).json({ error: 'Failed to save server data' });
+  }
 });
 
 // DELETE route for removing a server by ID
-app.delete('/api/servers/:id', (req, res) => {
+app.delete('/servers/:id', (req, res) => {
   const id = parseInt(req.params.id);
   servers = servers.filter((server: any) => server.id !== id); // Remove server by so ID
   fs.writeFileSync('./data/servers.json', JSON.stringify(servers, null, 2)); // Save updated data
   res.status(204).send(); // No content to send back
 });
 
+// Получить список серверов
 app.post('/servers', (req, res) => {
   const { search, versions, bases, mods, plugins, miniGames, page = 0, pageSize = 10 } = req.body;
 
@@ -102,6 +126,7 @@ app.post('/servers', (req, res) => {
   });
 });
 
+// Получить информацию по серверу
 app.get('/servers/:id', (req, res) => {
   const id = parseInt(req.params.id);
   const server = servers.find((server: any) => server.id === id);
@@ -118,12 +143,12 @@ const filterServers = (servers: Server[], criteria: {
   miniGames?: number[];
 }) => {
   return servers.filter(server => {
-    const nameMatch = criteria.search ? server.name.toLowerCase().includes(criteria.search.toLowerCase()) || server.address.toLowerCase().includes(criteria.search.toLowerCase()) : true;
-    const versionMatch = criteria.versions ? criteria.versions.includes(server.version.id) : true;
-    const basesMatch = criteria.bases ? criteria.bases.every(baseId => server.bases.filter(item => item.id === baseId)) : true;
-    const modsMatch = criteria.mods ? criteria.mods.every(modId => server.mods.filter(item => item.id === modId)) : true;
-    const pluginsMatch = criteria.plugins ? criteria.plugins.every(pluginId => server.plugins.filter(item => item.id === pluginId)) : true;
-    const miniGamesMatch = criteria.miniGames ? criteria.miniGames.every(miniGameId => server.miniGames.filter(item => item.id === miniGameId)) : true;
+    const nameMatch = criteria.search && server.name ? server.name.toLowerCase().includes(criteria.search.toLowerCase()) || server.address.toLowerCase().includes(criteria.search.toLowerCase()) : true;
+    const versionMatch = criteria.versions && server.version ? criteria.versions.includes(server.version.id) : true;
+    const basesMatch = criteria.bases && server.bases && server.bases.length > 0 ? criteria.bases.every(baseId => server.bases!.filter(item => item.id === baseId)) : true;
+    const modsMatch = criteria.mods && server.mods && server.mods.length > 0 ? criteria.mods.every(modId => server.mods!.filter(item => item.id === modId)) : true;
+    const pluginsMatch = criteria.plugins && server.plugins && server.plugins.length > 0 ? criteria.plugins.every(pluginId => server.plugins!.filter(item => item.id === pluginId)) : true;
+    const miniGamesMatch = criteria.miniGames && server.miniGames && server.miniGames.length > 0 ? criteria.miniGames.every(miniGameId => server.miniGames!.filter(item => item.id === miniGameId)) : true;
     return nameMatch && versionMatch && basesMatch && modsMatch && pluginsMatch && miniGamesMatch;
   });
 };
