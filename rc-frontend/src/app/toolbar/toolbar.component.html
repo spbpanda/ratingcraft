@@ -4,17 +4,20 @@
         <span class="logo-name2">CRAFT</span>
     </a>
     <span class="spacer"></span>
-    <sbi-dark-slider></sbi-dark-slider>
 
     @if (authService.isUserLoggedIn() && user) {
-        <sbi-button appearance="overlay" [matMenuTriggerFor]="menu">{{user.name}}<sbi-icon [iconImage]="arrow_down"></sbi-icon></sbi-button>
+        <sbi-button appearance="overlay" [matMenuTriggerFor]="menu"><img src="/assets/avatar.svg" class="avatar" alt="avatar"><sbi-icon [iconImage]="arrow_down"></sbi-icon></sbi-button>
     } @else {
+        <sbi-dark-slider></sbi-dark-slider>
         <sbi-button appearance="primary-tint" (click)="openLoginDialog()">Войти</sbi-button>
     }
       
 </mat-toolbar>
 
 <mat-menu #menu="matMenu">
+    <div mat-menu-item>
+        <sbi-dark-slider></sbi-dark-slider>
+    </div>
     <a mat-menu-item routerLink="user/payments" routerLinkActive="active">Платежи</a>
     <a mat-menu-item routerLink="add-server" routerLinkActive="active">Добавить сервер</a>
     <a mat-menu-item routerLink="user/my-servers" routerLinkActive="active">Мои сервера</a>

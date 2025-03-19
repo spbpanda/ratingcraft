@@ -1,1 +1,32 @@
-<p>my-servers works!</p>
+<div class="rc-page">
+    @if (servers$ | async; as servers) {
+        <div class="my-servers">
+            @for (server of servers; track server) {
+                <div class="server">
+                    <div class="row server__name">
+                        {{server.name}}
+                    </div>
+                    <div class="row">
+                        <div class="server__rating">
+                            <mat-icon>star_rate</mat-icon>
+                            Баллы: <b>{{server.rating}}</b>
+                        </div>
+                        <div class="server__online">
+                            <mat-icon>sentiment_very_satisfied</mat-icon>
+                            Онлайн: {{server.online}}
+                        </div>
+                        <div class="server__version">
+                            <mat-icon>games</mat-icon>
+                            Версия: {{server.version}}
+                        </div>
+                    </div>
+                    <div class="server__buttons">
+                        <rc-button [type]="'warning'" (click)="promote(server)">Раскрутить</rc-button>
+                        <rc-button [type]="'default'" (click)="edit(server)">Редактировать</rc-button>
+                        <rc-button [type]="'error'" (click)="openDeleteConfirmationDialog(server)">Удалить</rc-button>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

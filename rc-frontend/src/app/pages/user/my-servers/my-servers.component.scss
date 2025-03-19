@@ -1,0 +1,40 @@
+.my-servers {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    .server {
+        display: flex;
+        flex-direction: row;
+        gap: 0.5rem;
+        border: 2px solid var(--border-primary);
+        border-radius: 1rem;
+        box-shadow: 0px 0px 2px 0px #2324250F, 0px 0px 6px 0px #2324250F,  0px 6px 12px 0px #2324250F;
+        padding: 0.5rem;
+        
+        &__name {
+            font-weight: bold;
+            font-size: 20px;
+            word-break: break-all;
+            &:hover {
+                cursor: pointer;
+            }
+        }
+        &__play, &__online, &__version, &__rating {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            gap: 0.2rem;
+        }
+        &__rating {
+            color: gold
+        }
+        &__buttons {
+            display: flex;
+            flex-direction: row;
+            gap: 0.5rem;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+        }
+    }
+}

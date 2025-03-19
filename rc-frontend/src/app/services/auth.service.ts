@@ -15,7 +15,7 @@ export class AuthService {
     google.accounts.id.disableAutoSelect();
     sessionStorage.removeItem('loggedInUser');
     sessionStorage.removeItem('loginTime');
-    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('authRcToken');
   }
 
   isUserLoggedIn(): boolean {

@@ -11,4 +11,10 @@
         background: var(--surface-secondary);
         box-shadow: 6px 17px 24px 0px #494B590A;
     }
+
+    .avatar {
+        width: 32px;
+        height: 32px;
+        background: var(--gradient-text);
+    }
 }

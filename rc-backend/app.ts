@@ -1,10 +1,8 @@
 import express from 'express';
 import cors from 'cors';
 import fs from 'fs';
-import bodyParser from 'body-parser'; // Not used, you can remove if not needed
-import axios from 'axios'; // Not used, you can remove if not needed
-import helmet from 'helmet'; // Not used, you can remove if not needed
 import { Server } from './interfaces/server';
+import { authMiddleware } from './middleware/auth'; // Импортируем middleware
 
 const app = express();
 const PORT = Number(process.env.PORT) || 5000;
@@ -62,8 +60,9 @@ app.get('/versions', (req, res) => {
 let servers = readJsonFile('./data/servers.json');
 
 // Добавление нового сервера
-app.post('/add-server', (req, res): any => {
+app.post('/add-server', authMiddleware, (req, res): any => {
   const { address, port, ...rest } = req.body;
+  const userId = (req as any).user.id; // Получаем ID пользователя из токена
 
   // Проверка обязательных полей
   if (!address) {
@@ -77,6 +76,7 @@ app.post('/add-server', (req, res): any => {
       port,
       ...rest, // Остальные параметры (если есть)
       createDate: new Date(), // Автоматически добавляем дату создания
+      ownerId: userId, // Указываем владельца сервера
   };
 
   // Добавление сервера в массив
@@ -93,11 +93,35 @@ app.post('/add-server', (req, res): any => {
 });
 
 // DELETE route for removing a server by ID
-app.delete('/servers/:id', (req, res) => {
+app.delete('/servers/:id', authMiddleware, (req, res): any => {
   const id = parseInt(req.params.id);
-  servers = servers.filter((server: any) => server.id !== id); // Remove server by so ID
-  fs.writeFileSync('./data/servers.json', JSON.stringify(servers, null, 2)); // Save updated data
-  res.status(204).send(); // No content to send back
+  const userId = (req as any).user.id; // Получаем ID пользователя из токена
+
+  // Находим сервер по ID
+  const server = servers.find((server: any) => server.id === id);
+
+  // Если сервер не найден
+  if (!server) {
+    return res.status(404).json({ message: 'Сервер не найден' });
+  }
+
+  // Проверяем, что пользователь является владельцем сервера
+  if (server.ownerId !== userId) {
+    return res.status(403).json({ message: 'У вас нет прав для удаления этого сервера' });
+  }
+
+  // Удаляем сервер
+  servers = servers.filter((server: any) => server.id !== id);
+
+  // Сохраняем обновленные данные в файл
+  try {
+    fs.writeFileSync('./data/servers.json', JSON.stringify(servers, null, 2));
+    console.log(`Пользователь ${userId} удалил сервер ${id}`);
+    res.status(204).send(); // Успешное удаление, нет содержимого для возврата
+  } catch (err) {
+    console.error('Ошибка при записи в файл:', err);
+    res.status(500).json({ message: 'Ошибка сервера при сохранении данных' });
+  }
 });
 
 // Получить список серверов
@@ -132,6 +156,13 @@ app.get('/servers/:id', (req, res) => {
   const server = servers.find((server: any) => server.id === id);
   res.json(server ?? undefined);
 })
+
+// Эндпоинт для получения серверов пользователя
+app.get('/my-servers', authMiddleware, (req, res) => {
+  const userId = (req as any).user.id; // Используем sub как user.id
+  const userServers = servers.filter((server: Server) => server.ownerId === userId);
+  res.json(userServers);
+});
 
 
 const filterServers = (servers: Server[], criteria: {

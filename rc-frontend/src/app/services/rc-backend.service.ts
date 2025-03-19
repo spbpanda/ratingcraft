@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
-import { map, shareReplay, tap } from 'rxjs';
+import { map, Observable, shareReplay, tap } from 'rxjs';
 import { Filter } from '../common/interfaces/filter';
 import { Paginator } from '../common/interfaces/paginator';
-import { ApiResponse } from '../common/interfaces/server';
+import { ApiResponse, Server } from '../common/interfaces/server';
 
 @Injectable({
   providedIn: 'root',
@@ -75,7 +75,6 @@ export class RcBackendService {
     return this.http.get(`http://localhost:5000/servers/${id}`);
   }
 
-
   // Обновление search, versions, bases, mods, plugins, miniGames
   updateFilterDetails(details: Partial<Filter>) {
     this.filter.update(currentFilter => ({
@@ -95,5 +94,17 @@ export class RcBackendService {
 
   addServer(address: string, port: number) {
     return this.http.post('http://localhost:5000/add-server', { address: address, port: port });
+  }
+
+  deleteServer(id: number) {
+    return this.http.delete(`http://localhost:5000/servers/${id}`);
+  }
+
+  getUserServers(): Observable<Server[]> {
+    return this.http.get<Server[]>('http://localhost:5000/my-servers');
+  }
+
+  addUserServer(serverData: any) {
+    return this.http.post('http://localhost:5000/add-server', serverData);
   }
 }

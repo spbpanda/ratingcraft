@@ -41,7 +41,7 @@ export class LoginComponent {
     if (response) {
       const payLoad = this.decodeToken(response.credential);
       this.auth.setLoggedInUser(payLoad);
-      sessionStorage.setItem('token', response.credential);
+      sessionStorage.setItem('authRcToken', response.credential);
       console.log("User logged in successfully: ", payLoad);
       this.dialogRef.close();
     }

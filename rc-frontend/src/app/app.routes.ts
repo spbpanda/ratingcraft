@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { AuthGuard } from './common/guards/auth-guard';
 
 export const routes: Routes = [
     {path: 'add-server', loadComponent: () => import('./pages/add-server/add-server.component').then(mod => mod.AddServerComponent)},
@@ -8,7 +9,8 @@ export const routes: Routes = [
             {path: 'favorite-servers', loadComponent: () => import('./pages/user/favorite-servers/favorite-servers.component').then(mod => mod.FavoriteServersComponent)},
             {path: 'my-servers', loadComponent: () => import('./pages/user/my-servers/my-servers.component').then(mod => mod.MyServersComponent)},
             {path: 'payments', loadComponent: () => import('./pages/user/payments/payments.component').then(mod => mod.PaymentsComponent)},
-        ]
+        ],
+        canActivate: [AuthGuard]
     },
     {path: 'server-info/:id', loadComponent: () => import('./pages/server-info/server-info.component').then(mod => mod.ServerInfoComponent)},
     {path: 'about-us', loadComponent: () => import('./pages/about-us/about-us.component').then(mod => mod.AboutUsComponent)},
