@@ -25,4 +25,6 @@ export interface Server {
     mods?: Item[];
     plugins?: Item[];
     miniGames?: Item[];
+    onlinePlayers?: number;
+    maxPlayers?: number;
 }

@@ -39,12 +39,12 @@
   },
   {
     "id": 2,
-    "address": "testset",
+    "address": "play.alumenator.net",
     "port": 25565,
     "createDate": "2025-03-19T10:48:12.965Z",
     "ownerId": "112194226574548936431",
-    "name": "название для Тестового сервера",
-    "slogan": "Тест тест тест",
+    "name": "AlumenatoR ВАЙП ФЕВРАЛЯ Анархия ГЛОБАЛЬНОЕ ОБНОВЛЕНИЕ Выживания .. СКАЙБЛОК сервер Майнкрафт",
+    "slogan": null,
     "banner": null,
     "description": null,
     "version": {
@@ -63,5 +63,12 @@
     "mods": [],
     "plugins": [],
     "miniGames": []
+  },
+  {
+    "id": 3,
+    "address": "фывафыафыва",
+    "port": null,
+    "createDate": "2025-03-20T12:13:02.389Z",
+    "ownerId": "112194226574548936431"
   }
 ]

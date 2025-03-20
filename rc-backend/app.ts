@@ -3,6 +3,7 @@ import cors from 'cors';
 import fs from 'fs';
 import { Server } from './interfaces/server';
 import { authMiddleware } from './middleware/auth'; // Импортируем middleware
+import { pingMinecraftServer } from './minecraft-ping/minecraft-ping';
 
 const app = express();
 const PORT = Number(process.env.PORT) || 5000;
@@ -60,35 +61,53 @@ app.get('/versions', (req, res) => {
 let servers = readJsonFile('./data/servers.json');
 
 // Добавление нового сервера
-app.post('/add-server', authMiddleware, (req, res): any => {
+app.post('/add-server', authMiddleware, async (req, res): Promise<any> => {
   const { address, port, ...rest } = req.body;
   const userId = (req as any).user.id; // Получаем ID пользователя из токена
 
   // Проверка обязательных полей
   if (!address) {
-    return res.status(400).json({ error: 'Address are required' });
+    return res.status(400).json({ error: 'IP адрес обязателен, нужно заполнить его' });
   }
 
-  // Создание нового сервера
-  const newServer: Server = {
-      id: servers.length + 1, // Генерация нового ID
-      address,
-      port,
-      ...rest, // Остальные параметры (если есть)
-      createDate: new Date(), // Автоматически добавляем дату создания
-      ownerId: userId, // Указываем владельца сервера
-  };
-
-  // Добавление сервера в массив
-  servers.push(newServer);
-
-  // Сохранение данных в файл
   try {
+    // Получаем информацию о сервере
+    const serverInfo = await pingMinecraftServer(address, port);
+    // Загружаем список версий
+    const versions = readJsonFile('./data/versions.json');
+    // Находим версию сервера в списке
+    const serverVersion = versions.find((version: any) => 
+      version.name === serverInfo.version.name
+    );
+
+    // Если версия не найдена, возвращаем ошибку
+    if (!serverVersion) {
+      return res.status(400).json({ error: 'Версия сервера не поддерживается' });
+    }
+
+    // Создание нового сервера
+    const newServer: Server = {
+        id: servers.length + 1, // Генерация нового ID
+        address,
+        port,
+        ...rest, // Остальные параметры (если есть)
+        createDate: new Date(), // Автоматически добавляем дату создания
+        ownerId: userId, // Указываем владельца сервера
+        rating: 0, // Баллы для нового сервера
+        onlinePlayers: serverInfo.players.online, // Добавляем информацию о сервере
+        maxPlayers: serverInfo.players.max,
+        version: serverVersion, // Добавляем версию из списка
+    };
+
+    // Добавление сервера в массив
+    servers.push(newServer);
+
+    // Сохранение данных в файл
     fs.writeFileSync('./data/servers.json', JSON.stringify(servers, null, 2));
     res.status(201).json(newServer);
   } catch (err) {
-    console.error('Error writing to file:', err);
-    res.status(500).json({ error: 'Failed to save server data' });
+    console.error('Ошибка при проверке сервера:', err);
+    res.status(500).json({ error: 'Не удалось проверить сервер или сохранить данные' });
   }
 });
 
@@ -151,7 +170,7 @@ app.put('/servers/:id', authMiddleware, (req, res): any => {
 });
 
 // Получить список серверов
-app.post('/servers', (req, res) => {
+app.post('/servers', async (req, res) => {
   const { search, versions, bases, mods, plugins, miniGames, page = 0, pageSize = 10 } = req.body;
 
   let filteredServers: Server[] = filterServers(servers, {
@@ -162,6 +181,18 @@ app.post('/servers', (req, res) => {
     plugins: Array.isArray(plugins) && plugins.length > 0 ? plugins.map(plugin => Number(plugin)) : undefined,
     miniGames: Array.isArray(miniGames) && miniGames.length > 0 ? miniGames.map(miniGame => Number(miniGame)) : undefined,
   });
+
+  for (const server of filteredServers) {
+    try {
+        const serverInfo = await pingMinecraftServer(server.address, server.port);
+        server.onlinePlayers = serverInfo.players.online;
+        server.maxPlayers = serverInfo.players.max;
+        // server.version = serverInfo.version.name;
+        // server.description = serverInfo.description.text;
+    } catch (err) {
+        console.error(`Ошибка при обновлении сервера ${server.id}:`, err);
+    }
+}
 
   // Пагинация
   const startIndex = page * pageSize;
@@ -182,11 +213,31 @@ app.post('/servers', (req, res) => {
 });
 
 // Получить информацию по серверу
-app.get('/servers/:id', (req, res) => {
+app.get('/servers/:id', async (req, res): Promise<any> => {
   const id = parseInt(req.params.id);
   const server = servers.find((server: any) => server.id === id);
-  res.json(server ?? undefined);
-})
+
+  if (!server) {
+      return res.status(404).json({ error: 'Сервер не найден' });
+  }
+
+  try {
+      // Получаем актуальную информацию о сервере
+      const serverInfo = await pingMinecraftServer(server.address, server.port);
+
+      // Возвращаем данные сервера
+      res.json({
+          ...server,
+          onlinePlayers: serverInfo.players.online,
+          maxPlayers: serverInfo.players.max,
+          version: serverInfo.version.name,
+          motd: serverInfo.description.text,
+      });
+  } catch (err) {
+      console.error('Ошибка при проверке сервера:', err);
+      res.status(500).json({ error: 'Не удалось проверить сервер' });
+  }
+});
 
 // Эндпоинт для получения серверов пользователя
 app.get('/my-servers', authMiddleware, (req, res) => {

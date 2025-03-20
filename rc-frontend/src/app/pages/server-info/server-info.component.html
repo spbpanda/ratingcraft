@@ -22,11 +22,11 @@
             </div>
             <div class="content__info">
                 <div class="content__info-label">Версия</div>
-                <div class="content__info-value">{{ server.version }}</div>
+                <div class="content__info-value">{{ server.version?.value ?? '' }}</div>
             </div>
             <div class="content__info">
                 <div class="content__info-label">Игроки онлайн</div>
-                <div class="content__info-value">{{ server.online }} max</div>
+                <div class="content__info-value">{{ server.onlinePlayers }}</div>
             </div>
             <div class="content__info">
                 <div class="content__info-label">Место в топе</div>
