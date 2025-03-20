@@ -18,3 +18,13 @@
         background: var(--gradient-text);
     }
 }
+
+::ng-deep {
+    .rc-menu {
+        --mat-menu-container-color: var(--surface-background);
+        --mat-menu-item-label-text-color: var(--text-primary);
+        --mat-menu-item-hover-state-layer-color: var(--surface-primary);
+        --mdc-text-button-label-text-color: var(--text-primary);
+        border-radius: 16px;
+    }
+}

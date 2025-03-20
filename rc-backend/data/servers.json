@@ -63,5 +63,12 @@
     "mods": [],
     "plugins": [],
     "miniGames": []
+  },
+  {
+    "id": 3,
+    "address": "фывафыафыва",
+    "port": null,
+    "createDate": "2025-03-20T12:13:02.389Z",
+    "ownerId": "112194226574548936431"
   }
 ]

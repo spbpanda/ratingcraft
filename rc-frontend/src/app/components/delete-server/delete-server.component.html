@@ -1,9 +1,11 @@
 <sbi-dialog (close)="dialogRef.close()">
-    <div class="title">Подтверждение удаления</div>
-    <div class="content">Вы действительно хотите удалить этот сервер?</div>
-    <div class="actions">
-        <rc-button [type]="'default'" (click)="dialogRef.close()">Отмена</rc-button>
-        <rc-button [type]="'error'" (click)="deleteServer()">Удалить</rc-button>
+    <div class="delete-server">
+        <h3>Подтверждение удаления</h3>
+        <div class="content">Вы действительно хотите удалить этот сервер?</div>
+        <div class="buttons">
+            <rc-button [type]="'default'" (click)="dialogRef.close()">Отмена</rc-button>
+            <rc-button [type]="'error'" (click)="deleteServer()">Удалить</rc-button>
+        </div>
     </div>
 </sbi-dialog>
   
