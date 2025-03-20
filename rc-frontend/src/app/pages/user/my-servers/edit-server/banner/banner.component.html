@@ -1,0 +1,24 @@
+<div class="banner-container">
+  <div class="upload-section">
+    @if (bannerControl && !bannerControl.value) {
+      <div class="container">
+        <label class="btn" for="banner-upload">Загрузить баннер</label>
+      </div>
+    }
+    <input id="banner-upload" type="file" accept="image/*" (change)="onBannerUpload($event)" hidden>
+  </div>
+
+  <div class="banners-preview">
+    @if (bannerControl && bannerControl.value) {
+      <div class="banner">
+        <div class="banner-image">
+          <img [src]="bannerControl.value" alt="Превью баннера" />
+        </div>
+        <sbi-icon-button [icon]="trashBin" appearance="warn" (click)="clearBanner()"></sbi-icon-button>
+      </div>
+    }
+  </div>
+  <!-- <div *ngIf="bannerControl?.errors?.fileSize" class="error">
+      {{ bannerControl.errors['fileSize'] ?? '' }}
+    </div> -->
+</div>

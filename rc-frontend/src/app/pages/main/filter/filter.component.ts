@@ -1,4 +1,3 @@
-import { JsonPipe, NgFor, NgIf } from '@angular/common';
 import { Component, EventEmitter, inject, Output } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { SbiInputComponent, SbiAutocompleteComponent, SbiSuggestChipComponent } from '@sbi/design-system';
@@ -15,8 +14,7 @@ import { Item } from '../../../common/interfaces/filter';
     SbiInputComponent,
     SbiAutocompleteComponent,
     SbiSuggestChipComponent,
-    RcButtonComponent,
-    JsonPipe
+    RcButtonComponent
   ],
   templateUrl: './filter.component.html',
   styleUrl: './filter.component.scss'

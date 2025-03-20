@@ -2,22 +2,25 @@
     @if(serverForm) {
         <form [formGroup]="serverForm">
             <div class="col">
+                <h3>Основная информация</h3>
                 <sbi-input label="Название сервера" [control]="serverForm.controls.name"
                     [subtitle]="'Название Вашего сервера. В этом поле не допускаются призывы переходить на сервер; для этого предназначено поле \'Cлоган\''"></sbi-input>
-                <sbi-input label="Слоган" [control]="getControl('slogan')"
+                <sbi-input label="Слоган" [control]="serverForm.controls.slogan"
                     [subtitle]="'Краткое описание, которое будет отображаться в списке серверов сразу под названием до 130 символов.'"></sbi-input>
-                <sbi-input label="IP адрес" [control]="getControl('address')" [subtitle]="'Изменение текстового или циферного IP-адреса Вашего сервера, до 200 символов.'"></sbi-input>
-                <sbi-input label="Порт" [control]="getControl('port')" [subtitle]="'Порт вашего сервера, значение по умолчанию 25565'"></sbi-input>
+                <sbi-input label="IP адрес" [control]="serverForm.controls.address" [subtitle]="'Изменение текстового или циферного IP-адреса Вашего сервера, до 200 символов.'"></sbi-input>
+                <sbi-input label="Порт" [control]="serverForm.controls.port" [subtitle]="'Порт вашего сервера, значение по умолчанию 25565'"></sbi-input>
                 <sbi-dropdown
                     placeholder="Версия"
                     label="Версия сервера"
                     [control]="serverForm.controls.version"
                     [options]="versions"
                     [displayFunc]="displayViewValue"
-                >
-                <!-- баннер -->
-                </sbi-dropdown>
+                ></sbi-dropdown>
                 <sbi-divider></sbi-divider>
+                <h3>Баннер</h3>
+                <rc-banner [bannerControl]="serverForm.controls.banner"></rc-banner>
+                <sbi-divider></sbi-divider>
+                <h3>Параметры</h3>
                 <span>Параметры определяют, в какие категории попадет Ваш сервер. Выбирайте только те параметры, которые действительно присутствуют на Вашем сервере. В противном случае, редактирование сервера будет отключено, а сам сервер понижен в рейтинге.</span>
                 <sbi-autocomplete placeholder="Основное" [control]="serverForm.controls.bases" [options]="bases()"
                     [displayFunc]="displayViewValue"></sbi-autocomplete>
@@ -28,6 +31,7 @@
                 <sbi-autocomplete placeholder="Плагины" [control]="serverForm.controls.plugins" [options]="plugins()"
                     [displayFunc]="displayViewValue"></sbi-autocomplete>
                 <sbi-divider></sbi-divider>
+                <h3>Описание</h3>
                 <editor
                     [formControlName]="'description'"
                     id="editor"
@@ -43,7 +47,12 @@
                     [subtitle]="'Ссылка на видео Вашего сервера на Youtube, Rutube или любой видео хостинг, до 200 символов.'"></sbi-input>
                 <sbi-input label="Ссылка для скачивания лаунчера" [control]="serverForm.controls.launcher"
                     [subtitle]="'Ссылка на скачивание лаунчера для игры на вашем сервере, до 200 символов.'"></sbi-input>
-                <!-- скриншоты -->
+                <sbi-divider></sbi-divider>
+                <h3>Скриншоты вашего сервера</h3>
+                <rc-images
+                    [images]="serverForm.controls.screenshots.value ?? []"
+                    (imagesChange)="updateScreenshots($event)"
+                ></rc-images>
             </div>
             <div class="buttons">
                 <rc-button [type]="'default'" (click)="cancel()">Отмена</rc-button>

@@ -9,6 +9,8 @@ import { take } from 'rxjs';
 import { EditorComponent, EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import { Item } from '../../../../common/interfaces/filter';
 import { SbiDividerComponent } from "../../../../../../projects/lib.sbi-design-system/lib/src/components/sbi-divider/sbi-divider.component";
+import { BannerComponent } from './banner/banner.component';
+import { ImagesComponent } from './images/images.component';
 
 export interface ServerForm {
   name: FormControl<string | null>;
@@ -40,10 +42,12 @@ export interface ServerForm {
     SbiInputComponent,
     SbiAutocompleteComponent,
     SbiDropdownComponent,
+    SbiDividerComponent,
     EditorComponent,
     EditorModule,
-    SbiDividerComponent
-],
+    BannerComponent,
+    ImagesComponent
+  ],
   providers: [{ provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' }],
   templateUrl: './edit-server.component.html',
   styleUrl: './edit-server.component.scss'
@@ -146,6 +150,10 @@ export class EditServerComponent implements OnInit {
         }
       });
     }
+  }
+
+  updateScreenshots(images: string[]) {
+    this.serverForm.controls['screenshots'].setValue(images);
   }
 
   displayViewValue(val: {id:number, value: string}) {

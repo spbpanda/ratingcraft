@@ -24,7 +24,7 @@
             </div>
             <div class="server-banner__version">
                 <mat-icon>games</mat-icon>
-                Версия: {{server.version}}
+                Версия: {{server.version?.value ?? ''}}
             </div>
         </div>
         <div class="server-banner__buttons">

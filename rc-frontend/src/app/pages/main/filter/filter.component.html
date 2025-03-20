@@ -7,7 +7,7 @@
     <h4>Версии</h4>
     <div class="row-simple">
         @for (version of versions(); track version) {
-            <sbi-suggest-chip [label]="version.viewValue" [active]="version.active" (click)="changeSelected(version)"></sbi-suggest-chip>
+            <sbi-suggest-chip [label]="version.value" [active]="version.active" (click)="changeSelected(version)"></sbi-suggest-chip>
         }
     </div>
     <div class="row">
