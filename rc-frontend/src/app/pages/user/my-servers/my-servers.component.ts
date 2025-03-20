@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { RcButtonComponent } from '../../../components/rc-button/rc-button.component';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteServerComponent } from '../../../components/delete-server/delete-server.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'rc-my-servers',
@@ -23,11 +24,13 @@ export class MyServersComponent implements OnDestroy {
   private destroy$ = new Subject<void>();
   rcBackend = inject(RcBackendService);
   dialog = inject(MatDialog);
+  router = inject(Router);
   servers$: Observable<Server[]> = this.rcBackend.getUserServers()
 
   promote(server: Server) {
   }
   edit(server: Server) {
+    this.router.navigate(['/user/edit-server', server.id]);
   }
   openDeleteConfirmationDialog(server: Server) {
     const dialogRef = this.dialog.open(DeleteServerComponent);

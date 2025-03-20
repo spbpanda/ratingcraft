@@ -9,6 +9,7 @@ export const routes: Routes = [
             {path: 'favorite-servers', loadComponent: () => import('./pages/user/favorite-servers/favorite-servers.component').then(mod => mod.FavoriteServersComponent)},
             {path: 'my-servers', loadComponent: () => import('./pages/user/my-servers/my-servers.component').then(mod => mod.MyServersComponent)},
             {path: 'payments', loadComponent: () => import('./pages/user/payments/payments.component').then(mod => mod.PaymentsComponent)},
+            {path: 'edit-server/:id', loadComponent: () => import('./pages/user/my-servers/edit-server/edit-server.component').then(mod => mod.EditServerComponent)},
         ],
         canActivate: [AuthGuard]
     },

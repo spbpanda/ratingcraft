@@ -8,7 +8,7 @@ const app = express();
 const PORT = Number(process.env.PORT) || 5000;
 
 app.use(cors());
-app.use(express.json());
+app.use(express.json({limit: '50mb'}));
 
 // Function to read JSON data safely
 const readJsonFile = (filePath: string) => {
@@ -92,7 +92,7 @@ app.post('/add-server', authMiddleware, (req, res): any => {
   }
 });
 
-// DELETE route for removing a server by ID
+// Удаление сервера
 app.delete('/servers/:id', authMiddleware, (req, res): any => {
   const id = parseInt(req.params.id);
   const userId = (req as any).user.id; // Получаем ID пользователя из токена
@@ -124,6 +124,32 @@ app.delete('/servers/:id', authMiddleware, (req, res): any => {
   }
 });
 
+// Обновить данные по серверу
+app.put('/servers/:id', authMiddleware, (req, res): any => {
+  const serverId = parseInt(req.params.id); // Получаем ID сервера из URL
+  const updatedServer = req.body; // Получаем обновленные данные из тела запроса
+
+  // Находим индекс сервера в массиве
+  const serverIndex = servers.findIndex((server: Server) => server.id === serverId);
+
+  // Если сервер не найден
+  if (serverIndex === -1) {
+    return res.status(404).json({ message: 'Сервер не найден' });
+  }
+
+  // Обновляем данные сервера
+  servers[serverIndex] = { ...servers[serverIndex], ...updatedServer };
+
+  // Сохраняем обновленные данные в файл
+  try {
+    fs.writeFileSync('./data/servers.json', JSON.stringify(servers, null, 2));
+    res.status(200).json(servers[serverIndex]); // Возвращаем обновленный сервер
+  } catch (err) {
+    console.error('Ошибка при записи в файл:', err);
+    res.status(500).json({ message: 'Ошибка сервера при сохранении данных' });
+  }
+});
+
 // Получить список серверов
 app.post('/servers', (req, res) => {
   const { search, versions, bases, mods, plugins, miniGames, page = 0, pageSize = 10 } = req.body;
@@ -140,7 +166,12 @@ app.post('/servers', (req, res) => {
   // Пагинация
   const startIndex = page * pageSize;
   const endIndex = startIndex + pageSize;
-  const paginatedServers = filteredServers.slice(startIndex, endIndex);
+  const paginatedServers = filteredServers.slice(startIndex, endIndex).sort((a, b) => {
+    if (!b.rating || !a.rating) {
+      return -1
+    }
+    return b.rating - a.rating
+  });
 
   res.json({
     data: paginatedServers,
@@ -165,6 +196,7 @@ app.get('/my-servers', authMiddleware, (req, res) => {
 });
 
 
+// Фильтр для серверов по всем параметрам
 const filterServers = (servers: Server[], criteria: {
   search?: string;
   versions?: number[];

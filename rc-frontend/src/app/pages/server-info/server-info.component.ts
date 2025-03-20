@@ -28,7 +28,7 @@ export class ServerInfoComponent {
   ngOnInit() {
     const serverId = this.activatedRoute.snapshot.paramMap.get('id');
     if (serverId) {
-      this.rcBackend.getServerInfo(Number(serverId)).pipe(take(1)).subscribe((serverInfo: any) => {
+      this.rcBackend.getServerById(Number(serverId)).pipe(take(1)).subscribe((serverInfo: any) => {
         this.server = serverInfo;
       })
     }

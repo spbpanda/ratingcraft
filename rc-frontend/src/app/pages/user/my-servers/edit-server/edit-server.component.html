@@ -1,0 +1,54 @@
+<div class="rc-page">
+    @if(serverForm) {
+        <form [formGroup]="serverForm">
+            <div class="col">
+                <sbi-input label="Название сервера" [control]="serverForm.controls.name"
+                    [subtitle]="'Название Вашего сервера. В этом поле не допускаются призывы переходить на сервер; для этого предназначено поле \'Cлоган\''"></sbi-input>
+                <sbi-input label="Слоган" [control]="getControl('slogan')"
+                    [subtitle]="'Краткое описание, которое будет отображаться в списке серверов сразу под названием до 130 символов.'"></sbi-input>
+                <sbi-input label="IP адрес" [control]="getControl('address')" [subtitle]="'Изменение текстового или циферного IP-адреса Вашего сервера, до 200 символов.'"></sbi-input>
+                <sbi-input label="Порт" [control]="getControl('port')" [subtitle]="'Порт вашего сервера, значение по умолчанию 25565'"></sbi-input>
+                <sbi-dropdown
+                    placeholder="Версия"
+                    label="Версия сервера"
+                    [control]="serverForm.controls.version"
+                    [options]="versions"
+                    [displayFunc]="displayViewValue"
+                >
+                <!-- баннер -->
+                </sbi-dropdown>
+                <sbi-divider></sbi-divider>
+                <span>Параметры определяют, в какие категории попадет Ваш сервер. Выбирайте только те параметры, которые действительно присутствуют на Вашем сервере. В противном случае, редактирование сервера будет отключено, а сам сервер понижен в рейтинге.</span>
+                <sbi-autocomplete placeholder="Основное" [control]="serverForm.controls.bases" [options]="bases()"
+                    [displayFunc]="displayViewValue"></sbi-autocomplete>
+                <sbi-autocomplete placeholder="Мини-игры" [control]="serverForm.controls.miniGames" [options]="miniGames()"
+                    [displayFunc]="displayViewValue"></sbi-autocomplete>
+                <sbi-autocomplete placeholder="Моды" [control]="serverForm.controls.mods" [options]="mods()"
+                    [displayFunc]="displayViewValue"></sbi-autocomplete>
+                <sbi-autocomplete placeholder="Плагины" [control]="serverForm.controls.plugins" [options]="plugins()"
+                    [displayFunc]="displayViewValue"></sbi-autocomplete>
+                <sbi-divider></sbi-divider>
+                <editor
+                    [formControlName]="'description'"
+                    id="editor"
+                    [init]="init"
+                />
+                <sbi-input label="Сайт" [control]="serverForm.controls.site"
+                    [subtitle]="'Ссылка на сайт Вашего сервера, до 200 символов.'"></sbi-input>
+                <sbi-input label="ВКонтакте" [control]="serverForm.controls.vk"
+                    [subtitle]="'Ссылка на группу ВКонтакте Вашего сервера, до 200 символов.'"></sbi-input>
+                <sbi-input label="Discord" [control]="serverForm.controls.discord"
+                    [subtitle]="'Ссылка на Discord Вашего сервера, до 200 символов.'"></sbi-input>
+                <sbi-input label="Видео сервера" [control]="serverForm.controls.videoUrl"
+                    [subtitle]="'Ссылка на видео Вашего сервера на Youtube, Rutube или любой видео хостинг, до 200 символов.'"></sbi-input>
+                <sbi-input label="Ссылка для скачивания лаунчера" [control]="serverForm.controls.launcher"
+                    [subtitle]="'Ссылка на скачивание лаунчера для игры на вашем сервере, до 200 символов.'"></sbi-input>
+                <!-- скриншоты -->
+            </div>
+            <div class="buttons">
+                <rc-button [type]="'default'" (click)="cancel()">Отмена</rc-button>
+                <rc-button [type]="'submit'" (click)="onSubmit()">Сохранить</rc-button>
+            </div>
+        </form>
+    }
+</div>

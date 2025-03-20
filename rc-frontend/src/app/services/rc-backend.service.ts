@@ -71,8 +71,8 @@ export class RcBackendService {
     );
   }
 
-  getServerInfo(id: number) {
-    return this.http.get(`http://localhost:5000/servers/${id}`);
+  getServerById(id: number): Observable<Server> {
+    return this.http.get<Server>(`http://localhost:5000/servers/${id}`);
   }
 
   // Обновление search, versions, bases, mods, plugins, miniGames
@@ -98,6 +98,10 @@ export class RcBackendService {
 
   deleteServer(id: number) {
     return this.http.delete(`http://localhost:5000/servers/${id}`);
+  }
+
+  updateServer(server: any) {
+    return this.http.put(`http://localhost:5000/servers/${server.id}`, server);
   }
 
   getUserServers(): Observable<Server[]> {
