@@ -8,7 +8,7 @@ import { Item } from '../interfaces/filter';
 export class GetItemValuePipe implements PipeTransform {
 
   transform(value: Item, ...args: unknown[]): unknown {
-    return value.value
+    return value?.value ?? ''
   }
 
 }
