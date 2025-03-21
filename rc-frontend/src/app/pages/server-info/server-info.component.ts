@@ -6,6 +6,7 @@ import { take } from 'rxjs';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { FullImageDialogComponent } from '../../components/full-image-dialog/full-image-dialog.component';
 import { SbiDividerComponent } from '@sbi/design-system';
+import { GetItemValuePipe } from '../../common/pipes/get-item-value.pipe';
 
 @Component({
   selector: 'rc-server-info',
@@ -14,7 +15,8 @@ import { SbiDividerComponent } from '@sbi/design-system';
     NgIf,
     NgFor,
     MatDialogModule,
-    SbiDividerComponent
+    SbiDividerComponent,
+    GetItemValuePipe
   ],
   templateUrl: './server-info.component.html',
   styleUrl: './server-info.component.scss'

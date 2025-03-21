@@ -4,6 +4,7 @@ import { RcButtonComponent } from '../rc-button/rc-button.component';
 import { SbiChipComponent } from '@sbi/design-system';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
+import { GetItemValuePipe } from '../../common/pipes/get-item-value.pipe';
 
 @Component({
   selector: 'rc-server-banner',
@@ -12,6 +13,7 @@ import { Router } from '@angular/router';
     MatIconModule,
     SbiChipComponent,
     RcButtonComponent,
+    GetItemValuePipe
   ],
   templateUrl: './server-banner.component.html',
   styleUrl: './server-banner.component.scss'

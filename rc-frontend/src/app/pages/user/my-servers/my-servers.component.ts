@@ -8,6 +8,7 @@ import { RcButtonComponent } from '../../../components/rc-button/rc-button.compo
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteServerComponent } from '../../../components/delete-server/delete-server.component';
 import { Router } from '@angular/router';
+import { GetItemValuePipe } from '../../../common/pipes/get-item-value.pipe';
 
 @Component({
   selector: 'rc-my-servers',
@@ -15,7 +16,8 @@ import { Router } from '@angular/router';
   imports: [
     AsyncPipe,
     RcButtonComponent,
-    MatIconModule
+    MatIconModule,
+    GetItemValuePipe
   ],
   templateUrl: './my-servers.component.html',
   styleUrl: './my-servers.component.scss'

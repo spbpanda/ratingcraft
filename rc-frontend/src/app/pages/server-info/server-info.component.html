@@ -22,7 +22,7 @@
             </div>
             <div class="content__info">
                 <div class="content__info-label">Версия</div>
-                <div class="content__info-value">{{ server.version?.value ?? '' }}</div>
+                <div class="content__info-value">{{ server.version | getItemValue}}</div>
             </div>
             <div class="content__info">
                 <div class="content__info-label">Игроки онлайн</div>
