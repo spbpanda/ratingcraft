@@ -4,11 +4,13 @@ import { map, Observable, shareReplay, tap } from 'rxjs';
 import { Filter } from '../common/interfaces/filter';
 import { Paginator } from '../common/interfaces/paginator';
 import { ApiResponse, Server } from '../common/interfaces/server';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class RcBackendService {
+  private readonly api = environment.api;
   // Сигналы для хранения данных
   readonly bases = signal<any[]>([]);
   readonly miniGames = signal<any[]>([]);
@@ -23,7 +25,7 @@ export class RcBackendService {
 
   // Методы для загрузки данных и обновления сигналов
   loadBases() {
-    return this.http.get('http://localhost:5000/bases').pipe(
+    return this.http.get(`${this.api}/bases`).pipe(
       map((res: any) => res.map((item: any) => ({ value: item, viewValue: item.value }))),
       tap((res: any) => this.bases.set(res)),
       shareReplay(1)
@@ -31,7 +33,7 @@ export class RcBackendService {
   }
 
   loadMiniGames() {
-    return this.http.get('http://localhost:5000/mini-games').pipe(
+    return this.http.get(`${this.api}/mini-games`).pipe(
       map((res: any) => res.map((item: any) => ({ value: item, viewValue: item.value }))),
       tap((res: any) => this.miniGames.set(res)),
       shareReplay(1)
@@ -39,7 +41,7 @@ export class RcBackendService {
   }
 
   loadMods() {
-    return this.http.get('http://localhost:5000/mods').pipe(
+    return this.http.get(`${this.api}/mods`).pipe(
       map((res: any) => res.map((item: any) => ({ value: item, viewValue: item.value }))),
       tap((res: any) => this.mods.set(res)),
       shareReplay(1)
@@ -47,7 +49,7 @@ export class RcBackendService {
   }
 
   loadPlugins() {
-    return this.http.get('http://localhost:5000/plugins').pipe(
+    return this.http.get(`${this.api}/plugins`).pipe(
       map((res: any) => res.map((item: any) => ({ value: item, viewValue: item.value }))),
       tap((res: any) => this.plugins.set(res)),
       shareReplay(1)
@@ -55,7 +57,7 @@ export class RcBackendService {
   }
 
   loadVersions() {
-    return this.http.get('http://localhost:5000/versions').pipe(
+    return this.http.get(`${this.api}/versions`).pipe(
       map((res: any) => res.map((item: any) => ({ ...item, active: false }))),
       tap((res: any) => this.versions.set(res)),
       shareReplay(1)
@@ -63,7 +65,7 @@ export class RcBackendService {
   }
 
   findServers() {
-    return this.http.post('http://localhost:5000/servers', { ...this.filter() }).pipe(
+    return this.http.post(`${this.api}/servers`, { ...this.filter() }).pipe(
       tap((res: any) => {
         this.servers.set(res.data);
         this.paginator.set({total: res.total, page: res.page, pageSize: res.pageSize});
@@ -72,7 +74,7 @@ export class RcBackendService {
   }
 
   getServerById(id: number): Observable<Server> {
-    return this.http.get<Server>(`http://localhost:5000/servers/${id}`);
+    return this.http.get<Server>(`${this.api}/servers/${id}`);
   }
 
   // Обновление search, versions, bases, mods, plugins, miniGames
@@ -93,22 +95,22 @@ export class RcBackendService {
   }
 
   addServer(address: string, port: number) {
-    return this.http.post('http://localhost:5000/add-server', { address: address, port: port });
+    return this.http.post(`${this.api}/add-server`, { address: address, port: port });
   }
 
   deleteServer(id: number) {
-    return this.http.delete(`http://localhost:5000/servers/${id}`);
+    return this.http.delete(`${this.api}/servers/${id}`);
   }
 
   updateServer(server: any) {
-    return this.http.put(`http://localhost:5000/servers/${server.id}`, server);
+    return this.http.put(`${this.api}/servers/${server.id}`, server);
   }
 
   getUserServers(): Observable<Server[]> {
-    return this.http.get<Server[]>('http://localhost:5000/my-servers');
+    return this.http.get<Server[]>(`${this.api}/my-servers`);
   }
 
   addUserServer(serverData: any) {
-    return this.http.post('http://localhost:5000/add-server', serverData);
+    return this.http.post(`${this.api}/add-server`, serverData);
   }
 }

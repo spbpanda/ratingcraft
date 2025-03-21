@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve --port 3030",
-    "build": "ng build",
+    "start:dev": "ng serve --port 3030 --configuration development",
+    "start": "ng serve",
+    "build": "ng build --configuration production",
     "watch": "ng build --watch --configuration development",
     "start:lib": "ng build @sbi/design-system --watch",
     "build:lib": "ng build @sbi/design-system",
