@@ -1,0 +1,7 @@
+<div class="sbi-snackbar__wrapper sbi-snackbar__wrapper--{{data.appearance}}" >
+  <sbi-icon class="sbi-snackbar__icon" [iconImage]="svgIcon"></sbi-icon>
+  <div class="sbi-snackbar__content">
+    <p class="body-regular">{{ data.contentText }}</p>
+  </div>
+  <sbi-icon class="sbi-snackbar__icon-close" [iconImage]="clearIcon" (click)="onClose()"></sbi-icon>
+</div>

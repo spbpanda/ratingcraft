@@ -1,0 +1,16 @@
+<mat-button-toggle-group
+  class="sbi-button-toggle-group"
+  [value]="control.value"
+  [class]="'size-' + size"
+  [ngClass]="{ 'vertical': isVertical }"
+  [attr.data-testid]="testId">
+  <mat-button-toggle
+    *ngFor="let button of buttons"
+    [disabled]="control.disabled || !!button.disabled"
+    [value]="button"
+    [checked]="buttonToggleIsChecked(button.value)"
+    [attr.data-testid]="testId + '-' + button.label"
+    (change)="onButtonChange(button)">
+    {{ button.label }}
+  </mat-button-toggle>
+</mat-button-toggle-group>

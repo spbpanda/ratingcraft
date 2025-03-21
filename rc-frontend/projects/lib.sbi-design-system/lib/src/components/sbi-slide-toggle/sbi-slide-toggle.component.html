@@ -1,0 +1,33 @@
+<div class="sbi-slide-toggle-wrapper" [ngClass]="{'disabled': disabled, invalid: control.invalid && control.dirty}"
+     [attr.data-testid]="testId">
+  <div class="sbi-slide-toggle-content">
+    <label class="switch" [attr.data-testid]="testId">
+      <input
+        *ngIf="control"
+        [attr.data-testid]="testId + '-switch'"
+        type="checkbox"
+        [formControl]="control"
+        (change)="onSlideToggleValueChanged()"/>
+      <span class="slider round"></span>
+    </label>
+    <div
+      class="sbi-slide-toggle-label"
+      [ngClass]="{ link: isLink }"
+      (click)="onClickToLink()"
+      [attr.data-testid]="testId + '-slide-toggle-label'">
+      @if (label || note) {
+        <div *ngIf="label" class="label">{{ label }}</div>
+        <div *ngIf="note" class="note">{{ note }}</div>
+      } @else {
+        <ng-content></ng-content>
+      }
+    </div>
+  </div>
+  @if (control.invalid && control.dirty && showErrors) {
+    <sbi-error
+      [testId]="testId + '-error-message'"
+      [errors]="control.errors"
+      [errorMessages]="errorMessages"></sbi-error>
+  }
+</div>
+

@@ -1,0 +1,9 @@
+<div class="sbi-suggest-chip-row" [attr.data-testid]="testId">
+  @for (suggestChip of suggestChips; track suggestChip) {
+  <sbi-suggest-chip
+    [label]="displayFn(suggestChip)"
+    [active]="isActiveChip(suggestChip)"
+    [testId]="testId + '-suggest-chip'"
+    (click)="onClick(suggestChip)"></sbi-suggest-chip>
+  }
+</div>

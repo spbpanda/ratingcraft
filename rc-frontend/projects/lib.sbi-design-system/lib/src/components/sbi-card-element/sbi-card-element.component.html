@@ -1,0 +1,9 @@
+<section>
+  <div class="sbi-section-header">
+    <span *ngIf="title" class="sbi-section-title">{{ title }}</span>
+    <ng-content select="[header-title]"></ng-content>
+    <span *ngIf="note" class="sbi-section-note">{{ note }}</span>
+    <ng-content select="[header-note]"></ng-content>
+  </div>
+  <ng-content></ng-content>
+</section>

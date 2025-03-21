@@ -1,0 +1,49 @@
+.sbi-snackbar{
+    &__wrapper {
+        display: flex;
+        align-items: center;
+        border-radius: 16px;
+        padding: 12px;
+
+        &--warn {
+            background-color: var( --surface-warning);
+
+            ::ng-deep svg path {
+                fill: var(--icons-contrast);
+            }
+        }
+
+        &--success {
+            background-color: var(--surface-accent);
+
+            ::ng-deep svg path {
+                fill: var(--icons-contrast);
+            }
+        }
+    }
+
+    &__icon {
+        margin-right: 8px;
+        width: 24px;
+        height: 24px;
+    }
+
+    &__icon-close {
+        margin-left: auto;
+        display: flex;
+        align-self: flex-start;
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+    }
+
+}
+
+::ng-deep .sbi-snackbar {
+    --mdc-snackbar-supporting-text-color: var(--text-contrast);
+    --mdc-snackbar-container-color: transparent;
+    
+    .mdc-snackbar__surface {
+        box-shadow: none !important;
+    }
+}

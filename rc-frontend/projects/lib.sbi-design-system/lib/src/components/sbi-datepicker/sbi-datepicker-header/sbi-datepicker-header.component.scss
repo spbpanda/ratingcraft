@@ -1,0 +1,74 @@
+@import '../../../../assets/fonts/sbi.typography.scss';
+
+.datepicker-header {
+  display: flex;
+  align-items: center;
+  padding: 12px 12px 0 12px;
+  justify-content: space-between;
+  margin-bottom: 8px;
+
+  .label-wrapper {
+    padding: 6px 8px 6px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    &:hover {
+      background-color: var(--state-accent-tint---hover);
+    }
+
+    .label {
+      @extend .label-large;
+      text-align: center;
+      text-underline-position: from-font;
+      text-decoration-skip-ink: none;
+    }
+
+    .selector-arrow {
+      width: 16px;
+      height: 16px;
+      padding-left: 4px;
+
+      ::ng-deep svg {
+        path {
+          fill: var(--icons-accent);
+        }
+      }
+    }
+  }
+
+  .date-picker-arrows {
+    display: flex;
+    flex-direction: row;
+
+    .date-picker-arrow-wrapper {
+      left: 1px;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      width: 36px;
+      height: 36px;
+
+      &:hover {
+        border-radius: 50%;
+        background-color: var(--state-accent-tint---hover);
+      }
+
+      ::ng-deep div {
+        height: 18px;
+      }
+
+      .arrow-icon {
+        margin-left: 2px;
+      }
+    }
+
+    .left-arrow {
+      transform: rotate(-180deg);
+    }
+  }
+}

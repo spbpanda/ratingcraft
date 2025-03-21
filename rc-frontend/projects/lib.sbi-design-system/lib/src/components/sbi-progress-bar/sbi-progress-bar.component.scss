@@ -1,0 +1,83 @@
+@import '../../../assets/fonts/sbi.typography';
+
+.sbi-progress-bar-container {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  .sbi-progress-bar {
+    border-radius: 1000px;
+
+    --mdc-linear-progress-active-indicator-color: var(--surface-accent);
+    --mdc-linear-progress-track-color: var(--surface-neutral-5);
+
+    ::ng-deep .mdc-linear-progress__bar-inner {
+      border-radius: 1000px;
+    }
+  }
+
+  .label {
+    @extend .body-small;
+    color: var(--text-primary);
+  }
+
+  .note {
+    @extend .body-small;
+    color: var(--text-secondary);
+  }
+}
+
+.large {
+  .sbi-progress-bar {
+    height: 8px;
+
+    ::ng-deep .mdc-linear-progress__buffer,
+    ::ng-deep .mdc-linear-progress__bar {
+      height: 8px;
+    }
+
+    ::ng-deep .mdc-linear-progress__bar-inner {
+      border-top-width: 8px;
+    }
+  }
+}
+
+.small {
+  .sbi-progress-bar {
+    height: 2px;
+
+    ::ng-deep .mdc-linear-progress__buffer,
+    ::ng-deep .mdc-linear-progress__bar {
+      height: 2px;
+    }
+
+    ::ng-deep .mdc-linear-progress__bar-inner {
+      border-top-width: 2px;
+    }
+  }
+
+  .note,
+  .label {
+    @extend .body-extrasmall;
+  }
+}
+
+.sbi-progress-bar-container.invalid {
+  .sbi-progress-bar {
+    --mdc-linear-progress-active-indicator-color: var(--surface-warning);
+  }
+
+  .label {
+    color: var(--text-warning);
+  }
+
+  .note {
+    color: var(--text-warning);
+  }
+}
+
+.determinate {
+  ::ng-deep .mdc-linear-progress__bar {
+    transform: scaleX(1) !important;
+  }
+}

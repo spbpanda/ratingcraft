@@ -1,0 +1,31 @@
+@import '../../../assets/fonts/sbi.typography';
+
+:host {
+  section {
+    gap: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+.sbi-section-header {
+  display: flex;
+  flex-direction: column;
+
+  ::ng-deep .sbi-section-title {
+    @extend .headline-regular;
+    color: var(--text-primary);
+  }
+
+  ::ng-deep .sbi-section-note {
+    @extend .body-regular;
+    color: var(--text-secondary);
+  }
+}
+
+// мобилка
+@media (max-width: 550px) {
+  section {
+    gap: 16px;
+  }
+}

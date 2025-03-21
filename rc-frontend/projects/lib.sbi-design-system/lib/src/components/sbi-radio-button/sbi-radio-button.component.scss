@@ -1,0 +1,108 @@
+@import '../../../assets/fonts/sbi.typography.scss';
+
+$radio-checked: url('data:image/svg+xml,<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" clip-rule="evenodd" d="M10 20C15.5228 20 20 15.5228 20 10C20 4.47715 15.5228 0 10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20ZM15.695 7.71899C16.0921 7.33514 16.1028 6.70206 15.719 6.30498C15.3351 5.90789 14.7021 5.89716 14.305 6.28101L7.75862 12.6092L5.69502 10.6143C5.29794 10.2305 4.66486 10.2412 4.28101 10.6383C3.89716 11.0354 3.90789 11.6685 4.30498 12.0523L7.0636 14.719C7.4512 15.0937 8.06604 15.0937 8.45364 14.719L15.695 7.71899Z" fill="%2326C93C"/></svg>');
+
+.sbi-radio {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sbi-radio-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.sbi-radio,
+.sbi-radio-content.mat-mdc-radio-button.mat-primary {
+  --mdc-form-field-label-text-color: var(--text-primary);
+  --mdc-form-field-label-text-size: 16px;
+  --mdc-form-field-label-text-line-height: 24px;
+  --mdc-radio-state-layer-size: 20px;
+  --mdc-radio-disabled-selected-icon-color: var(--surface-neutral-50);
+  --mdc-radio-disabled-unselected-icon-color: var(--surface-neutral-50);
+
+  --mdc-radio-unselected-focus-icon-color: var(--brand-brandgreen);
+  --mdc-radio-unselected-hover-icon-color: var(--state-neutral-borderprimary---hover);
+  --mdc-radio-unselected-icon-color: var(--surface-neutral-50);
+  --mdc-radio-unselected-pressed-icon-color: var(--surface-neutral-50);
+  --mdc-radio-selected-focus-icon-color: transparent;
+  --mdc-radio-selected-hover-icon-color: transparent;
+  --mdc-radio-selected-icon-color: transparent;
+  --mdc-radio-selected-pressed-icon-color: transparent;
+  --mat-radio-ripple-color: transparent;
+  --mat-radio-checked-ripple-color: transparent;
+  --mat-radio-disabled-label-color: var(--text-primary);
+  --mdc-radio-disabled-unselected-icon-opacity: 1;
+}
+
+.sbi-radio-label {
+  margin: 0;
+
+  ::ng-deep {
+    .label {
+      @extend .body-large;
+      color: var(--text-primary);
+    }
+
+    .link {
+      cursor: pointer;
+      color: var(--brand-brandblue);
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+
+    .note {
+      @extend .body-regular;
+      color: var(--text-secondary);
+    }
+  }
+
+  &.link .label {
+    cursor: pointer;
+    color: var(--brand-brandblue);
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+:host ::ng-deep {
+  .mdc-label {
+    margin-left: 6px;
+  }
+
+  .mdc-radio__background {
+    width: 20px;
+    height: 20px;
+  }
+
+  .mdc-radio__outer-circle {
+    border-width: 1px;
+  }
+
+  .mdc-radio__native-control + .mdc-radio__background {
+    background-color: var(--surface-neutral-5);
+    border-radius: 50%;
+  }
+
+  .mdc-radio__native-control:checked + .mdc-radio__background {
+    background-image: $radio-checked;
+    background-color: transparent;
+  }
+
+  .mat-mdc-radio-button .mat-radio-ripple {
+    display: none;
+  }
+
+  .mat-mdc-radio-button:has([ng-reflect-disabled='true']) {
+    opacity: var(--opacity-opacity40);
+  }
+
+  sbi-error .validation-errors {
+    margin-top: 0;
+    margin-left: 4px;
+  }
+}

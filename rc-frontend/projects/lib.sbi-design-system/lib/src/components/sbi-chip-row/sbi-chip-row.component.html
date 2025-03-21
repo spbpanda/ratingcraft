@@ -1,0 +1,16 @@
+<div class="sbi-chip-row" #sbiChipRow [attr.data-testid]="testId">
+  @for (chip of control.value; track chip; let idx = $index) {
+  <sbi-chip
+    class="sbi-chip-row__chip"
+    [selected]="chipIsSelected(chip)"
+    [showClearIcon]="chipShowClearIcon"
+    [testId]="testId + '-' + idx"
+    [label]="displayFn(chip)"
+    [disabled]="control.disabled"
+    [invalid]="control.touched && control.invalid"
+    (clickChipEvent)="onClickChipEvent(chip)"
+    (clearChipEvent)="onClearChip($event, chip)"></sbi-chip>
+  }
+  <ng-content select="[in-chip-row]"></ng-content>
+</div>
+<ng-content select="[under-chip-row]"></ng-content>

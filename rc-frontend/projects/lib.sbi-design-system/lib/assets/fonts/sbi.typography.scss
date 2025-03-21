@@ -1,0 +1,197 @@
+:root {
+    // Common weight name mapping (font-weight)
+    --thin: 100; //	Thin (Hairline)
+    --extra-light: 200; // Extra Light (Ultra Light)
+    --light: 300; // Light
+    --regular: 400; // Normal (Regular)
+    --medium: 500; // Medium
+    --semi-bold: 600; // Semi Bold (Demi Bold)
+    --bold: 700; //	Bold
+    --extra-bold: 800; // Extra Bold (Ultra Bold)
+    --black: 900; // Black (Heavy)
+    --extra-black: 950; // Extra Black (Ultra Black)
+
+    // --body-large-paragraph-spacing: 14px;
+    // --body-regular-paragraph-spacing: 13px;
+    // --body-small-paragraph-spacing: 10px;
+    // --body-extrasmall-paragraph-spacing: 9px;
+    // --label-large---prominent-paragraph-spacing: 14px;
+    // --headline-extralarge-paragraph-spacing: 24px;
+    // --headline-large-paragraph-spacing: 21px;
+    // --headline-regular-paragraph-spacing: 15px;
+    // --headline-small-paragraph-spacing: 13px;
+    // --headline-extrasmall-paragraph-spacing: 11px;
+    // --display-small-paragraph-spacing: 29px;
+    // --display-regular-paragraph-spacing: 34px;
+    // --display-large-paragraph-spacing: 35px;
+
+    // Display/Large
+    --display-large-size: 58px;
+    --display-large-line-height: 64px;
+    --display-large-letter-spacing: 0px;
+
+    // Display/Regular
+    --display-regular-size: 48px;
+    --display-regular-line-height: 58px;
+    --display-regular-letter-spacing: 0px;
+    
+    // Display/Small
+    --display-small-size: 38px;
+    --display-small-line-height: 48px;
+    --display-small-letter-spacing: 0px;
+
+    // Headline/Extralarge
+    --headline-extralarge-size: 32px;
+    --headline-extralarge-line-height: 40px;
+    --headline-extralarge-letter-spacing: 0px;
+
+    // Headline/Large
+    --headline-large-size: 22px;
+    --headline-large-line-height: 32px;
+    --headline-large-letter-spacing: 0px;
+
+    // Headline/Regular
+    --headline-regular-size: 18px;
+    --headline-regular-line-height: 24px;
+    --headline-regular-letter-spacing: 0px;
+
+    // Headline/Small
+    --headline-small-size: 16px;
+    --headline-small-line-height: 22px;
+    --headline-small-letter-spacing: 0px;
+
+    // Headline/Extrasmall
+    --headline-extrasmall-size: 14px;
+    --headline-extrasmall-line-height: 20px;
+    --headline-extrasmall-letter-spacing: 0px;
+
+    // Body/Large
+    --body-large-size: 16px;
+    --body-large-line-height: 22px;
+    --body-large-letter-spacing: 0px;
+
+    // Body/Regular
+    --body-regular-size: 14px;
+    --body-regular-line-height: 20px;
+    --body-regular-letter-spacing: 0;
+
+    // Body/Small
+    --body-small-size: 12px;
+    --body-small-line-height: 16px;
+    --body-small-letter-spacing: 0;
+
+    // Body/Extrasmall
+    --body-extrasmall-size: 10px;
+    --body-extrasmall-line-height: 14px;
+    --body-extrasmall-letter-spacing: 0;
+
+    // Label/Large  - prominent
+    --label-large---prominent-size: 14px;
+    --label-large---prominent-line-height: 24px;
+    --label-large---prominent-letter-spacing: 0;
+
+    // Label/Large
+    --label-large-size: 16px;
+    --label-large-line-height: 24px;
+    --label-large-letter-spacing: 0;
+
+    // Label/Regular  - prominent
+    --label-regular---prominent-size: 14px;
+    --label-regular---prominent-line-height: 24px;
+    --label-regular---prominent-letter-spacing: 0;
+
+    // Label/Regular
+    --label-regular-size: 14px;
+    --label-regular-line-height: 24px;
+    --label-regular-letter-spacing: 0;
+
+    // Label/Small  - prominent
+    --label-small---prominent-size: 12px;
+    --label-small---prominent-line-height: 16px;
+    --label-small---prominent-letter-spacing: 0;
+
+    // Label/Small
+    --label-small-size: 12px;
+    --label-small-line-height: 16px;
+    --label-small-letter-spacing: 0;
+}
+
+@mixin text-style($size, $line-height, $letter-spacing, $font-weight, $vertical-align: middle) {
+    font-size: $size;
+    line-height: $line-height;
+    letter-spacing: $letter-spacing;
+    font-weight: $font-weight;
+    vertical-align: $vertical-align;
+}
+
+.display-large {
+    @include text-style(var(--display-large-size), var(--display-large-line-height), var(--display-large-letter-spacing), var(--semi-bold));
+}
+
+.display-regular {
+    @include text-style(var(--display-regular-size), var(--display-regular-line-height), var(--display-regular-letter-spacing), var(--semi-bold));
+}
+
+.display-small {
+    @include text-style(var(--display-small-size), var(--display-small-line-height), var(--display-small-letter-spacing), var(--semi-bold));
+}
+
+.headline-extralarge {
+    @include text-style(var(--headline-extralarge-size), var(--headline-extralarge-line-height), var(--headline-extralarge-letter-spacing), var(--semi-bold));
+}
+
+.headline-large {
+    @include text-style(var(--headline-large-size), var(--headline-large-line-height), var(--headline-large-letter-spacing), var(--semi-bold));
+}
+
+.headline-regular {
+    @include text-style(var(--headline-regular-size), var(--headline-regular-line-height), var(--headline-regular-letter-spacing), var(--semi-bold));
+}
+
+.headline-small {
+    @include text-style(var(--headline-small-size), var(--headline-small-line-height), var(--headline-small-letter-spacing), var(--semi-bold));
+}
+
+.headline-extrasmall {
+    @include text-style(var(--headline-extrasmall-size), var(--headline-extrasmall-line-height), var(--headline-extrasmall-letter-spacing), var(--regular));
+}
+
+.body-large {
+    @include text-style(var(--body-large-size), var(--body-large-line-height), var(--body-large-letter-spacing), var(--regular));
+}
+
+.body-regular {
+    @include text-style(var(--body-regular-size), var(--body-regular-line-height), var(--body-regular-letter-spacing), var(--regular));
+}
+
+.body-small {
+    @include text-style(var(--body-small-size), var(--body-small-line-height), var(--body-small-letter-spacing), var(--regular));
+}
+
+.body-extrasmall {
+    @include text-style(var(--body-extrasmall-size), var(--body-extrasmall-line-height), var(--body-extrasmall-letter-spacing), var(--regular));
+}
+
+.label-large-prominent {
+    @include text-style(var(--label-large---prominent-size), var(--label-large---prominent-line-height), var(--label-large---prominent-letter-spacing), var(--semi-bold));
+}
+
+.label-large {
+    @include text-style(var(--label-large-size), var(--label-large-line-height), var(--label-large-letter-spacing), var(--regular));
+}
+
+.label-regular-prominent {
+    @include text-style(var(--label-regular---prominent-size), var(--label-regular---prominent-line-height), var(--label-regular---prominent-letter-spacing), var(--semi-bold));
+}
+
+.label-regular {
+    @include text-style(var(--label-regular-size), var(--label-regular-line-height), var(--label-regular-letter-spacing), var(--regular));
+}
+
+.label-small-prominent {
+    @include text-style(var(--label-small---prominent-size), var(--label-small---prominent-line-height), var(--label-small---prominent-letter-spacing), var(--semi-bold));
+}
+
+.label-small {
+    @include text-style(var(--label-small-size), var(--label-small-line-height), var(--label-small-letter-spacing), var(--regular));
+}

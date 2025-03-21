@@ -1,0 +1,37 @@
+<div class="full-width sbi-input" [ngClass]="{ disabled: control.disabled }">
+  <div class="main-label-wrapper" *ngIf="mainLabel">
+    <div class="main-label">{{ mainLabel }}</div>
+  </div>
+  <sbi-input
+    type="number"
+    [min]="min"
+    [max]="max"
+    [label]="label"
+    [control]="control"
+    [placeholder]="placeholder"
+    [ngxSuffix]="suffix"
+    [ngxPrefix]="prefix"
+    [readonly]="readonly"
+    [showErrors]="false"
+    (focus)="onInputFocusChange($event)"
+    (inputChange)="onInputChange($event)"></sbi-input>
+  <mat-slider
+    class="full-width"
+    [disabled]="control.disabled"
+    [ngClass]="{ 'slider-zero-active': control.value == null || control.value <= min }"
+    [min]="min"
+    [max]="max"
+    [step]="step"
+    [displayWith]="displayFn"
+    (focusin)="onSliderFocusChange(true)"
+    (focusout)="onSliderFocusChange(false)">
+    <input matSliderThumb [value]="sliderValue"/>
+  </mat-slider>
+
+  @if (control.invalid && control.touched) {
+    <sbi-error [errors]="control.errors" [errorMessages]="errorMessages"></sbi-error>
+  } @else {
+    <div *ngIf="underTitleLeft" class="title-left">{{ underTitleLeft }}</div>
+    <div *ngIf="underTitleRight" class="title-right">{{ underTitleRight }}</div>
+  }
+</div>

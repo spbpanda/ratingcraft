@@ -1,0 +1,111 @@
+@import "../../../assets/fonts/sbi.typography";
+
+$action-card-box-shadow: #2324250f !default;
+
+.sbi-action-card {
+  background-color: var(--surface-primary);
+  padding: 16px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border-radius: 16px;
+  cursor: pointer;
+  box-shadow: 0 2px 5px 1px #23242508, 0 2px 4px 0 $action-card-box-shadow;
+
+  &:hover {
+    box-shadow: 0 0 2px 0 $action-card-box-shadow, 0 0 6px 0 $action-card-box-shadow, 0 6px 12px 0 $action-card-box-shadow;
+  }
+
+  &:active {
+    box-shadow: none;
+  }
+
+  .label-wrapper {
+    display: flex;
+    align-items: start;
+    justify-content: center;
+    flex-direction: column;
+    width: 100%;
+
+    .title {
+      @extend .body-large;
+      color: var(--text-primary);
+    }
+
+    .subtitle {
+      @extend .body-regular;
+      color: var(--text-secondary);
+    }
+  }
+
+  .illustration {
+    min-width: 44px;
+    min-height: 44px;
+    max-width: 44px;
+    max-height: 44px;
+    width: 44px;
+    height: 44px;
+  }
+}
+
+.tint {
+  .sbi-action-card {
+    background-color: var(--surface-informationtint);
+
+    &:hover {
+      box-shadow: none;
+      background-color: var(--state-information-hover);
+    }
+
+    &:active {
+      background-color: var(--state-information-pressed);
+    }
+  }
+
+  ::ng-deep .right-arrow {
+    ::ng-deep svg path {
+      fill: var(--icons-information);
+    }
+  }
+}
+
+.small {
+  .sbi-action-card {
+    padding: 12px;
+
+    .illustration {
+      min-width: 36px;
+      min-height: 36px;
+      max-width: 36px;
+      max-height: 36px;
+      width: 36px;
+      height: 36px;
+    }
+
+    .label-wrapper {
+      .title {
+        @extend .body-regular;
+      }
+
+      .subtitle {
+        @extend .body-small;
+      }
+    }
+  }
+}
+
+.reverse {
+  .label-wrapper {
+    flex-direction: column-reverse;
+  }
+}
+
+.right-arrow {
+  width: 24px;
+  height: 24px;
+
+  div {
+    width: 24px;
+    height: 24px;
+  }
+}

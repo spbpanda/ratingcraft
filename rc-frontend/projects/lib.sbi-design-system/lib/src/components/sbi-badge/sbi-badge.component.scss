@@ -1,0 +1,73 @@
+@import '../../../assets/fonts/sbi.typography.scss';
+
+.sbi-badge-container {
+  background: none;
+  border-radius: 1000px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  padding: 1px 8px;
+}
+
+:host {
+  display: block;
+  width: max-content;
+
+  .large:not(.no-content) {
+    .sbi-badge-container {
+      .label {
+        @extend .label-regular;
+      }
+    }
+  }
+
+  .small:not(.no-content) {
+    .sbi-badge-container {
+      padding: 2px 8px;
+
+      .label {
+        @extend .label-small;
+      }
+    }
+  }
+
+  .no-content.small {
+    .sbi-badge-container {
+      padding: 4px;
+    }
+  }
+
+  .no-content.large {
+    .sbi-badge-container {
+      padding: 6px;
+    }
+  }
+
+  .accent {
+    background-color: var(--surface-accent);
+
+    .label {
+      color: var(--text-contrast);
+    }
+  }
+
+  .tint {
+    background-color: var(--surface-accenttint);
+
+    .label {
+      color: var(--text-accent);
+    }
+  }
+
+  .neutral {
+    background-color: var(--surface-primary);
+    box-shadow: 0 1px 3px 1px #2324250A, 0 1px 2px 0 #2324251A;
+
+
+    .label {
+      color: var(--text-primary);
+    }
+  }
+}

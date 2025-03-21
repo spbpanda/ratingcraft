@@ -1,0 +1,59 @@
+$arrow-color: #363738;
+.tooltip-container {
+  position: relative;
+  background-color: var(--surface-neutral-100);
+  color: var(--text-contrast);
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  max-width: 400px;
+}
+
+.tooltip-arrow {
+  position: absolute;
+  top: -8px;
+  left: 50%; /* Начальная позиция по центру */
+  transform: translateX(-50%); /* Центрируем стрелку */
+}
+
+
+/* Позиция сверху */
+.tooltip-container.top {
+  margin-bottom: 14px;
+  .tooltip-arrow {
+    top: 100%;
+    rotate: 180deg;
+  }
+}
+
+/* Позиция снизу */
+.tooltip-container.bottom {
+  margin-top: 14px;
+  // .tooltip-arrow {
+  //   bottom: 100%;
+  //   left: 50%;
+  // }
+}
+
+/* Позиция слева */
+.tooltip-container.left {
+  margin-right: 12px;
+  .tooltip-arrow {
+    left: 100%;
+    top: 39%;
+    transform: translateY(75%);
+    rotate: 90deg;
+  }
+}
+
+/* Позиция справа */
+.tooltip-container.right {
+  margin-left: 12px;
+  .tooltip-arrow {
+    right: 100%;
+    top: 39%;
+    left: auto;
+    transform: translateY(75%);
+    rotate: 270deg;
+  }
+}

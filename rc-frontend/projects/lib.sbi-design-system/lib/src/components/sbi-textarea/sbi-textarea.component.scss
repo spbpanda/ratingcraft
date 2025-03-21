@@ -1,0 +1,236 @@
+@import '../sbi-input/sbi-input.component.scss';
+@import '../../../assets/fonts/sbi.typography.scss';
+
+mat-form-field {
+  width: 100%;
+  display: block;
+  margin-bottom: 0;
+
+  ::ng-deep .mat-mdc-form-field-infix {
+    padding: 0;
+    min-height: 0;
+  }
+
+  ::ng-deep .mat-mdc-form-field-flex {
+    padding: 0;
+    margin: 0;
+  }
+
+  ::ng-deep .mat-mdc-form-field-wrapper {
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+}
+
+.sbi-textarea {
+  --mdc-filled-text-field-container-color: var(--surface-primary);
+  --mat-form-field-hover-state-layer-opacity: 0;
+  --mat-form-field-focus-state-layer-opacity: 0;
+  --mdc-form-field-margin: 0;
+  --mat-form-field-bottom-spacing: 0;
+
+  ::ng-deep .mat-mdc-text-field-wrapper {
+    padding: 0;
+    margin: 0;
+  }
+
+  &.mat-mdc-form-field {
+    margin: 0;
+  }
+
+  .mdc-text-field {
+    margin: 0;
+    padding-bottom: 0;
+  }
+}
+
+::ng-deep {
+  .mat-mdc-form-field.sbi-textarea {
+    overflow: visible;
+
+    .mdc-line-ripple {
+      display: none;
+    }
+
+    // Textarea
+    .mat-mdc-input-element {
+      color: var(--text-primary) !important;
+      text-align: left;
+      resize: none;
+      margin: 0;
+      padding: 12px;
+      box-sizing: border-box;
+      width: 100%;
+      min-height: 58px;
+      border: none;
+      background: transparent;
+
+      &:focus {
+        outline: none;
+      }
+
+      &:not([cdkTextareaAutosize]) {
+        overflow-x: hidden;
+        overflow-y: auto;
+        max-height: 200px;
+        padding-right: 20px;
+
+        // Стилизация скроллбара
+        &::-webkit-scrollbar {
+          width: 4px;
+          position: absolute;
+          right: 4px;
+        }
+
+        &::-webkit-scrollbar-track {
+          background: transparent;
+          margin: 12px 0;
+        }
+
+        &::-webkit-scrollbar-thumb {
+          background: var(--border-primary);
+          border-radius: 2px;
+        }
+      }
+    }
+
+    // Default
+    .mdc-text-field--filled.mdc-text-field:not(.mdc-text-field--disabled):not(
+        .mdc-text-field--invalid
+      ) {
+      background: var(--surface-primary);
+      border-radius: 16px;
+      border: 1px solid var(--state-neutral-borderprimary---hover);
+      padding: 0;
+      width: 100%;
+      min-height: 90px;
+      position: relative;
+      overflow: hidden;
+
+      .textarea-container {
+        padding-bottom: 32px;
+      }
+
+      &:hover {
+        border-color: var(--border-fockus);
+      }
+
+      .mdc-floating-label {
+        color: var(--text-secondary);
+      }
+    }
+
+    // Invalid
+    .mdc-text-field--filled.mdc-text-field.mdc-text-field--invalid:not(
+        .mdc-text-field--disabled
+      ) {
+      border-radius: 16px;
+      padding: 0;
+      background: var(--surface-primary);
+      border: 1px solid var(--border-warning);
+      color: var(--text-warning);
+      position: relative;
+      width: 100%;
+      min-height: 90px;
+      overflow: hidden;
+
+      &:hover {
+        border-color: var(--state-warning-hover);
+      }
+
+      .mdc-floating-label {
+        color: var(--text-warning);
+      }
+
+      .mat-mdc-input-element {
+        color: var(--text-warning);
+      }
+    }
+
+    // Disabled
+    .mdc-text-field--filled.mdc-text-field.mdc-text-field--disabled {
+      border: 1px solid var(--border-primary);
+      border-radius: 16px;
+      padding: 0;
+      background: var(--surface-primary);
+      opacity: 1;
+      position: relative;
+      width: 100%;
+      min-height: 90px;
+      overflow: hidden;
+
+      .mdc-floating-label {
+        color: var(--text-secondary);
+      }
+
+      .mat-mdc-input-element {
+        color: var(--text-secondary);
+      }
+    }
+
+    // Label
+    .mdc-floating-label {
+      @extend .label-regular;
+      color: var(--text-secondary);
+      margin-top: -8px;
+    }
+
+    // Placeholder
+    .mat-mdc-input-element::placeholder {
+      color: var(--text-secondary);
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    // Invalid state placeholder
+    .mdc-text-field--invalid .mat-mdc-input-element::placeholder {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: var(--text-warning);
+    }
+
+    .counter {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      color: var(--text-secondary);
+      font-size: 12px;
+      line-height: 18px;
+      background: var(--surface-primary);
+      z-index: 1;
+    }
+
+    .mdc-text-field--filled.mdc-text-field.mdc-text-field--invalid:not(
+        .mdc-text-field--disabled
+      ),
+    .mdc-text-field--filled.mdc-text-field.mdc-text-field--disabled {
+      .textarea-container {
+        padding-bottom: 32px;
+      }
+    }
+  }
+}
+
+.textarea-wrapper {
+  position: relative;
+  width: 100%;
+
+  &.disabled {
+    opacity: var(--opacity-opacity40);
+  }
+
+  .subtitle {
+    @extend .body-regular;
+    margin-top: -20px;
+    color: var(--text-secondary);
+    position: relative;
+    z-index: 1;
+  }
+
+  sbi-error {
+    display: block;
+    margin-top: -20px;
+    position: relative;
+    z-index: 1;
+  }
+}

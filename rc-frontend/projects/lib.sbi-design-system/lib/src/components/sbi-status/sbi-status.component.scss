@@ -1,0 +1,115 @@
+@import '../../../assets/fonts/sbi.typography.scss';
+
+.sbi-status-wrapper {
+  display: flex;
+  flex-direction: row;
+  width: fit-content;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  background-color: transparent;
+  align-items: center;
+  padding: 6px 12px;
+  &:has(sbi-icon) {
+    padding: 2px;
+    .sbi-status-label {
+      padding-right: 8px;
+    }
+  }
+}
+
+.sbi-status-label {
+  text-align: left;
+  text-underline-position: from-font;
+  text-decoration-skip-ink: none;
+  color: var(--text-primary);
+  @extend .label-small;
+}
+
+:host {
+  width: fit-content;
+  height: 28px;
+  display: block;
+
+  .primary {
+    border: 1px solid transparent !important;
+  }
+
+  .secondary {
+    background: none !important;
+  }
+
+  .warning {
+    background-color: var(--surface-warningtint);
+    border-color: var(--border-warning);
+
+    .sbi-status__icon {
+      ::ng-deep svg path {
+        fill: var(--surface-warning);
+      }
+    }
+
+    .sbi-status-label {
+      color: var(--text-warning);
+    }
+  }
+
+  .info {
+    background-color: var(--surface-informationtint);
+    border-color: var(--surface-information);
+
+    .sbi-status__icon {
+      ::ng-deep svg path {
+        fill: var(--surface-information);
+      }
+    }
+
+    .sbi-status-label {
+      color: var(--text-info);
+    }
+  }
+
+  .error {
+    background-color: var(--surface-errortint);
+    border-color: var(--border-error);
+
+    .sbi-status__icon {
+      ::ng-deep svg path {
+        fill: var(--surface-error);
+      }
+    }
+
+    .sbi-status-label {
+      color: var(--text-error);
+    }
+  }
+
+  .neutral {
+    background-color: var(--surface-neutral-5);
+    border-color: var(--border-primary);
+
+    .sbi-status__icon {
+      ::ng-deep svg path {
+        fill: var(--surface-neutral-50);
+      }
+    }
+
+    .sbi-status-label {
+      color: var(--text-secondary);
+    }
+  }
+
+  .success {
+    background-color: var(--surface-accenttint);
+    border-color: var(--border-accent);
+
+    .sbi-status__icon {
+      ::ng-deep svg path {
+        fill: var(--surface-accent);
+      }
+    }
+
+    .sbi-status-label {
+      color: var(--text-accent);
+    }
+  }
+}

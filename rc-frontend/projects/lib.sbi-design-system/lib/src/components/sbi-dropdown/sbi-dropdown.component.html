@@ -1,0 +1,87 @@
+<mat-form-field appearance="fill" class="sbi-input" [attr.data-testid]="testId"
+                [hideRequiredMarker]="hideRequiredMarker">
+  <span matPrefix *ngIf="prefixIconType === 'custom'">
+    <ng-content select="[prefix-icon]"></ng-content>
+  </span>
+  <mat-label *ngIf="label">{{ label }}</mat-label>
+  <input
+    #input
+    matInput
+    sbiMultiUppercase
+    sbiInputMode
+    sbiNameUppercase
+    sbiTitleCase
+    [inputMode]="inputMode"
+    [type]="type"
+    [inputMultiUppercaseActive]="inputMultiUppercaseActive"
+    [inputNameUppercaseActive]="inputNameUppercaseActive"
+    [inputTitleCaseActive]="inputTitleCaseActive"
+    [maxlength]="maxLength"
+    [placeholder]="label"
+    [formControl]="control"
+    [maskito]="mask"
+    [matAutocomplete]="auto"
+    [attr.data-testid]="testId + '-input'"
+    (focusin)="onFocusChange(true)"
+    (focusout)="onFocusChange(false)"
+    (input)="onInputChange($event)"/>
+
+  <div class="icon-container" matSuffix>
+    <div
+      class="clear-icon"
+      *ngIf="suffixIconType === 'clear' && !!control.value && control.enabled && focused() && !readonly"
+      [class.invalid]="control.touched && control.invalid"
+      [class.focused]="control.valid && focused()"
+      [attr.data-testid]="testId + '-clear-icon'"
+      (mousedown)="onClearControl($event)"
+      (tap)="onClearControl($event)">
+      <sbi-icon [iconImage]="clearIcon"></sbi-icon>
+    </div>
+
+    <div
+      *ngIf="showChevron"
+      class="chevron-icon"
+      [class.invalid]="control.touched && control.invalid"
+      [class.open]="focused()"
+      [class.disabled]="control.disabled"
+      [class.focused]="focused()">
+      <sbi-icon [iconImage]="chevronIcon"></sbi-icon>
+    </div>
+
+    <span *ngIf="suffixIconType === 'custom'">
+      <ng-content select="[suffix-icon]"></ng-content>
+    </span>
+    <div matSuffix class="suffix-content">
+      <ng-content select="[suffix-content]"></ng-content>
+    </div>
+  </div>
+
+  <mat-autocomplete
+    #auto="matAutocomplete"
+    [displayWith]="displayFunc"
+    [attr.data-testid]="testId + '-autocomplete'"
+    (optionSelected)="onSelectionChange($event)"
+    (opened)="onAutoCompleteOpened()">
+    <div class="sbi-options">
+      <mat-option
+        *ngFor="let option of filteredOptions$ | async; trackBy: trackByFn"
+        [value]="option.value"
+        [disabled]="isDisabledOption(option)"
+        [attr.data-testid]="testId + '-option-' + option.viewValue">
+        <div>{{ option.viewValue }}</div>
+      </mat-option>
+    </div>
+  </mat-autocomplete>
+</mat-form-field>
+
+@if (control.invalid && control.touched) {
+  <sbi-error [testId]="testId + '-error-message'" [errors]="control.errors" [errorMessages]="errorMessages"></sbi-error>
+} @else {
+  <div
+    *ngIf="subtitle !== undefined"
+    class="subtitle"
+    [class.disabled]="control.disabled"
+    [attr.data-testid]="testId + '-subtitle-message'">
+    {{ subtitle }}
+  </div>
+}

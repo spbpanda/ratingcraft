@@ -1,0 +1,17 @@
+<div class="sbi-feedback-label-wrapper">
+  <div class="label">{{ label }}</div>
+  <div class="sbi-points-container" (mouseleave)="focusedIdx.set(0)">
+    <sbi-icon
+      *ngFor="let p of icons; let i = index"
+      class="point"
+      [ngClass]="{
+        'hovered-03': focusedIdx() !== activePoint() && focusedIdx() >= (i + 1) && activePoint() < (i + 1),
+        'hovered-07': focusedIdx() >= (i + 1) && activePoint() >= (i + 1),
+        'active': activePoint() >= (i + 1),
+      }"
+      [iconImage]="icon"
+      [testId]="testId + '-icon-' + (i + 1)"
+      (click)="onSelectPoint(i + 1)"
+      (mouseenter)="focusedIdx.set(i + 1)"></sbi-icon>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+.clear-icon {
+  cursor: pointer;
+  width: 24px;
+  height: 24px;
+
+  svg path {
+    fill: var(--icons-primary);
+    cursor: pointer;
+  }
+
+  &.invalid:not(&.disabled) {
+    svg path {
+      fill: var(--icons-warning);
+    }
+  }
+
+  &.selected:not(&.disabled) {
+    svg path {
+      fill: var(--icons-accent);
+    }
+  }
+
+  &.information:not(&.disabled) {
+    svg path {
+      fill: var(--icons-information);
+    }
+  }
+}

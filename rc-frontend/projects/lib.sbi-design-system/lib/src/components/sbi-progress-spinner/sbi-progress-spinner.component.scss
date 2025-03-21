@@ -1,0 +1,53 @@
+.hide-background {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #000000b8;
+  z-index: 10;
+}
+
+.sbi-spinner-container {
+  .sbi-spinner {
+    ::ng-deep svg circle {
+      stroke: var(--border-accent);
+      stroke-lineCap: round;
+    }
+  }
+}
+
+.large {
+  .sbi-spinner {
+    ::ng-deep svg circle {
+      stroke-width: 4px !important;
+    }
+  }
+}
+
+.small {
+  .sbi-spinner {
+    ::ng-deep svg circle {
+      stroke-width: 2px !important;
+    }
+  }
+}
+
+.neutral {
+  .sbi-spinner {
+    ::ng-deep svg circle {
+      stroke: var(--border-unaltered);
+    }
+  }
+}
+
+.accent {
+  .sbi-spinner {
+    ::ng-deep svg circle {
+      stroke: var(--border-accent);
+    }
+  }
+}

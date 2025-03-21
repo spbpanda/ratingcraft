@@ -1,0 +1,12 @@
+<div [class]="[appearance, size]" [attr.data-testid]="testId">
+  <div class="sbi-action-card" [ngClass]="{ reverse: !titleFirst }" (click)="onClick($event)">
+    <div class="illustration">
+      <ng-content></ng-content>
+    </div>
+    <div class="label-wrapper">
+      <div class="title">{{ title }}</div>
+      <div *ngIf="!!subtitle" class="subtitle">{{ subtitle }}</div>
+    </div>
+    <sbi-icon class="right-arrow" [iconImage]="rightIcon"></sbi-icon>
+  </div>
+</div>

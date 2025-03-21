@@ -1,0 +1,30 @@
+@import '../fonts/sbi.fonts.scss';
+@import '../fonts/sbi.typography.scss';
+@import './sbi-palettes.scss';
+@import './sbi-variables.scss';
+@import './colors/color-dark.scss';
+@import './colors/color-light.scss';
+@import './common-styles/icons.scss';
+
+.ml-4 {
+  margin-left: 4px;
+}
+
+.drag-wrapper {
+  width: auto;
+  display: flex;
+  justify-content: center;
+  padding: 4px;
+}
+
+.drag {
+  height: 4px;
+  border-radius: 10px;
+  background-color: var(--text-tertiary);
+  width: 34px;
+}
+
+//screen sizes
+// mobile (smaller than 640px)
+// tablet (641px to 1007px)
+// computer (1008px and larger)

@@ -1,0 +1,15 @@
+@import '../../../assets/styles/common-styles/options.scss';
+@import '../../../assets/styles/common-styles/input';
+@import '../../../assets/fonts/sbi.typography.scss';
+
+:host {
+  width: 100%;
+
+  ::ng-deep .mat-mdc-select-trigger {
+    padding-top: 5px;
+  }
+}
+
+mat-form-field {
+  width: 100%;
+}

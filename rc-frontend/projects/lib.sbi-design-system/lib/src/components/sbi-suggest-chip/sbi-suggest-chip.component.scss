@@ -1,0 +1,38 @@
+@import '../../../assets/fonts/sbi.typography.scss';
+
+:host {
+  display: block;
+  width: fit-content;
+}
+
+.sbi-suggest-chip {
+  border-radius: 8px;
+  cursor: pointer;
+
+  &:hover:not(.active) {
+    border: 1px solid var(--border-primary);
+
+    .label-wrapper {
+      padding: 3px 7px;
+    }
+  }
+
+  .label-wrapper {
+    padding: 4px 8px;
+  }
+
+  .label {
+    @extend .label-regular;
+    
+    color: var(--text-accent);
+    text-align: center;
+  }
+}
+
+.sbi-suggest-chip.active {
+  background-color: var(--surface-neutral-5);
+
+  .label {
+    color: var(--text-primary);
+  }
+}

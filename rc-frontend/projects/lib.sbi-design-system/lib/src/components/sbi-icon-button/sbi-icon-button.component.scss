@@ -1,0 +1,57 @@
+:host {
+    display: inline-flex;
+    width: 28px;
+    height: 28px;
+
+    &.disabled {
+        cursor: default;
+        pointer-events: none;
+        opacity: var(--opacity-opacity40);
+    }
+
+    .sbi-icon-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        width: 28px;
+        height: 28px;
+        border: none;
+        outline: none;
+        background-color: var(--surface-secondary);
+        cursor: pointer;
+        transition: background-color 0.3s ease, color 0.3s ease;
+        border-radius: 8px;
+
+        ::ng-deep {
+            svg path {
+                fill: var(--icons-tertiary);
+            }
+        }
+
+        &:hover, &:focus-visible {
+            background-color: var(--surface-neutral-5);
+        }
+        &:active {
+            background-color: var(--surface-neutral-10);
+        }
+
+        &--warn:hover,
+        &--warn:focus-visible{
+            ::ng-deep {
+                svg path {
+                    fill: var(--icons-warning);
+                }
+            }
+        }
+
+        &--primary:hover,
+        &--primary:focus-visible{
+            ::ng-deep {
+                svg path {
+                    fill: var(--icons-accent);
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,5 @@
+<div class="sbi-progress-bar-container" [class.invalid]="invalid" [class]="[size, mode]" [attr.data-testid]="testId">
+  <div *ngIf="label" class="label">{{ label }}</div>
+  <mat-progress-bar #progressBar class="sbi-progress-bar" [mode]="mode" [value]="value"></mat-progress-bar>
+  <div *ngIf="note" class="note">{{ note }}</div>
+</div>

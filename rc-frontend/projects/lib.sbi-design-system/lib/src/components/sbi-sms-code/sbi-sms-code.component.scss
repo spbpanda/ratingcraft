@@ -1,0 +1,84 @@
+.sms-code-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+    text-align: center;
+    justify-content: space-between;
+    
+    .form-container {
+        display: flex;
+        flex-direction: column;
+        max-width: min-content;
+    }
+
+    .code-inputs {
+      display: flex;
+      gap: 8px;
+    }
+  
+    .input-field {
+      width: 56px;
+      height: 56px;
+      font-size: 32px;
+      font-weight: 500;
+      line-height: 24px;
+      color: #222222;
+      text-align: center;
+      background: #EDEDED;   
+      border: 1px solid #EDEDED;
+      border-radius: 16px;
+      outline: none;
+      transition: border-color 0.2s;
+  
+      &:focus {
+        background: transparent;
+        caret-color: #26C93C;
+        border: 1px solid #26C93C;
+      }
+  
+      &.valid {
+        background: transparent;
+        color: #26C93C;
+        border: 1px solid #26C93C;
+      }
+  
+      &.invalid {
+        background: transparent;
+        color: #F6650A;
+        border: 1px solid #F6650A;
+      }
+    }
+  
+    .resend-link {
+      color: #26C93C;
+      cursor: pointer;
+      text-decoration: none;
+  
+      &:hover {
+        text-decoration: none;
+      }
+    }
+  
+    .timer {
+      color: #00000052;
+    }
+    
+    /* Для сообщения ошибки */
+    .error-message,
+    .success-message {
+        display: block;
+        line-height: 24px;
+        font-size: 16px;
+        text-align: left;
+        word-break: break-all;
+    }
+
+    .error-message {
+        color: #F6650A;
+    }
+
+    .success-message {
+        color: #26C93C;
+    }
+}

@@ -1,0 +1,109 @@
+@import '../../../assets/fonts/sbi.typography';
+
+$box-shadow-first: #23242508 !default;
+$box-shadow-second: #2324250f !default;
+
+.sbi-card-badge {
+  width: 100%;
+}
+
+.large {
+  .sbi-card-container {
+    padding: 16px;
+  }
+}
+
+.small {
+  .sbi-card-container {
+    padding: 12px;
+    width: 50%;
+
+    &__label-wrapper {
+      &__label {
+        @extend .body-regular;
+      }
+
+      &__note {
+        @extend .body-small;
+      }
+    }
+  }
+}
+
+.sbi-card-container {
+  background-color: var(--surface-primary);
+  box-shadow: 0 2px 5px 1px $box-shadow-first, 0 2px 4px 0 $box-shadow-second;
+  border-radius: 16px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+
+  &:hover {
+    box-shadow: 0 0 2px 0 $box-shadow-second, 0 0 6px 0 $box-shadow-second, 0 6px 12px 0 $box-shadow-second;
+  }
+
+  &:active {
+    box-shadow: none;
+  }
+
+  &__label-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+
+    &__label {
+      @extend .body-large;
+      color: var(--text-primary);
+    }
+
+    &__note {
+      @extend .body-regular;
+      color: var(--text-secondary);
+    }
+
+    .link {
+      cursor: pointer;
+      color: var(--text-accent);
+    }
+  }
+
+  .illustration {
+    width: 48px;
+    height: 48px;
+  }
+
+  .icon {
+    width: 24px;
+    height: 24px;
+
+    ::ng-deep div,
+    ::ng-deep svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    ::ng-deep svg path {
+      fill: var(--icons-tertiary);
+    }
+  }
+}
+
+.sbi-card-badge-container {
+  position: relative;
+  left: 16px;
+  top: -12px;
+  display: block;
+  height: 0;
+}
+
+// todo: Поменять на константу мобилки
+@media (max-width: 550px) {
+  .sbi-card-container__label-wrapper__label {
+    font-size: 14px;
+  }
+  .sbi-card-container__label-wrapper__note {
+    font-size: 12px;
+  }
+}

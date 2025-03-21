@@ -1,0 +1,14 @@
+<mat-accordion class="sbi-accordion" [id]="testId">
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+            <mat-panel-title>
+                {{icon}}
+                {{title}}
+            </mat-panel-title>
+            <mat-panel-description>
+                {{description}}
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+        <ng-content></ng-content>
+    </mat-expansion-panel>
+</mat-accordion>
