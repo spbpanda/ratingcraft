@@ -271,12 +271,12 @@ app.get('/api', (req, res) => {
   res.send({ message: 'Hello from Node.js API!' });
 });
 
-// // Start server prod
-// app.listen(PORT, '0.0.0.0', () => {
-//   console.log(`Server is running on http://0.0.0.0:${PORT}`);
-// });
-
-// Start server
-app.listen(PORT, 'localhost', () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+// Start server prod
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server is running on http://0.0.0.0:${PORT}`);
 });
+
+// // Start server
+// app.listen(PORT, 'localhost', () => {
+//   console.log(`Server is running on http://localhost:${PORT}`);
+// });
