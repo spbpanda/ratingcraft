@@ -12,5 +12,6 @@ export interface Filter {
 export interface Item {
     id: number;
     value: string;
+    protocol?: number;
     active?: boolean;
 }

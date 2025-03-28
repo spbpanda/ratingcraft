@@ -3,10 +3,24 @@ import cors from 'cors';
 import fs from 'fs';
 import { Server } from './interfaces/server';
 import { authMiddleware } from './middleware/auth'; // Импортируем middleware
-import { pingMinecraftServer } from './minecraft-ping/minecraft-ping';
+import { pingBedrock } from "./mineping/bedrock";
+import { pingJava } from "./mineping/java";
+import { OpenAI } from 'openai';
+import { Groq } from "groq-sdk";
+import { convertMOTDToHTML } from './utils/convert-motd-to-html';
+import { test } from './mcutil/mcutil';
 
 const app = express();
 const PORT = Number(process.env.PORT) || 10000;
+const DEFAULT_TIMEOUT = 20000;
+const JAVA_DEFAULT_PORT = 25565;
+const BEDROCK_DEFAULT_PORT = 19132;
+const baseURL = "https://api.aimlapi.com/v1";
+const apiKey = "214878940f4a4fe39b28a390a4af471a";
+const api = new OpenAI({
+  apiKey,
+  baseURL,
+});
 
 app.use(cors());
 app.use(express.json({limit: '50mb'}));
@@ -72,12 +86,12 @@ app.post('/add-server', authMiddleware, async (req, res): Promise<any> => {
 
   try {
     // Получаем информацию о сервере
-    const serverInfo = await pingMinecraftServer(address, port);
+    const serverInfo = await pingJavaServer(address, port ?? JAVA_DEFAULT_PORT) ?? await pingBedrockServer(address, port ?? BEDROCK_DEFAULT_PORT);
     // Загружаем список версий
     const versions = readJsonFile('./data/versions.json');
     // Находим версию сервера в списке
     const serverVersion = versions.find((version: any) => 
-      version.name === serverInfo.version.name
+      version.protocol === serverInfo.version.protocol
     );
 
     // Если версия не найдена, возвращаем ошибку
@@ -96,6 +110,7 @@ app.post('/add-server', authMiddleware, async (req, res): Promise<any> => {
         rating: 0, // Баллы для нового сервера
         onlinePlayers: serverInfo.players.online, // Добавляем информацию о сервере
         maxPlayers: serverInfo.players.max,
+        description: convertMOTDToHTML(serverInfo.description),
         version: serverVersion, // Добавляем версию из списка
     };
 
@@ -184,13 +199,11 @@ app.post('/servers', async (req, res) => {
 
   for (const server of filteredServers) {
     try {
-        const serverInfo = await pingMinecraftServer(server.address, server.port);
-        server.onlinePlayers = serverInfo.players.online;
-        server.maxPlayers = serverInfo.players.max;
-        // server.version = serverInfo.version.name;
-        // server.description = serverInfo.description.text;
+      const serverInfo = await pingJavaServer(server.address, server.port ?? JAVA_DEFAULT_PORT) ?? await pingBedrockServer(server.address, server.port ?? BEDROCK_DEFAULT_PORT);
+      server.onlinePlayers = serverInfo.players.online;
+      server.maxPlayers = serverInfo.players.max;
     } catch (err) {
-        console.error(`Ошибка при обновлении сервера ${server.id}:`, err);
+      console.error(`Ошибка при обновлении сервера ${server.id}:`, err);
     }
 }
 
@@ -214,24 +227,23 @@ app.post('/servers', async (req, res) => {
 
 // Получить информацию по серверу
 app.get('/servers/:id', async (req, res): Promise<any> => {
+  await test()
   const id = parseInt(req.params.id);
   const server = servers.find((server: any) => server.id === id);
 
   if (!server) {
-      return res.status(404).json({ error: 'Сервер не найден' });
+    return res.status(404).json({ error: 'Сервер не найден' });
   }
 
   try {
       // Получаем актуальную информацию о сервере
-      const serverInfo = await pingMinecraftServer(server.address, server.port);
+      const serverInfo = await pingJavaServer(server.address, server.port ?? JAVA_DEFAULT_PORT) ?? await pingBedrockServer(server.address, server.port ?? BEDROCK_DEFAULT_PORT);
 
       // Возвращаем данные сервера
       res.json({
           ...server,
           onlinePlayers: serverInfo.players.online,
           maxPlayers: serverInfo.players.max,
-          version: serverInfo.version.name,
-          motd: serverInfo.description.text,
       });
   } catch (err) {
       console.error('Ошибка при проверке сервера:', err);
@@ -246,6 +258,76 @@ app.get('/my-servers', authMiddleware, (req, res) => {
   res.json(userServers);
 });
 
+// app.post('/find-server-ai', async (req, res) => {
+//   const {hostname, port} = req.body;
+
+//   const completion = await api.chat.completions.create({
+//     model: "gpt-3.5-turbo",
+//     messages: [
+//       {
+//         role: "system",
+//         content: "You are an AI assistant specialized in Minecraft server analysis. Your task is to provide detailed information about a given Minecraft server in a structured JSON format. Include all relevant details you can find or infer about the server, such as version, player count, game modes, plugins, and any other notable features. If you cannot find specific information, use null for that field. Always respond with a valid JSON object.",
+//       },
+//       {
+//         role: "user",
+//         content: `Analyze the Minecraft server at ${hostname}:${port} and provide all available information in a JSON format, without translation.`,
+//       },
+//     ],
+//     temperature: 0.7,
+//     max_tokens: 500,
+//   });
+
+//   try {
+//     const response = JSON.parse(completion.choices[0].message.content ?? '');
+//     res.json(response);
+//   } catch (error) {
+//     console.error("Error parsing AI response:", error);
+//     res.status(500).json({ error: "Failed to parse AI response" });
+//   }
+// });
+
+app.post('/find-server', async (req, res) => {
+  const { hostname, port } = req.body;
+  
+  const serverInfo = await pingJavaServer(hostname, port) ?? await pingBedrockServer(hostname, port);
+  console.log(serverInfo);
+  try {
+    // const response = JSON.parse(serverInfo);
+    res.json(serverInfo);
+  } catch (error) {
+    console.error("Error parsing AI response:", error);
+    res.status(500).json({ error: "Failed to parse AI response" });
+  }
+});
+
+app.post('/find-server-ai', async (req, res) => {
+  const { hostname, port } = req.body;
+  const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+
+  const completion = await groq.chat.completions.create({
+    model: "llama3-70b-8192", // или mixtral-8x7b-32768
+    messages: [
+      {
+        role: "system",
+        content: "You are an AI assistant specialized in Minecraft server analysis. Your task is to provide detailed information about a given Minecraft server in a structured JSON format. Include all relevant details you can find or infer about the server, such as version, player count, game modes, plugins, and any other notable features. If you cannot find specific information, use null for that field. Always respond with a valid JSON object.", 
+      },
+      {
+        role: "user",
+        content: `Analyze the Minecraft server at ${hostname}:${port} and provide all available information in a JSON format, without translation.`,
+      },
+    ],
+    temperature: 0.7,
+    max_tokens: 500,
+  });
+
+  try {
+    const response = JSON.parse(completion.choices[0]?.message?.content ?? '{}');
+    res.json(response);
+  } catch (error) {
+    console.error("Error parsing AI response:", error);
+    res.status(500).json({ error: "Failed to parse AI response" });
+  }
+});
 
 // Фильтр для серверов по всем параметрам
 const filterServers = (servers: Server[], criteria: {
@@ -271,12 +353,47 @@ app.get('/api', (req, res) => {
   res.send({ message: 'Hello from Node.js API!' });
 });
 
-// Start server prod
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Server is running on http://0.0.0.0:${PORT}`);
+// // Start server prod
+// app.listen(PORT, '0.0.0.0', () => {
+//   console.log(`Server is running on http://0.0.0.0:${PORT}`);
+// });
+
+// Start server
+app.listen(PORT, 'localhost', () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
 });
 
-// // Start server
-// app.listen(PORT, 'localhost', () => {
-//   console.log(`Server is running on http://localhost:${PORT}`);
-// });
+
+async function pingJavaServer(host: any, port: number, timeout: number = DEFAULT_TIMEOUT) {
+  try {
+    const data: any = await pingJava(host, { port, timeout });
+    console.log(`Host: ${host}
+    Version: ${data.version?.name} (protocol: ${data.version?.protocol})
+    Players: ${data.players?.online}/${data.players?.max}
+    Description: ${
+      typeof data.description === "string"
+        ? data.description
+        : data.description?.text
+    }`);
+    return data;
+  } catch (err) {
+    console.error('Ошибка при проверке сервера:', err);
+    return { error: 'Failed to parse server response' };
+  }
+}
+
+async function pingBedrockServer(host: any, port: number, timeout: number = DEFAULT_TIMEOUT) {
+  try {
+    const data: any = await pingBedrock(host, { port, timeout });
+    console.log(`Host: ${host}
+    Edition: ${data.edition}
+    Version: ${data.version.minecraftVersion} (protocol: ${data.version.protocolVersion})
+    Players: ${data.players.online}/${data.players.max}
+    Name: ${data.name}
+    Gamemode: ${data.gameMode}`);
+    return data;
+  } catch (err) {
+    console.error('Ошибка при проверке сервера:', err);
+    return { error: 'Failed to parse server response' };
+  }
+}
