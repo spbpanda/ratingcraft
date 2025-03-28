@@ -227,7 +227,6 @@ app.post('/servers', async (req, res) => {
 
 // Получить информацию по серверу
 app.get('/servers/:id', async (req, res): Promise<any> => {
-  await test()
   const id = parseInt(req.params.id);
   const server = servers.find((server: any) => server.id === id);
 
@@ -354,14 +353,14 @@ app.get('/api', (req, res) => {
 });
 
 // // Start server prod
-// app.listen(PORT, '0.0.0.0', () => {
-//   console.log(`Server is running on http://0.0.0.0:${PORT}`);
-// });
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server is running on http://0.0.0.0:${PORT}`);
+});
 
 // Start server
-app.listen(PORT, 'localhost', () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
-});
+// app.listen(PORT, 'localhost', () => {
+//   console.log(`Server is running on http://localhost:${PORT}`);
+// });
 
 
 async function pingJavaServer(host: any, port: number, timeout: number = DEFAULT_TIMEOUT) {

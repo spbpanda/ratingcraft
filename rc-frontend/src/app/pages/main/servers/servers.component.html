@@ -1,4 +1,5 @@
 <h2>Мониторинг серверов Minecraft</h2>
+
 @for (server of servers(); track $index) {
     <rc-server-banner [server]="server" [index]="$index"></rc-server-banner>
 }

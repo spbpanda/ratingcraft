@@ -1,154 +1,159 @@
-/**
- * Implementation of the Java Minecraft ping protocol.
- * @see https://minecraft.wiki/w/Minecraft_Wiki:Projects/wiki.vg_merge/Server_List_Ping
- */
-
-"use strict";
-
 import net from "node:net";
 import varint from "./varint";
+
+interface PingOptions {
+    port?: number;
+    timeout?: number;
+    protocolVersion?: number;
+    virtualHost?: string;
+}
+
+interface JavaPingResponse {
+    version?: {
+        name: string;
+        protocol: number;
+    };
+    players?: {
+        max: number;
+        online: number;
+        sample?: Array<{
+            name: string;
+            id: string;
+        }>;
+    };
+    description: {
+        text: string;
+    };
+    favicon?: string;
+    modinfo?: {
+        type: string;
+        modList: Array<{
+            modid: string;
+            version: string;
+        }>;
+    };
+}
 
 /**
  * Ping a Minecraft Java server.
  * @param {string} host The host of the Java server.
  * @param {string} virtualHost The host sent in handshake.
- * @param {number} [port=25565] The port of the Java server.
- * @param {function} cb The callback function to handle the ping response.
- * @param {number} [timeout=5000] The timeout duration in milliseconds.
- * @param {number} [protocolVersion=-1] The protocol version of the Java client.
+ * @param {number} port The port of the Java server (default: 25565).
+ * @param {number} timeout The timeout duration in milliseconds (default: 5000).
+ * @param {number} protocolVersion The protocol version of the Java client (default: -1).
+ * @returns {Promise<JavaPingResponse>} The server response.
+ * @throws {Error} If the ping fails or times out.
  */
-function ping(host: any, virtualHost: string | any[], port = 25565, cb: { (res: any, err: any): void; (arg0: null, arg1: null): void; }, timeout = 5000, protocolVersion = -1) {
-	const socket = net.createConnection({ host, port });
+async function pingJavaServer(
+    host: string,
+    virtualHost: string = host,
+    port: number = 25565,
+    timeout: number = 5000,
+    protocolVersion: number = -1
+): Promise<JavaPingResponse> {
+    return new Promise((resolve, reject) => {
+        const socket = net.createConnection({ host, port });
+        let didFireError = false;
+        let incomingBuffer = Buffer.alloc(0);
 
-	// Set manual timeout interval.
-	// This ensures the connection will NEVER hang regardless of internal state
-	const timeoutTask = setTimeout(() => {
-		socket.emit("error", new Error("Socket timeout"));
-	}, timeout);
+        // Set timeout for the connection
+        const timeoutTask = setTimeout(() => {
+            handleError(new Error("Connection timeout"));
+        }, timeout);
 
-	const closeSocket = () => {
-		socket.destroy();
-		clearTimeout(timeoutTask);
-	};
+        const closeSocket = () => {
+            socket.destroy();
+            clearTimeout(timeoutTask);
+        };
 
-	// Generic error handler
-	// This protects multiple error callbacks given the complex socket state
-	// This is mostly dangerous since it can swallow errors
-	let didFireError = false;
+        const handleError = (err: Error) => {
+            closeSocket();
+            if (!didFireError) {
+                didFireError = true;
+                reject(err);
+            }
+        };
 
-	/**
-	 * Handle any error that occurs during the ping process.
-	 * @param {Error} err The error that occurred.
-	 */
-	const handleError = (err: unknown) => {
-		closeSocket();
+        socket.setNoDelay(true);
 
-		if (!didFireError) {
-			didFireError = true;
-			cb(null, err);
-		}
-	};
+        socket.on("connect", () => {
+            try {
+                const handshake = varint.concat([
+                    varint.encodeInt(0), // Packet ID for handshake
+                    varint.encodeInt(protocolVersion),
+                    varint.encodeInt(virtualHost.length),
+                    varint.encodeString(virtualHost),
+                    varint.encodeUShort(port),
+                    varint.encodeInt(1), // Next state: status
+                ]);
 
-	// #setNoDelay instantly flushes data during read/writes
-	// This prevents the runtime from delaying the write at all
-	socket.setNoDelay(true);
+                const request = varint.concat([varint.encodeInt(0)]); // Request packet
 
-	socket.on("connect", () => {
-		const handshake = varint.concat([
-			varint.encodeInt(0),
-			varint.encodeInt(protocolVersion),
-			varint.encodeInt(virtualHost.length),
-			varint.encodeString(virtualHost as any),
-			varint.encodeUShort(port),
-			varint.encodeInt(1),
-		]);
+                socket.write(handshake);
+                socket.write(request);
+            } catch (err) {
+                handleError(err instanceof Error ? err : new Error(String(err)));
+            }
+        });
 
-		socket.write(handshake);
+        socket.on("data", (data) => {
+            incomingBuffer = Buffer.concat([incomingBuffer, data]);
 
-		const request = varint.concat([varint.encodeInt(0)]);
+            // Minimum 5 bytes needed for VarInt header
+            if (incomingBuffer.length < 5) return;
 
-		socket.write(request);
-	});
+            try {
+                let offset = 0;
+                const packetLength = varint.decodeInt(incomingBuffer, offset);
+                offset += varint.decodeLength(packetLength);
 
-	let incomingBuffer = Buffer.alloc(0);
+                // Check if we have the complete packet
+                if (incomingBuffer.length < offset + packetLength) return;
 
-	socket.on("data", (data) => {
-		incomingBuffer = Buffer.concat([incomingBuffer, data]);
-		console.log("Received data:", incomingBuffer.toString('hex'));
+                const packetId = varint.decodeInt(incomingBuffer, offset);
+                offset += varint.decodeLength(packetId);
 
-		// Wait until incomingBuffer is at least 5 bytes long to ensure it has captured the first VarInt value
-		// This value is used to determine the full read length of the response
-		// "VarInts are never longer than 5 bytes"
-		// https://minecraft.wiki/w/Minecraft_Wiki:Projects/wiki.vg_merge/Data_types#VarInt_and_VarLong
-		if (incomingBuffer.length < 5) {
-			return;
-		}
+                if (packetId === 0) { // Response packet
+                    const responseLength = varint.decodeInt(incomingBuffer, offset);
+                    offset += varint.decodeLength(responseLength);
 
-		let offset = 0;
-		const packetLength = varint.decodeInt(incomingBuffer, offset);
+                    const responseData = incomingBuffer.subarray(offset, offset + responseLength);
+                    const response = JSON.parse(responseData.toString('utf8'));
 
-		// Ensure incomingBuffer contains the full response
-		if (incomingBuffer.length - offset < packetLength) {
-			return;
-		}
+                    closeSocket();
+                    resolve(response);
+                } else {
+                    handleError(new Error(`Unexpected packet ID: ${packetId}`));
+                }
+            } catch (err) {
+                handleError(err instanceof Error ? err : new Error(String(err)));
+            }
+        });
 
-		const packetId = varint.decodeInt(
-			incomingBuffer,
-			varint.decodeLength(packetLength)
-		);
-
-		if (packetId === 0) {
-			const data = incomingBuffer.subarray(
-				varint.decodeLength(packetLength) + varint.decodeLength(packetId)
-			);
-			const responseLength = varint.decodeInt(data, 0);
-			const response = data.subarray(
-				varint.decodeLength(responseLength),
-				varint.decodeLength(responseLength) + responseLength
-			);
-
-			try {
-				const message = JSON.parse(response as any);
-				console.log("Parsed message:", message);  // Добавим логирование успешно распарсенного сообщения
-
-				closeSocket();
-				cb(message, null);
-			} catch (err) {
-				console.error("Error parsing response:", err);  // Добавим более подробное логирование ошибки
-				console.log("Raw response:", response.toString('utf8'));  // Выведем сырой ответ для анализа
-				
-				handleError(err);
-			}
-		} else {
-			handleError(new Error("Received unexpected packet"));
-		}
-	});
-
-	socket.on("error", handleError);
+        socket.on("error", (err) => {
+            handleError(err instanceof Error ? err : new Error(String(err)));
+        });
+    });
 }
 
 /**
- * Asynchronously ping Minecraft Java server.
- * The optional `options` argument can be an object with a `port` (default is `25565`) or/and `timeout` (default is `5000`) or/and `protocolVersion` (default is `-1`) property.
+ * Asynchronously ping Minecraft Java server with options.
  * @param {string} host The Java server address.
- * @param {import('../types/index.js').PingOptions} options The configuration for pinging Minecraft Java server.
- * @returns {Promise<import('../types/index.js').JavaPingResponse>}
+ * @param {PingOptions} options Configuration options.
+ * @returns {Promise<JavaPingResponse>} The server response.
+ * @throws {Error} If host is not provided or ping fails.
  */
-export function pingJava(host: any, options = {}) {
-	if (!host) throw new Error("Host argument is not provided");
+export async function pingJava(host: string, options: PingOptions = {}): Promise<JavaPingResponse> {
+    if (!host) {
+        throw new Error("Host argument is required");
+    }
 
-	const { port = 25565, timeout = 5000, protocolVersion = -1, virtualHost = null }: any = options;
+    const {
+        port = 25565,
+        timeout = 5000,
+        protocolVersion = -1,
+        virtualHost = host
+    } = options;
 
-	return new Promise((resolve, reject) => {
-		ping(
-			host,
-			virtualHost || host,
-			port,
-			(res: unknown, err: any) => {
-				err ? reject(err) : resolve(res);
-			},
-			timeout,
-			protocolVersion
-		);
-	});
+    return pingJavaServer(host, virtualHost, port, timeout, protocolVersion);
 }
