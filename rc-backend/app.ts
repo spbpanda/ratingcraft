@@ -105,6 +105,7 @@ app.post('/add-server', authMiddleware, async (req, res): Promise<any> => {
         address,
         port,
         ...rest, // Остальные параметры (если есть)
+        name: serverInfo.version.name,
         createDate: new Date(), // Автоматически добавляем дату создания
         ownerId: userId, // Указываем владельца сервера
         rating: 0, // Баллы для нового сервера
