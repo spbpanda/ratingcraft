@@ -8,9 +8,11 @@ import { SbiComponentWithOptions } from '../../classes/sbi-component-with-option
 
 /**
  * Компонент выбора из списка предопределенных опций.
- * 
+ *
  * Представляет собой выпадающий список с возможностью выбора одного значения.
  * Расширяет базовый класс SbiComponentWithOptions для управления списком опций.
+ *
+ * Принимает ng-content - suffix-content - кастомный контент отображаемый после поля ввода.
  *
  * @Component
  * @selector: 'sbi-select'
@@ -40,7 +42,7 @@ export class SbiSelectComponent<T> extends SbiComponentWithOptions<T | string | 
   /**
    * Функция сравнения для определения, какие элементы считать эквивалентными.
    * Используется при поиске и выделении выбранного элемента в списке опций.
-   * 
+   *
    * @type {(elem1: T | string | number, elem2: T | string | number) => boolean}
    */
   @Input() compareFn: (elem1: T | string | number, elem2: T | string | number) => boolean = (elem1, elem2) =>
@@ -51,7 +53,7 @@ export class SbiSelectComponent<T> extends SbiComponentWithOptions<T | string | 
   /**
    * Обрабатывает событие изменения выбранного значения в селекте.
    * Устанавливает фокус в неактивное состояние и эмитит событие с выбранным значением.
-   * 
+   *
    * @param {MatSelectChange} val - Событие изменения селекта, содержащее новое выбранное значение.
    * @public
    */

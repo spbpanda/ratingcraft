@@ -73,7 +73,7 @@ export class RcBackendService {
     );
   }
 
-  getServerById(id: number): Observable<Server> {
+  getServerById(id: string): Observable<Server> {
     return this.http.get<Server>(`${this.api}/servers/${id}`);
   }
 
@@ -98,11 +98,11 @@ export class RcBackendService {
     return this.http.post(`${this.api}/add-server`, { address: address, port: port });
   }
 
-  deleteServer(id: number) {
+  deleteServer(id: string) {
     return this.http.delete(`${this.api}/servers/${id}`);
   }
 
-  updateServer(server: any) {
+  updateServer(server: Server) {
     return this.http.put(`${this.api}/servers/${server.id}`, server);
   }
 

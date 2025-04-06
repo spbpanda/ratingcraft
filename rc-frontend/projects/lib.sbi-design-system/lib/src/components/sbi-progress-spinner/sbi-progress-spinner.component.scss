@@ -8,7 +8,7 @@
   align-items: center;
   justify-content: center;
   background-color: #000000b8;
-  z-index: 10;
+  z-index: 999999;
 }
 
 .sbi-spinner-container {
@@ -16,6 +16,13 @@
     ::ng-deep svg circle {
       stroke: var(--border-accent);
       stroke-lineCap: round;
+    }
+  }
+
+  ::ng-deep .mdc-circular-progress__indeterminate-container {
+    ::ng-deep svg circle {
+      stroke: var(--border-accent);
+      stroke-lineCap: butt !important;
     }
   }
 }

@@ -6,6 +6,14 @@ import { SbiFeedbackPointsComponent } from './sbi-feedback-points/sbi-feedback-p
 import { SbiFeedbackQuestionsComponent } from './sbi-feedback-questions/sbi-feedback-questions.component';
 import { FeedbackQuestion } from '../../models/feedback-question';
 
+/**
+ * @deprecated Возможно не будет будет использоваться из-за использования обратной формы связи из ЛК
+ *
+ * Принимает несколько ng-content для отображения контента:
+ * 1. points-content - контент отображаемы на странице выбора оценки, сверху над блоком оценок;
+ * 2. questions-content - контент отображаемы на странице выбора комментариев, сверху над блоком комментариев;
+ * 3. thanks-content - контент отображаемы на странице завершения прохождения опроса, сверху над блоком спасибо.
+ * */
 @Component({
   selector: 'sbi-feedback',
   standalone: true,
@@ -20,16 +28,26 @@ export class SbiFeedbackComponent {
   @Input() sendFeedbackButtonLabel = 'Отправить';
   @Input() toMainPageButtonLabel = 'На главную';
   @Input() icon = STAR_ICON_SVG;
-  @Input() questions: FeedbackQuestion[] = [];
   @Input() testId = 'sbi-feedback-test-id';
+
+  private _questions: FeedbackQuestion[] = [];
+  @Input() public set questions(questions: FeedbackQuestion[]) {
+    this._questions = [...questions, { label: 'Другое' }]
+  };
+
+  public get questions() {
+    return this._questions;
+  };
 
   @Output() sendPointsFeedback = new EventEmitter<number>();
   @Output() sendInfoFeedback = new EventEmitter<FeedbackQuestion[]>();
+  @Output() sendFeedbackComment = new EventEmitter<string>();
   @Output() toMain = new EventEmitter();
 
   public step = signal(1);
   public selectedPoints = signal(0);
   public selectedQuestions: WritableSignal<FeedbackQuestion[]> = signal([]);
+  public comment: WritableSignal<string> = signal('');
   public disabled: Signal<boolean> = computed(() => {
     if (this.status === 'fail') {
       return false;
@@ -38,7 +56,8 @@ export class SbiFeedbackComponent {
       return !this.selectedPoints();
     }
     if (this.step() === 2) {
-      return !this.selectedQuestions().length;
+      return !this.selectedQuestions().length ||
+        this.selectedQuestions().length === 1 && this.selectedQuestions()[0].label === 'Другое' && !this.comment().length;
     }
     return false;
   });
@@ -59,6 +78,7 @@ export class SbiFeedbackComponent {
     }
     if (this.step() === 2) {
       this.sendInfoFeedback.emit(this.selectedQuestions());
+      this.sendFeedbackComment.emit(this.comment());
     }
     if (this.step() === 3) {
       this.toMain.emit();

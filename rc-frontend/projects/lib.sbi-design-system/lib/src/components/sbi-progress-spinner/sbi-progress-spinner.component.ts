@@ -1,4 +1,16 @@
-import { AfterViewInit, Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  inject,
+  Input,
+  OnChanges,
+  OnDestroy,
+  OnInit,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { NgClass } from '@angular/common';
 
@@ -17,13 +29,19 @@ import { NgClass } from '@angular/common';
   standalone: true,
   imports: [MatProgressSpinner, NgClass],
   templateUrl: './sbi-progress-spinner.component.html',
-  styleUrl: './sbi-progress-spinner.component.scss'
+  styleUrl: './sbi-progress-spinner.component.scss',
 })
-export class SbiProgressSpinnerComponent implements OnInit, AfterViewInit, OnChanges {
+export class SbiProgressSpinnerComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
+  /**
+   * Элемент контейнера спиннера.
+   */
+  @ViewChild('spinnerContainer') private spinnerContainer!: ElementRef<HTMLDivElement>;
   /**
    * Элемент спиннера.
    */
   @ViewChild('progressSpinner') private progressSpinner!: MatProgressSpinner;
+
+  private readonly cdr = inject(ChangeDetectorRef);
 
   /**
    * Режим работы спиннера.
@@ -53,7 +71,7 @@ export class SbiProgressSpinnerComponent implements OnInit, AfterViewInit, OnCha
    * Размер спиннера.
    * @type {'large' | 'small'}
    */
-  @Input() size: 'large' | 'small' = 'large'
+  @Input() size: 'large' | 'small' = 'large';
 
   /**
    * Режим работы спиннера.
@@ -71,7 +89,7 @@ export class SbiProgressSpinnerComponent implements OnInit, AfterViewInit, OnCha
    * Элемент - контейнер determinate спиннера .
    */
   private get progressRound(): HTMLElement | null | undefined {
-    return this.progressSpinner?._elementRef?.nativeElement?.children?.item(0) as HTMLElement
+    return this.progressSpinner?._elementRef?.nativeElement?.children?.item(0) as HTMLElement;
   }
 
   /**
@@ -107,8 +125,16 @@ export class SbiProgressSpinnerComponent implements OnInit, AfterViewInit, OnCha
       this.diameter = this.size === 'large' ? 48 : 24;
     }
     if (Object.prototype.hasOwnProperty.call(changes, 'value')) {
+      this.cdr.detectChanges();
       this.updateAnimation();
-      setTimeout(() => this.setCircleSize());
+      this.setCircleSize();
+    }
+    if (Object.prototype.hasOwnProperty.call(changes, 'isIntegrate')) {
+      this.cdr.detectChanges();
+      this.spinnerContainer.nativeElement.remove();
+      if (!changes['isIntegrate'].currentValue) {
+        document.body.appendChild(this.spinnerContainer.nativeElement);
+      }
     }
   }
 
@@ -156,7 +182,10 @@ export class SbiProgressSpinnerComponent implements OnInit, AfterViewInit, OnCha
       const progressCircleStrokeDashoffset = this.toNumber(progressCircle.style.strokeDashoffset);
       let maxSize = progressCircleStrokeDasharray - progressCircleStrokeDashoffset;
       const offsetByRotate = this.width > 0 ? progressCircleStrokeDasharray / (180 / this.degrees) : 0;
-      const newStrokeDashoffset = Math.min(Math.abs(Math.min(-maxSize - offsetByRotate, 0)), Math.abs(progressCircleStrokeDasharray));
+      const newStrokeDashoffset = Math.min(
+        Math.abs(Math.min(-maxSize - offsetByRotate, 0)),
+        Math.abs(progressCircleStrokeDasharray)
+      );
       determinateCircle.style.strokeDashoffset = this.toString(-newStrokeDashoffset);
     }
   }
@@ -167,7 +196,7 @@ export class SbiProgressSpinnerComponent implements OnInit, AfterViewInit, OnCha
    * @param px - строковое значение размера (в пикселях)
    */
   private toNumber(px: string) {
-    return Number(px.replace('px', ''))
+    return Number(px.replace('px', ''));
   }
 
   /**
@@ -184,15 +213,25 @@ export class SbiProgressSpinnerComponent implements OnInit, AfterViewInit, OnCha
    */
   private updateAnimation() {
     if (!this.progressRound) {
-      return
+      return;
     }
-    const determinateCircle = this.progressRound.children.item(1)!.children.item(0) as HTMLElement
+    const determinateCircle = this.progressRound.children.item(1)!.children.item(0) as HTMLElement;
     if (this.width === 0) {
-      setTimeout(() => determinateCircle.style.transition = 'stroke-dashoffset 200ms  0ms cubic-bezier(0, 0, 0.2, 1)', 750)
+      setTimeout(
+        () => (determinateCircle.style.transition = 'stroke-dashoffset 200ms  0ms cubic-bezier(0, 0, 0.2, 1)'),
+        750
+      );
     } else if (this.width === 100) {
-      determinateCircle.style.transition = 'stroke-dashoffset 700ms 0ms cubic-bezier(0, 0, 0.2, 1)'
+      determinateCircle.style.transition = 'stroke-dashoffset 700ms 0ms cubic-bezier(0, 0, 0.2, 1)';
     } else {
-      setTimeout(() => determinateCircle.style.transition = 'stroke-dashoffset 500ms 0ms cubic-bezier(0, 0, 0.2, 1)', 250);
+      setTimeout(
+        () => (determinateCircle.style.transition = 'stroke-dashoffset 500ms 0ms cubic-bezier(0, 0, 0.2, 1)'),
+        250
+      );
     }
+  }
+
+  ngOnDestroy() {
+    this.spinnerContainer.nativeElement.remove();
   }
 }

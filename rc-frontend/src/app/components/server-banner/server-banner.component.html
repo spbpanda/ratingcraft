@@ -29,8 +29,8 @@
         </div>
         <div class="server-banner__buttons">
             <div class="server-banner__play">
-                 <sbi-chip [showClearIcon]="false" [label]="server.address"></sbi-chip>
-                <rc-button>Копировать IP</rc-button> 
+                <sbi-chip [showClearIcon]="false" [label]="server.address"></sbi-chip>
+                <rc-button (click)="copyText(server)">Копировать IP</rc-button> 
             </div>
             <rc-button [type]="'submit'">Играть</rc-button>
         </div>

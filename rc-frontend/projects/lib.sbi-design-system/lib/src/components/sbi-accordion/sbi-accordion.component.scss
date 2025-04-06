@@ -1,13 +1,39 @@
+@import "../../../assets/fonts/sbi.typography.scss";
+
 .sbi-accordion {
-    --mat-expansion-container-shape: 16px;
-    --mat-expansion-container-background-color: #FAFAFA;
-    --mat-expansion-header-collapsed-state-height: 64px;
-    --mat-expansion-header-expanded-state-height: 64px;
-    --mat-expansion-container-text-color: #0000008F;
-    --mat-expansion-header-text-color: #000000;
-    --mat-expansion-header-indicator-color: #778090;
-    .mat-expansion-panel {
-        box-shadow: none;
-        border: 1px solid #00000014;
-    }
+  --mat-expansion-container-shape: 16px;
+  --mat-expansion-header-collapsed-state-height: 48px;
+  --mat-expansion-header-expanded-state-height: 48px;
+  --mat-expansion-header-text-color: var(--text-primary);
+  --mat-expansion-header-indicator-color: var(--icons-primary);
+  --mat-expansion-header-hover-state-layer-color: transparent;
+  --mat-expansion-header-description-color: var(--text-secondary);
+  width: 100%;
+
+  .mat-expansion-panel {
+    box-shadow: none;
+    border: none;
+    border-radius: 16px;
+  }
+
+  &.transparent {
+    --mat-expansion-container-background-color: transparent;
+  }
+
+  &.background {
+    --mat-expansion-container-background-color: var(--surface-primary);
+  }
+
+  mat-panel-title {
+    @extend .label-large;
+    font-weight: var(--bold);
+  }
+
+  ::ng-deep .mat-expansion-panel-body {
+    padding: 8px 12px;
+  }
+
+  ::ng-deep .mat-expansion-panel-header {
+    padding: 12px
+  }
 }

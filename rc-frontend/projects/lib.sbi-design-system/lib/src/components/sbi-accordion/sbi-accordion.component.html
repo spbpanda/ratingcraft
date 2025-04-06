@@ -1,14 +1,24 @@
-<mat-accordion class="sbi-accordion" [id]="testId">
-    <mat-expansion-panel>
-        <mat-expansion-panel-header>
-            <mat-panel-title>
-                {{icon}}
-                {{title}}
-            </mat-panel-title>
-            <mat-panel-description>
-                {{description}}
-            </mat-panel-description>
-        </mat-expansion-panel-header>
-        <ng-content></ng-content>
-    </mat-expansion-panel>
+<mat-accordion
+  class="sbi-accordion"
+  [ngClass]="type"
+  [attr.data-testid]="testId"
+>
+  <mat-expansion-panel [expanded]="expanded">
+    <mat-expansion-panel-header>
+      <!-- Блок заголовка -->
+      <mat-panel-title class="sbi-accordion__title">
+        {{ title }}
+      </mat-panel-title>
+
+      <!-- Блок описания -->
+      @if (description) {
+        <mat-panel-description class="sbi-accordion__description">
+          {{ description }}
+        </mat-panel-description>
+      }
+    </mat-expansion-panel-header>
+
+    <!-- Контент аккордеона -->
+    <ng-content></ng-content>
+  </mat-expansion-panel>
 </mat-accordion>

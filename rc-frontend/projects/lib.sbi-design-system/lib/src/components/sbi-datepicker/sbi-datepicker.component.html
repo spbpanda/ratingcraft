@@ -33,7 +33,6 @@
   <mat-datepicker-toggle matSuffix [for]="picker" [attr.data-testid]="testId + '-toggle'">
     <div
       #datePickerToggle
-      class="calendar-icon"
       [class.invalid]="control.touched && control.invalid"
       [class.focused]="focused()"
       [class.disabled]="control.disabled"
@@ -41,7 +40,7 @@
       <sbi-icon [iconImage]="calendarIcon"></sbi-icon>
     </div>
   </mat-datepicker-toggle>
-  
+
   <mat-datepicker
     #picker
     [attr.data-testid]="testId + '-datepicker'"

@@ -1,0 +1,146 @@
+@import '../../../assets/fonts/sbi.typography.scss';
+
+.sbi-avatar {
+  position: relative;
+  border-radius: 1000px;
+  background: var(--surface-background);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: visible;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.sbi-avatar-large {
+  width: 68px;
+  height: 68px;
+}
+
+.sbi-avatar-regular {
+  width: 48px;
+  height: 48px;
+}
+
+.sbi-avatar-small {
+  width: 38px;
+  height: 38px;
+}
+
+.sbi-avatar-extra-small {
+  width: 28px;
+  height: 28px;
+}
+
+.sbi-avatar-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 1000px;
+  overflow: hidden;
+}
+
+.sbi-avatar-initials {
+  color: var(--text-primary);
+  font-weight: var(--bold);
+  text-align: center;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.sbi-avatar-large .sbi-avatar-initials {
+  @extend .headline-small;
+}
+
+.sbi-avatar-regular .sbi-avatar-initials {
+  @extend .headline-small;
+}
+
+.sbi-avatar-small .sbi-avatar-initials {
+  @extend .label-small-prominent;
+}
+
+.sbi-avatar-extra-small .sbi-avatar-initials {
+  @extend .label-small-prominent;
+}
+
+.sbi-avatar-icon {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  bottom: 0;
+  right: 0;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.sbi-avatar-icon-background {
+  position: absolute;
+  width: 28px;
+  height: 28px;
+  left: -2px;
+  top: -2px;
+  background: var(--surface-secondary);
+  border-radius: 9999px;
+}
+
+.sbi-avatar-icon-inner {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  background: var(--surface-background);
+  border-radius: 9999px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  ::ng-deep svg path {
+    color: var(--icons-primary);
+  }
+}
+
+.sbi-avatar-icon-placeholder {
+  font-size: 14px;
+  line-height: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  color: var(--text-primary);
+}
+
+/* Стили для позиционирования sbi-badge на аватаре */
+:host ::ng-deep sbi-badge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.sbi-avatar-large ::ng-deep sbi-badge {
+  transform: translate(-25%);
+}
+
+.sbi-avatar-regular ::ng-deep sbi-badge {
+  transform: translate(-10%, 0%);
+}
+
+.sbi-avatar-small ::ng-deep sbi-badge {
+  top: -3.5px;
+  right: -1.5px;
+  transform: translate(10%, 5%);
+}
+
+.sbi-avatar-extra-small ::ng-deep sbi-badge {
+  top: -3px;
+  right: -1px;
+  transform: translate(15%, 0%);
+}

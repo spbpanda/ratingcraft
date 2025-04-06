@@ -44,6 +44,11 @@ import { SbiChipComponent } from '../sbi-chip/sbi-chip.component';
  * где каждое поле может иметь свои опции и валидацию. Поддерживает динамическое
  * отображение/скрытие полей в зависимости от состояния заполнения.
  *
+ * Принимает несколько ng-content для отображения контента:
+ * 1. prefix-icon - контент для отображения иконки перед полем ввода;
+ * 2. suffix-icon - контент для отображения иконки после поля ввода;
+ * 3. suffix-content - кастомный контент отображаемый после поля ввода.
+ *
  * @Component
  * @selector: 'sbi-multi-autocomplete'
  * @standalone: true
@@ -310,7 +315,7 @@ export class SbiMultiAutocompleteComponent implements OnInit, AfterViewInit, OnC
    * @public
    * @readonly
    */
-  public readonly baseMaskitoMask: MaskitoOptions = {mask: /\.*/};
+  public readonly baseMaskitoMask: MaskitoOptions = { mask: /\.*/ };
 
   /**
    * Базовая функция отображения выбранного значения.
@@ -619,7 +624,7 @@ export class SbiMultiAutocompleteComponent implements OnInit, AfterViewInit, OnC
     this.elements = this.elements.map(element => {
       element.control.setValue('');
       element.control.markAsUntouched();
-      return {...element, visible: element.prevControlName == null};
+      return { ...element, visible: element.prevControlName == null };
     })
     this.updateFormFieldValidate$.next(true);
   }
@@ -651,7 +656,7 @@ export class SbiMultiAutocompleteComponent implements OnInit, AfterViewInit, OnC
     this.elements = this.elements.map(item => {
       if (item.fieldName === elem.fieldName || item.prevControlName === elem.fieldName) {
         item.control.setValue('');
-        return {...item, visible: true};
+        return { ...item, visible: true };
       }
       return item;
     });
@@ -695,7 +700,7 @@ export class SbiMultiAutocompleteComponent implements OnInit, AfterViewInit, OnC
   private updateElementsVisible(elem: MultiSelectElement) {
     this.elements = this.elements.map(item => {
       if (item.prevControlName != null) {
-        return {...item, visible: item.prevControlName === elem.fieldName || item.visible};
+        return { ...item, visible: item.prevControlName === elem.fieldName || item.visible };
       }
       return item;
     });

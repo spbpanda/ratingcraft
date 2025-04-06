@@ -1,7 +1,7 @@
 import { Item } from "./filter";
 
 export interface Server {
-    id: number; // Assuming you'll need to define id as a number
+    id: string; // Assuming you'll need to define id as a number
     name: string;
     slogan: string;
     banner: string;

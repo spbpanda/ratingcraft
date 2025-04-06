@@ -19,11 +19,13 @@
   .label {
     @extend .body-small;
     color: var(--text-primary);
+    word-break: break-word;
   }
 
   .note {
     @extend .body-small;
     color: var(--text-secondary);
+    word-break: break-word;
   }
 }
 

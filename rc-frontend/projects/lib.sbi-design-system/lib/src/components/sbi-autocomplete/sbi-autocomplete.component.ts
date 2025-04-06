@@ -1,8 +1,10 @@
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
+  inject,
   Input,
   Output,
   SimpleChanges,
@@ -34,7 +36,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 /**
  * Вспомогательная функция для создания валидатора, который всегда возвращает заданное состояние ошибки.
  * Используется для управления визуальным состоянием ошибки компонента ввода с автозаполнением.
- * 
+ *
  * @param {boolean} invalid - Признак ошибки, который будет возвращать валидатор.
  * @returns {Function} Функция-валидатор, которая возвращает null (валидно) или объект с ошибкой.
  */
@@ -44,8 +46,13 @@ function validator(invalid: boolean = false) {
 
 /**
  * Компонент автозаполнения с поддержкой множественного выбора.
- * 
+ *
  * Предоставляет поле ввода с автозаполнением и возможностью выбора нескольких значений.
+ *
+ * Принимает несколько ng-content для отображения контента:
+ * 1. prefix-icon - контент для отображения иконки перед полем ввода;
+ * 2. suffix-icon - контент для отображения иконки после поля ввода;
+ * 3. suffix-content - кастомный контент отображаемый после поля ввода.
  *
  * @Component
  * @selector: 'sbi-autocomplete'
@@ -82,12 +89,14 @@ function validator(invalid: boolean = false) {
   ],
 })
 export class SbiAutocompleteComponent<T> extends SbiComponentWithAutocomplete<T> implements AfterViewInit {
+  private readonly cdr = inject(ChangeDetectorRef);
+
   /**
    * Ссылка на элемент ввода в DOM.
    * Используется для управления фокусом и получения введенного значения.
    */
   @ViewChild('autocompleteInput') autocompleteInput!: ElementRef<HTMLInputElement>;
-  
+
   /**
    * Ссылка на компонент строки с чипами в DOM.
    * Используется для отображения выбранных элементов в виде чипов.
@@ -100,13 +109,13 @@ export class SbiAutocompleteComponent<T> extends SbiComponentWithAutocomplete<T>
    * @type {FormControl<any>}
    */
   @Input() declare control: FormControl<any>;
-  
+
   /**
    * Максимальное количество элементов, которые можно выбрать.
    * @type {number}
    */
   @Input() maxElementsCount = 99999999;
-  
+
   /**
    * Флаг, указывающий, был ли компонент "затронут" (touched).
    * Используется для контроля отображения состояния ошибок валидации.
@@ -128,7 +137,7 @@ export class SbiAutocompleteComponent<T> extends SbiComponentWithAutocomplete<T>
    * @public
    */
   public selection = new SelectionModel<T>(true, [], true, this.compareFn);
-  
+
   /**
    * Контрол для управления текстом поиска.
    * Отделен от основного контрола, который хранит выбранные значения.
@@ -186,6 +195,7 @@ export class SbiAutocompleteComponent<T> extends SbiComponentWithAutocomplete<T>
    */
   ngAfterViewInit() {
     this.connectControlStatusChange();
+    this.connectChangeControlValue();
   }
 
   /**
@@ -198,6 +208,26 @@ export class SbiAutocompleteComponent<T> extends SbiComponentWithAutocomplete<T>
     this.control.statusChanges.pipe(takeUntil(this.destroy$)).subscribe(status => {
       this.updateSearchControlStatus(status);
     });
+  }
+
+  /**
+   * Проверяет изменение значения контрола и производит скролл вправо
+   * @private
+   * */
+  private connectChangeControlValue() {
+    this.control.valueChanges.pipe(takeUntil(this.destroy$), debounceTime(100)).subscribe(() => {
+      this.cdr.detectChanges();
+      this.scrollToRight();
+    });
+  }
+
+  /**
+   * Функция скролла chip-ов вправо.
+   * @public
+   * */
+  public scrollToRight() {
+    const element = this.autocompleteChipRow.sbiChipRow.nativeElement;
+    element?.scrollBy({ left: 999999, behavior: 'smooth' });
   }
 
   /**
@@ -222,7 +252,7 @@ export class SbiAutocompleteComponent<T> extends SbiComponentWithAutocomplete<T>
   override ngOnChanges(changes: SimpleChanges) {
     super.ngOnChanges(changes);
     if (changes['options']) {
-      this.setSelectedByControlValue()
+      this.setSelectedByControlValue();
     }
     if (changes['touched'] && this.control.touched && !this.searchControl.touched) {
       this.searchControl.markAsTouched();
@@ -235,7 +265,7 @@ export class SbiAutocompleteComponent<T> extends SbiComponentWithAutocomplete<T>
    */
   private setSelectedByControlValue() {
     this.selection.clear();
-    ((this.control.value as T[]) || []).forEach(elem => this.selection.select(elem))
+    ((this.control.value as T[]) || []).forEach(elem => this.selection.select(elem));
   }
 
   /**
@@ -258,7 +288,7 @@ export class SbiAutocompleteComponent<T> extends SbiComponentWithAutocomplete<T>
     super.onSelectionChange(val);
     this.changeControlValue(val.option.value as T);
     this.searchControl.setValue('');
-    this.scrollToRight();
+    this.activeInput();
   }
 
   /**
@@ -277,14 +307,11 @@ export class SbiAutocompleteComponent<T> extends SbiComponentWithAutocomplete<T>
 
   /**
    * Прокручивает строку с чипами вправо для отображения последнего добавленного элемента.
-   * @private
+   * @public
    */
-  private scrollToRight() {
-    setTimeout(() => {
-      const element = this.autocompleteChipRow.sbiChipRow.nativeElement;
-      element.scrollBy({ left: 999999, behavior: 'smooth' });
-      setTimeout(() => this.autocompleteInput.nativeElement.click(), 100);
-    });
+  public activeInput() {
+    this.cdr.detectChanges();
+    setTimeout(() => this.autocompleteInput.nativeElement.click(), 100);
   }
 
   /**

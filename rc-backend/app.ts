@@ -8,13 +8,13 @@ import { pingJava } from "./mineping/java";
 import { OpenAI } from 'openai';
 import { Groq } from "groq-sdk";
 import { convertMOTDToHTML } from './utils/convert-motd-to-html';
-import { test } from './mcutil/mcutil';
+import getMinecraftServerStatus from './minecraft-server-util/minecraft-server-util';
+import { BEDROCK_DEFAULT_PORT, JAVA_DEFAULT_PORT } from './consts/ports';
+import { randomUUID, UUID } from 'crypto';
 
 const app = express();
 const PORT = Number(process.env.PORT) || 10000;
 const DEFAULT_TIMEOUT = 20000;
-const JAVA_DEFAULT_PORT = 25565;
-const BEDROCK_DEFAULT_PORT = 19132;
 const baseURL = "https://api.aimlapi.com/v1";
 const apiKey = "214878940f4a4fe39b28a390a4af471a";
 const api = new OpenAI({
@@ -86,14 +86,15 @@ app.post('/add-server', authMiddleware, async (req, res): Promise<any> => {
 
   try {
     // Получаем информацию о сервере
-    const serverInfo = await pingJavaServer(address, port ?? JAVA_DEFAULT_PORT) ?? await pingBedrockServer(address, port ?? BEDROCK_DEFAULT_PORT);
+    const serverInfo = await getServerInfo(address, port);
     // Загружаем список версий
     const versions = readJsonFile('./data/versions.json');
     // Находим версию сервера в списке
     const serverVersion = versions.find((version: any) => 
-      version.protocol === serverInfo.version.protocol
+      version.protocol === serverInfo.version?.protocol
     );
 
+    console.log(serverInfo)
     // Если версия не найдена, возвращаем ошибку
     if (!serverVersion) {
       return res.status(400).json({ error: 'Версия сервера не поддерживается' });
@@ -101,18 +102,18 @@ app.post('/add-server', authMiddleware, async (req, res): Promise<any> => {
 
     // Создание нового сервера
     const newServer: Server = {
-        id: servers.length + 1, // Генерация нового ID
-        address,
-        port,
-        ...rest, // Остальные параметры (если есть)
-        name: serverInfo.version.name,
-        createDate: new Date(), // Автоматически добавляем дату создания
-        ownerId: userId, // Указываем владельца сервера
-        rating: 0, // Баллы для нового сервера
-        onlinePlayers: serverInfo.players.online, // Добавляем информацию о сервере
-        maxPlayers: serverInfo.players.max,
-        description: convertMOTDToHTML(serverInfo.description),
-        version: serverVersion, // Добавляем версию из списка
+      id: randomUUID(),
+      address,
+      port,
+      ...rest, // Остальные параметры (если есть)
+      name: serverInfo.host,
+      createDate: new Date(), // Автоматически добавляем дату создания
+      ownerId: userId, // Указываем владельца сервера
+      rating: 0, // Баллы для нового сервера
+      onlinePlayers: serverInfo.players?.online ?? 0, // Добавляем информацию о сервере
+      maxPlayers: serverInfo.players?.max ?? 0,
+      description: convertMOTDToHTML(serverInfo.description),
+      version: serverVersion, // Добавляем версию из списка
     };
 
     // Добавление сервера в массив
@@ -161,12 +162,11 @@ app.delete('/servers/:id', authMiddleware, (req, res): any => {
 
 // Обновить данные по серверу
 app.put('/servers/:id', authMiddleware, (req, res): any => {
-  const serverId = parseInt(req.params.id); // Получаем ID сервера из URL
+  const serverId = req.params.id; // Получаем ID сервера из URL
   const updatedServer = req.body; // Получаем обновленные данные из тела запроса
 
   // Находим индекс сервера в массиве
   const serverIndex = servers.findIndex((server: Server) => server.id === serverId);
-
   // Если сервер не найден
   if (serverIndex === -1) {
     return res.status(404).json({ message: 'Сервер не найден' });
@@ -200,9 +200,9 @@ app.post('/servers', async (req, res) => {
 
   for (const server of filteredServers) {
     try {
-      const serverInfo = await pingJavaServer(server.address, server.port ?? JAVA_DEFAULT_PORT) ?? await pingBedrockServer(server.address, server.port ?? BEDROCK_DEFAULT_PORT);
-      server.onlinePlayers = serverInfo.players.online;
-      server.maxPlayers = serverInfo.players.max;
+      const serverInfo = await getServerInfo(server.address, server.port);
+      server.onlinePlayers = serverInfo.players?.online ?? 0;
+      server.maxPlayers = serverInfo.players?.max ?? 0;
     } catch (err) {
       console.error(`Ошибка при обновлении сервера ${server.id}:`, err);
     }
@@ -228,8 +228,8 @@ app.post('/servers', async (req, res) => {
 
 // Получить информацию по серверу
 app.get('/servers/:id', async (req, res): Promise<any> => {
-  const id = parseInt(req.params.id);
-  const server = servers.find((server: any) => server.id === id);
+  const id = req.params.id;
+  const server = servers.find((server: Server) => server.id === id);
 
   if (!server) {
     return res.status(404).json({ error: 'Сервер не найден' });
@@ -237,13 +237,13 @@ app.get('/servers/:id', async (req, res): Promise<any> => {
 
   try {
       // Получаем актуальную информацию о сервере
-      const serverInfo = await pingJavaServer(server.address, server.port ?? JAVA_DEFAULT_PORT) ?? await pingBedrockServer(server.address, server.port ?? BEDROCK_DEFAULT_PORT);
+      const serverInfo = await getServerInfo(server.address, server.port);
 
       // Возвращаем данные сервера
       res.json({
           ...server,
-          onlinePlayers: serverInfo.players.online,
-          maxPlayers: serverInfo.players.max,
+          onlinePlayers: serverInfo.players?.online ?? 0,
+          maxPlayers: serverInfo.players?.max ?? 0,
       });
   } catch (err) {
       console.error('Ошибка при проверке сервера:', err);
@@ -364,7 +364,7 @@ app.listen(PORT, '0.0.0.0', () => {
 // });
 
 
-async function pingJavaServer(host: any, port: number, timeout: number = DEFAULT_TIMEOUT) {
+async function pingJavaServer(host: any, port: number = JAVA_DEFAULT_PORT, timeout: number = DEFAULT_TIMEOUT) {
   try {
     const data: any = await pingJava(host, { port, timeout });
     console.log(`Host: ${host}
@@ -382,7 +382,7 @@ async function pingJavaServer(host: any, port: number, timeout: number = DEFAULT
   }
 }
 
-async function pingBedrockServer(host: any, port: number, timeout: number = DEFAULT_TIMEOUT) {
+async function pingBedrockServer(host: any, port: number = BEDROCK_DEFAULT_PORT, timeout: number = DEFAULT_TIMEOUT) {
   try {
     const data: any = await pingBedrock(host, { port, timeout });
     console.log(`Host: ${host}
@@ -396,4 +396,8 @@ async function pingBedrockServer(host: any, port: number, timeout: number = DEFA
     console.error('Ошибка при проверке сервера:', err);
     return { error: 'Failed to parse server response' };
   }
+}
+
+async function getServerInfo(address: any, port?: number) {
+  return await getMinecraftServerStatus(address, port) ?? await pingJavaServer(address, port) ?? await pingBedrockServer(address, port);
 }

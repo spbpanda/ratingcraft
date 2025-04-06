@@ -22,6 +22,7 @@
     "groq-sdk": "^0.17.0",
     "helmet": "^8.0.0",
     "jsonwebtoken": "^9.0.2",
+    "minecraft-server-util": "^5.4.4",
     "netlify-cli": "^18.0.2",
     "netlify-lambda": "^2.0.16",
     "openai": "^4.89.0",

@@ -1,7 +1,11 @@
 <h2>Мониторинг серверов Minecraft</h2>
 
-@for (server of servers(); track $index) {
-    <rc-server-banner [server]="server" [index]="$index"></rc-server-banner>
+@if (servers().length > 0) {
+    @for (server of servers(); track $index) {
+        <rc-server-banner [server]="server" [index]="$index"></rc-server-banner>
+    }
+} @else {
+    Идёт загрузка серверов, пожалуйста, подождите...
 }
 <mat-paginator
     [length]="paginatorBack().total"

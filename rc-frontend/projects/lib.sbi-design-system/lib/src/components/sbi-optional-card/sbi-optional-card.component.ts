@@ -16,6 +16,8 @@ import { SbiTooltipDirective } from '../sbi-tooltip/sbi-tooltip.directive';
  * Компонент, отображающий элемент карточки выбора. В основном используется для отображения доп опций или информации о
  * элементе (например транспортном средстве или человеке).
  *
+ * Принимает ng-content - active-actions, контейнер, располагающийся в правой части карточки
+ *
  * @Component
  * @selector: 'sbi-optional-card'
  * @standalone: true
@@ -56,6 +58,12 @@ export class SbiOptionalCardComponent implements OnInit {
   @Input() control!: FormControl<boolean | null>;
 
   /**
+   * Флаг, обозначающий активность карточки для нажатия.
+   * @type {boolean}
+   */
+  @Input() static: boolean = false;
+
+  /**
    * Тип активного элемента карточки.
    * @type {'checkbox' | 'radio' | 'switch' | 'icons' | 'illustration'}
    */
@@ -65,13 +73,13 @@ export class SbiOptionalCardComponent implements OnInit {
    * Текст, который будет отображаться внутри badge элемента.
    * @type {string}
    */
-  @Input() badgeContent = '';
+  @Input() badgeContent: string = '';
 
   /**
    * Лейбл карточки.
    * @type {string}
    */
-  @Input() label = '';
+  @Input() label: string = '';
 
   /**
    * Примечание карточки.
@@ -83,25 +91,25 @@ export class SbiOptionalCardComponent implements OnInit {
    * Показывать или скрыть иконку знака вопроса (при наведении на неё показывается tooltip с описанием).
    * @type {boolean}
    */
-  @Input() showInfoIcon = true;
+  @Input() showInfoIcon: boolean = true;
 
   /**
    * Идентификатор для тестирования.
    * @type {string}
    */
-  @Input() testId = 'sbi-optional-card-test-id';
+  @Input() testId: string = 'sbi-optional-card-test-id';
 
   /**
    * svg код иконки, отображаемой в левой части карточки.
    * @type {string}
    */
-  @Input() icon = '';
+  @Input() icon: string = '';
 
   /**
    * svg код иллюстрации, отображаемой в левой части карточки. Отличие от иконки - размер (у иконки 24px у иллюстрации 44px)
    * @type {string}
    */
-  @Input() illustrationIcon = '';
+  @Input() illustrationIcon: string = '';
 
   /**
    * Тип, отображаемого badge элемента.
@@ -119,13 +127,13 @@ export class SbiOptionalCardComponent implements OnInit {
    * Является ли текст примечания- ссылкой.
    * @type {boolean}
    */
-  @Input() isLink = false;
+  @Input() isLink: boolean = false;
 
   /**
    * Скрывать или показывать чекбокс в правой части (используется только в карточках с типом - 'icons' | 'illustration').
    * @type {boolean}
    */
-  @Input() showCheckbox = true;
+  @Input() showCheckbox: boolean = true;
 
   /**
    * Расположение отображаемого tooltip (при наведении на иконку знака вопроса).
@@ -149,18 +157,18 @@ export class SbiOptionalCardComponent implements OnInit {
    * Событие изменения состояния карточки.
    * @type {EventEmitter()}
    */
-  @Output() valueChanged = new EventEmitter();
+  @Output() valueChanged: EventEmitter<void> = new EventEmitter();
 
   /**
    * Событие нажатия на ссылку - примечание (актуально только при использовании isLink).
    * @type {EventEmitter()}
    */
-  @Output() linkClick = new EventEmitter();
+  @Output() linkClick: EventEmitter<void> = new EventEmitter();
 
   /**
    * Один элемент для отображения radio button элемента
    */
-  public radioOptions: SbiRadioButtonOption[] = [{label: '', value: true}];
+  public radioOptions: SbiRadioButtonOption[] = [{ label: '', value: true }];
 
   /**
    * Иконка, отображаемая для вывода примечания.
@@ -168,8 +176,8 @@ export class SbiOptionalCardComponent implements OnInit {
   public questionIcon = QUESTION_MARK_SVG_ICON;
 
   ngOnInit() {
-    if (this.value !== undefined) {
-      this.control = new FormControl(this.value);
+    if (this.value !== undefined || this.static) {
+      this.control = new FormControl(this.value || false);
     }
   }
 

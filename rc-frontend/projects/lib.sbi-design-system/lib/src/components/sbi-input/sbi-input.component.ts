@@ -1,25 +1,30 @@
-import {NgxMaskDirective, provideNgxMask} from 'ngx-mask';
-import {Component, Input, OnInit} from '@angular/core';
-import {ReactiveFormsModule} from '@angular/forms';
-import {MatSuffix} from '@angular/material/form-field';
-import {NgIf} from '@angular/common';
-import {MatInputModule} from '@angular/material/input';
-import {SbiErrorComponent} from '../sbi-error/sbi-error.component';
-import {SbiUppercaseDirective} from '../../directives/sbi-uppercase.directive';
-import {SbiNameUppercaseDirective} from '../../directives/sbi-name-uppercase.directive';
-import {SbiIconComponent} from '../sbi-icon/sbi-icon.component';
-import {CLEAR_ICON_SVG} from '../../const/icons';
-import {SbiComponentWithInput} from '../../classes/sbi-component-with-input.component';
-import {PrefixIconType, SuffixIconType} from '../../models/input.types';
-import {SbiMultiUppercaseDirective} from '../../directives/sbi-multi-uppercase.directive';
-import {SbiInputModeDirective} from '../../directives/sbi-input-mode.directive';
-import {SbiTitleCaseDirective} from '../../directives/sbi-title-case.directive';
+import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
+import { Component, Input, OnInit } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatSuffix } from '@angular/material/form-field';
+import { NgIf } from '@angular/common';
+import { MatInputModule } from '@angular/material/input';
+import { SbiErrorComponent } from '../sbi-error/sbi-error.component';
+import { SbiUppercaseDirective } from '../../directives/sbi-uppercase.directive';
+import { SbiNameUppercaseDirective } from '../../directives/sbi-name-uppercase.directive';
+import { SbiIconComponent } from '../sbi-icon/sbi-icon.component';
+import { CLEAR_ICON_SVG } from '../../const/icons';
+import { SbiComponentWithInput } from '../../classes/sbi-component-with-input.component';
+import { PrefixIconType, SuffixIconType } from '../../models/input.types';
+import { SbiMultiUppercaseDirective } from '../../directives/sbi-multi-uppercase.directive';
+import { SbiInputModeDirective } from '../../directives/sbi-input-mode.directive';
+import { SbiTitleCaseDirective } from '../../directives/sbi-title-case.directive';
 
 /**
  * Компонент для отображения поля ввода с расширенной функциональностью.
  *
  * Поддерживает работу с масками ввода, иконками, валидацией и преобразованием текста.
  * Наследуется от базового компонента SbiComponentWithInput.
+ *
+ * Принимает несколько ng-content для отображения контента:
+ * 1. prefix-icon - контент для отображения иконки перед полем ввода;
+ * 2. suffix-icon - контент для отображения иконки после поля ввода;
+ * 3. suffix-content - кастомный контент отображаемый после поля ввода.
  *
  * @Component
  * @selector: 'sbi-input'
@@ -50,8 +55,7 @@ import {SbiTitleCaseDirective} from '../../directives/sbi-title-case.directive';
 })
 export class SbiInputComponent<T>
   extends SbiComponentWithInput<T>
-  implements OnInit
-{
+  implements OnInit {
   /**
    * Возвращает SVG иконку очистки поля ввода.
    * @returns {string} SVG строка иконки очистки.

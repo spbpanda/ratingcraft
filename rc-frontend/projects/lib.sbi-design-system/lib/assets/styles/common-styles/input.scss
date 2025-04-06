@@ -10,6 +10,7 @@
   color: var(--text-secondary);
   margin-top: 4px;
   margin-left: 12px;
+  word-break: break-word;
 
   &.disabled {
     opacity: var(--opacity-opacity40);
@@ -48,7 +49,8 @@
       padding-top: 5px;
     }
 
-    .sbi-chip-row, .sbi-multi-autocomplete-block {
+    .sbi-chip-row,
+    .sbi-multi-autocomplete-block {
       .mat-mdc-input-element {
         padding-top: 0;
       }
@@ -57,7 +59,7 @@
     // Default
     .mdc-text-field--filled.mdc-text-field:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) {
       background: var(--surface-primary);
-      border-radius: 12px;
+      border-radius: 16px;
       height: 56px;
       border: 1px solid var(--border-primary);
       padding-left: 12px;
@@ -80,7 +82,7 @@
     // Invalid
     .mdc-text-field--filled.mdc-text-field.mdc-text-field--invalid:not(.mdc-text-field--disabled) {
       background: var(--surface-primary);
-      border-radius: 12px;
+      border-radius: 16px;
       height: 56px;
       border: 1px solid var(--border-warning);
       padding-left: 12px;
@@ -105,13 +107,12 @@
       }
     }
 
-
     // Disabled
     .mdc-text-field--filled.mdc-text-field.mdc-text-field--invalid.mdc-text-field--disabled,
     .mdc-text-field--filled.mdc-text-field.mdc-text-field--disabled:not(.mdc-text-field--invalid) {
       background-color: transparent;
       opacity: var(--opacity-opacity40);
-      border-radius: 12px;
+      border-radius: 16px;
       height: 56px;
       border: 1px solid var(--border-primary);
       padding-left: 12px;
@@ -134,7 +135,6 @@
         color: var(--text-primary);
       }
     }
-
 
     // Focused
     &.mat-focused {
@@ -164,7 +164,6 @@
 
     .mat-mdc-input-element::-webkit-input-placeholder {
       color: rgb(from var(--text-primary) r g b / 0.4);
-      // opacity: 0.4;
     }
 
     //label

@@ -4,7 +4,7 @@ import { DateTime } from 'luxon';
 
 const windowSizes = {
   mobile: 550,
-  tablet: 1550,
+  tablet: 1150,
 }
 
 @Component({

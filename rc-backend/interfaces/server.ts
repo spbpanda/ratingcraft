@@ -1,7 +1,7 @@
 import { Item } from "./item";
 
 export interface Server {
-    id?: number; // Опционально, так как ID будет генерироваться автоматически
+    id?: string; // Опционально, так как ID будет генерироваться автоматически
     name?: string;
     slogan?: string;
     banner?: string;

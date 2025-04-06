@@ -1,8 +1,8 @@
 <div [class]="size" [ngClass]="{ 'no-content': !content }">
   <div class="sbi-badge-container" [class]="type">
-    <ng-content select="before-label"></ng-content>
+    <ng-content select="[before-label]"></ng-content>
     <div class="label" *ngIf="content">{{ content }}</div>
-    <ng-content select="after-label"></ng-content>
+    <ng-content select="[after-label]"></ng-content>
   </div>
 </div>
 

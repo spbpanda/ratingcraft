@@ -50,18 +50,18 @@
   right: 0;
   bottom: 0;
   background-color: var(--surface-neutral-50);
-  transition: .4s;
+  transition: 0.4s;
   border-radius: 12px;
 
   &:before {
     position: absolute;
-    content: "";
+    content: '';
     height: 20px;
     width: 20px;
     left: 2px;
     bottom: 2px;
     background-color: var(--surface-primaryunaltered);
-    transition: .4s;
+    transition: 0.4s;
     border-radius: 50%;
     box-shadow: 0px 1px 3px 1px rgba(35, 36, 37, 0.04), 0px 1px 2px 0px rgba(35, 36, 37, 0.1);
   }
@@ -87,11 +87,13 @@ input:disabled + .slider {
     .label {
       @extend .body-large;
       color: var(--text-primary);
+      word-break: break-word;
     }
 
     .link {
       cursor: pointer;
       color: var(--brand-brandblue);
+
       &:hover {
         text-decoration: underline;
       }
@@ -100,12 +102,14 @@ input:disabled + .slider {
     .note {
       @extend .body-regular;
       color: var(--text-secondary);
+      word-break: break-word;
     }
   }
 
   &.link .label {
     cursor: pointer;
     color: var(--brand-brandblue);
+
     &:hover {
       text-decoration: underline;
     }

@@ -4,7 +4,7 @@ import { Server } from '../../../../common/interfaces/server';
 import { RcBackendService } from '../../../../services/rc-backend.service';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RcButtonComponent } from '../../../../components/rc-button/rc-button.component';
-import { SbiAutocompleteComponent, SbiDropdownComponent, SbiInputComponent, SbiSuggestChipComponent } from '@sbi/design-system';
+import { SbiAutocompleteComponent, SbiDropdownComponent, SbiInputComponent, SbiSnackBarService, SbiSuggestChipComponent } from '@sbi/design-system';
 import { take } from 'rxjs';
 import { EditorComponent, EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import { Item } from '../../../../common/interfaces/filter';
@@ -48,7 +48,7 @@ export interface ServerForm {
     BannerComponent,
     ImagesComponent
   ],
-  providers: [{ provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' }],
+  providers: [SbiSnackBarService, { provide: TINYMCE_SCRIPT_SRC, useValue: 'tinymce/tinymce.min.js' }],
   templateUrl: './edit-server.component.html',
   styleUrl: './edit-server.component.scss'
 })
@@ -57,6 +57,7 @@ export class EditServerComponent implements OnInit {
   router = inject(Router);
   route = inject(ActivatedRoute);
   fb = inject(FormBuilder);
+  snackbarService = inject(SbiSnackBarService);
   serverId: string | null = '';
   bases: any = this.rcBackend.bases;
   miniGames: any = this.rcBackend.miniGames;
@@ -86,9 +87,9 @@ export class EditServerComponent implements OnInit {
     this.serverId = this.route.snapshot.paramMap.get('id');
 
     if (this.serverId) {
-      this.rcBackend.getServerById(Number(this.serverId)).subscribe({
+      this.rcBackend.getServerById(this.serverId).subscribe({
         next: (server) => {
-          this.initializeForm(server);
+          this.initializeForm(server)
         },
         error: (error) => {
           console.error('Ошибка при загрузке сервера:', error);
@@ -139,14 +140,20 @@ export class EditServerComponent implements OnInit {
   onSubmit(): void {
     if (this.serverForm.valid) {
       const updatedServer: any = this.serverForm.value;
-      console.log('Обновленный сервер:', updatedServer);
       // Отправляем данные на сервер
-      this.rcBackend.updateServer({...updatedServer, id: Number(this.serverId)}).pipe(take(1)).subscribe({
+      this.rcBackend.updateServer({...updatedServer, id: this.serverId}).pipe(take(1)).subscribe({
         next: () => {
+          this.snackbarService.openSnackBar({
+            contentText: `Информация по серверу успешно обновлена`,
+            appearance: 'success',
+          });
           this.router.navigate(['/user/my-servers']);
         },
-        error: (error) => {
-          console.error('Ошибка при обновлении сервера:', error);
+        error: (err) => {
+          this.snackbarService.openSnackBar({
+            contentText: `Ошибка при обновлении сервера: ${err.error.error}`,
+            appearance: 'warn',
+          });
         }
       });
     }

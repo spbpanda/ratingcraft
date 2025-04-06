@@ -30,8 +30,8 @@
       [matAutocomplete]="auto"
       [attr.data-testid]="testId + '-input'"
       (blur)="onInputBlur($event)"
-      (click)="$event.stopPropagation()"
-      (focusin)="onFocusChange(true)"
+      (click)="$event.stopPropagation(); scrollToRight()"
+      (focusin)="onFocusChange(true); activeInput()"
       (focusout)="onFocusChange(false)"
       (input)="onInputChange($event)"/>
   </sbi-chip-row>

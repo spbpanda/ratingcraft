@@ -178,9 +178,9 @@ body {
   --mat-expansion-header-focus-state-layer-color: var(--text-primary);
   --mat-expansion-header-indicator-color: var(--text-primary);
   --mat-expansion-header-hover-state-layer-color: var(--state-neutral-surfaceprimary---hover);
-
-  .mat-expansion-panel-header.mat-expanded:hover {
-    background: var(--state-neutral-surfaceprimary---hover);
+  
+  .mat-expansion-indicator {
+    height: 24px;
   }
 
   .mdc-list-item:hover,

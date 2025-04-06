@@ -1,4 +1,5 @@
-<div class="sbi-card-badge" [class]="[size]" [attr.data-testid]="testId">
+<div class="sbi-card-badge" [class]="{ static: static, 'large': size === 'large', 'small': size === 'small' }"
+     [attr.data-testid]="testId">
   <sbi-badge
     class="sbi-card-badge-container"
     *ngIf="!!badgeContent"
@@ -31,6 +32,7 @@
       [testId]="testId + '-checkbox'"
       (click)="$event.stopPropagation()"
       (valueChanged)="onClick()"></sbi-checkbox>
+    <ng-content select="[active-actions]"></ng-content>
   </div>
 </div>
 

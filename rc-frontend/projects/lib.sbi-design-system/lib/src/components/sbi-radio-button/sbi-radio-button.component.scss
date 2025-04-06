@@ -44,11 +44,13 @@ $radio-checked: url('data:image/svg+xml,<svg width="20" height="20" viewBox="0 0
     .label {
       @extend .body-large;
       color: var(--text-primary);
+      word-break: break-word;
     }
 
     .link {
       cursor: pointer;
       color: var(--brand-brandblue);
+
       &:hover {
         text-decoration: underline;
       }
@@ -57,22 +59,27 @@ $radio-checked: url('data:image/svg+xml,<svg width="20" height="20" viewBox="0 0
     .note {
       @extend .body-regular;
       color: var(--text-secondary);
+      word-break: break-word;
     }
   }
 
   &.link .label {
     cursor: pointer;
     color: var(--brand-brandblue);
+
     &:hover {
       text-decoration: underline;
     }
   }
 }
 
-:host ::ng-deep {
-  .mdc-label {
+.margin-label {
+  ::ng-deep .mdc-label {
     margin-left: 6px;
   }
+}
+
+:host ::ng-deep {
 
   .mdc-radio__background {
     width: 20px;

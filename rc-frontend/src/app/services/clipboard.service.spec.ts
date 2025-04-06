@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { CookieBannerService } from './cookie-banner.service';
+import { ClipboardService } from './clipboard.service';
 
-describe('CookieBannerServiceService', () => {
-  let service: CookieBannerService;
+describe('ClipboardService', () => {
+  let service: ClipboardService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(CookieBannerService);
+    service = TestBed.inject(ClipboardService);
   });
 
   it('should be created', () => {

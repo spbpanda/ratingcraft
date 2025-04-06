@@ -1,24 +1,28 @@
 <div #sbiCurtainHideBackground>
-  <div [attr.data-testid]="testId + '-hide-background'" (click)="open = false" *ngIf="open" class="hide-background"></div>
+  <div [attr.data-testid]="testId + '-hide-background'" (click)="open = false" *ngIf="open"
+       class="hide-background"></div>
 </div>
 
-<div
-  class="sbi-mobile-curtain-container"
-  sbiResizable
-  #sbiCurtainContainer
-  [activeForOpen]="activeForOpen"
-  [baseSize]="baseSize"
-  [openCloseDelta]="openCloseDelta"
-  [maxHeight]="contentHeight ?? 0"
-  [class.info-open]="open"
-  [open]="open"
-  [attr.data-testid]="testId"
-  (opened)="openOrClose($event)">
-  <div [class.open]="open" class="sbi-mobile-curtain" #sbiCurtainContent>
-    <div class="drag-wrapper" id="drag-line" [attr.data-testid]="testId + '-drag-line'">
-      <div class="drag" id="drag"></div>
+<div class="sbi-mobile-curtain-block" #sbiCurtainContainer>
+  <div
+    class="sbi-mobile-curtain-container"
+    sbiResizable
+    [activeForOpen]="activeForOpen"
+    [baseSize]="baseSize"
+    [openCloseDelta]="openCloseDelta"
+    [maxHeight]="contentHeight ?? 0"
+    [class.info-open]="open"
+    [open]="open"
+    [attr.data-testid]="testId"
+    (opened)="openOrClose($event)">
+    <div [class.open]="open" class="sbi-mobile-curtain" #sbiCurtainContent>
+      <ng-content></ng-content>
     </div>
-
-    <ng-content></ng-content>
+  </div>
+  <div *ngIf="showCloseIcon && open" class="close-icon-wrapper" (click)="openOrClose(false)" (tap)="openOrClose(false)">
+    <sbi-icon [testId]="testId + '-clear-icon'" [iconImage]="closeIcon"></sbi-icon>
+  </div>
+  <div class="drag-wrapper" id="drag-line" [attr.data-testid]="testId + '-drag-line'">
+    <div class="drag" id="drag"></div>
   </div>
 </div>

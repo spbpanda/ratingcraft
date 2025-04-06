@@ -3,6 +3,17 @@
 $box-shadow-first: #23242508 !default;
 $box-shadow-second: #2324250f !default;
 
+.static {
+  .sbi-card-container {
+    cursor: default;
+
+    &:active,
+    &:hover {
+      box-shadow: 0 2px 5px 1px $box-shadow-first, 0 2px 4px 0 $box-shadow-second;
+    }
+  }
+}
+
 .sbi-card-badge {
   width: 100%;
 }

@@ -1,16 +1,12 @@
-import {
-  Component,
-  Input,
-  TemplateRef,
-  ViewChild,
-  ContentChild,
-} from '@angular/core';
+import { Component, ContentChild, Input, TemplateRef, ViewChild, } from '@angular/core';
 
 /**
  * Компонент для отображения отдельной вкладки в группе вкладок SbiTabGroup.
- * 
+ *
  * Поддерживает установку текстовой метки или кастомного шаблона для метки,
  * а также различные размеры и возможность отключения.
+ *
+ * Принимает ng-content для отображения контента.
  *
  * @Component
  * @selector: 'sbi-tab'

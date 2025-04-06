@@ -3,7 +3,7 @@ import { FormArray, FormGroup, FormGroupDirective } from '@angular/forms';
 
 /**
  * Директива для автоматической прокрутки к первому невалидному контролу формы.
- * 
+ *
  * При отправке формы автоматически прокручивает страницу к первому невалидному контролу,
  * что улучшает UX при валидации форм. Также помечает все контролы как "touched" для
  * отображения всех ошибок валидации.
@@ -20,7 +20,7 @@ export class SbiScrollToInvalidControlDirective {
 
   /**
    * Конструктор с ElementRef и FormGroupDirective для работы с DOM и формой.
-   * 
+   *
    * @param {ElementRef} el - Ссылка на DOM-элемент директивы
    * @param {FormGroupDirective} formGroup - Директива формы для доступа к контролам
    */
@@ -36,11 +36,7 @@ export class SbiScrollToInvalidControlDirective {
     this.touchMe(this.formGroup.control);
 
     if (this.formGroup.control.invalid) {
-      if (this.allControlsIsValid()) {
-        this.scrollToFirstElement();
-      } else {
-        this.scrollToFirstInvalidControl();
-      }
+      this.scrollToFirstInvalidControl();
     }
   }
 
@@ -50,17 +46,20 @@ export class SbiScrollToInvalidControlDirective {
    * @private
    */
   private scrollToFirstInvalidControl() {
-    const firstInvalidControl: HTMLElement = this.el.nativeElement.querySelector('.ng-invalid');
+    const form: HTMLFormElement = this.el.nativeElement;
+    const firstInvalidControl = form.querySelector('.ng-invalid');
 
     if (firstInvalidControl) {
       firstInvalidControl.scrollIntoView({behavior: 'smooth', block: 'center'});
+    } else if (form.classList.contains('ng-invalid')) {
+      form.scrollIntoView({behavior: 'smooth', block: 'start'})
     }
   }
 
   /**
    * Рекурсивно помечает все контролы формы как "dirty" и "touched".
    * Обрабатывает вложенные FormGroup и FormArray.
-   * 
+   *
    * @param {FormGroup} group - Группа контролов для обработки
    * @private
    */
@@ -79,17 +78,6 @@ export class SbiScrollToInvalidControlDirective {
       control.markAsDirty();
       control.markAsTouched();
     })
-  }
-
-  /**
-   * Проверяет, все ли контролы формы валидны.
-   * 
-   * @returns {boolean} - true, если все контролы валидны, иначе false
-   * @private
-   */
-  private allControlsIsValid() {
-    const controls = this.formGroup.form.controls;
-    return Object.values(controls).map(control => control.valid).filter(valid => !valid).length === 0;
   }
 
   /**

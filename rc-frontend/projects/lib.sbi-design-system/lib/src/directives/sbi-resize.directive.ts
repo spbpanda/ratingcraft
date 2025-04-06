@@ -35,9 +35,23 @@ export class SbiResizableDirective implements OnChanges, OnDestroy {
     return Math.min(Math.round(window.innerHeight), this.maxHeight);
   }
 
-  @Input() baseSize = 115;
+  private get maxOpenCloseDelta() {
+    if (this.openCloseDelta) {
+      return this.openCloseDelta;
+    }
+    if (this.baseSize) {
+      return this.open ? this.startMaxHeight * 0.3 : this.baseSize * 0.3;
+    }
+    return this.startMaxHeight * 0.3;
+  }
+
+  private get actualBaseSize() {
+    return this.baseSize ?? 0;
+  }
+
+  @Input() baseSize?: number;
   @Input() open = false;
-  @Input() openCloseDelta = 100;
+  @Input() openCloseDelta?: number;
   @Input() maxHeight = 700;
   @Input() activeForOpen = false;
   @Input() draggingElementIds = ['drag-line', 'drag'];
@@ -75,7 +89,7 @@ export class SbiResizableDirective implements OnChanges, OnDestroy {
     const needChangeHeight = (!this.open && move < 0) || (this.open && move > 0);
 
     // Изменяем высоту элемента при движении мышки
-    if (movedDelta > this.baseSize && movedDelta < this.maxHeight && needChangeHeight) {
+    if (movedDelta > this.actualBaseSize && movedDelta < this.maxHeight && needChangeHeight) {
       this.newHeight(movedDelta);
     }
 
@@ -85,8 +99,8 @@ export class SbiResizableDirective implements OnChanges, OnDestroy {
     }
 
     // Возвращаем базовое значение высоту при свёрнутом элементе
-    if (movedDelta <= this.baseSize) {
-      this.newHeight(this.baseSize);
+    if (movedDelta <= this.actualBaseSize) {
+      this.newHeight(this.actualBaseSize);
     }
 
     evt.stopPropagation();
@@ -99,7 +113,7 @@ export class SbiResizableDirective implements OnChanges, OnDestroy {
     const touch = getTouch(evt);
 
     const delta = this.defaultTouchY - touch.clientY;
-    const needToChangeOpenState = this.openCloseDelta < Math.abs(delta);
+    const needToChangeOpenState = this.maxOpenCloseDelta < Math.abs(delta);
     if (!this.open && needToChangeOpenState && delta > 0) {
       this.openElement();
     } else if (this.open && needToChangeOpenState && delta < 0) {
@@ -122,7 +136,7 @@ export class SbiResizableDirective implements OnChanges, OnDestroy {
   }
 
   private closeElement() {
-    this.newHeight(this.baseSize);
+    this.newHeight(this.actualBaseSize);
     this.open = false;
     this.opened.emit(false);
   }
@@ -136,7 +150,7 @@ export class SbiResizableDirective implements OnChanges, OnDestroy {
     const offset = Number(this.el.nativeElement.offsetHeight ?? 0);
     const height = Math.min(window.innerHeight * 0.9, this.maxHeight);
     const startMaxHeight = offset > height ? Math.floor(height) : offset;
-    this.startMaxHeight = this.open ? startMaxHeight : this.baseSize;
+    this.startMaxHeight = this.open ? startMaxHeight : this.actualBaseSize;
     this.defaultTouchY = touch.clientY;
   }
 
@@ -160,11 +174,11 @@ export class SbiResizableDirective implements OnChanges, OnDestroy {
   }
 
   addEventListeners() {
-    document.addEventListener('touchmove', evt => this.mouseMoveG(evt), {passive: false});
+    document.addEventListener('touchmove', evt => this.mouseMoveG(evt), { passive: false });
     document.addEventListener('touchend', evt => this.mouseUpG(evt), true);
     document.addEventListener('touchstart', evt => this.mouseDown(evt), true);
 
-    document.addEventListener('mousemove', evt => this.mouseMoveG(evt), {passive: false});
+    document.addEventListener('mousemove', evt => this.mouseMoveG(evt), { passive: false });
     document.addEventListener('mouseup', evt => this.mouseUpG(evt), true);
     document.addEventListener('mousedown', evt => this.mouseDown(evt), true);
   }

@@ -1,0 +1,27 @@
+<div class="sbi-avatar sbi-avatar-{{size}}" (click)="onAvatarClick($event)">
+  <!-- Изображение аватара -->
+  @if (imageUrl) {
+    <img [src]="imageUrl" alt="Avatar" class="sbi-avatar-image">
+  }
+
+  <!-- Инициалы (показываются только если нет изображения) -->
+  @if (!imageUrl && initials) {
+    <div class="sbi-avatar-initials">{{ initials }}</div>
+  }
+
+  <!-- Бейдж (используем компонент sbi-badge) -->
+  @if (showBadge) {
+    <sbi-badge [size]="size === 'large' ? 'large' : 'small'" type="accent">
+    </sbi-badge>
+  }
+
+  <!-- Иконка с изображением -->
+  @if (sbiIcon && size === 'large') {
+    <div class="sbi-avatar-icon" (click)="onIconClick($event)">
+      <div class="sbi-avatar-icon-background"></div>
+      <div class="sbi-avatar-icon-inner">
+        <sbi-icon [iconImage]="sbiIcon"></sbi-icon>
+      </div>
+    </div>
+  }
+</div>

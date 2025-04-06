@@ -1,7 +1,8 @@
+import { ClipboardService } from './../../services/clipboard.service';
 import { Component, inject, Input } from '@angular/core';
 import { Server } from '../../common/interfaces/server';
 import { RcButtonComponent } from '../rc-button/rc-button.component';
-import { SbiChipComponent } from '@sbi/design-system';
+import { SbiChipComponent, SbiSnackBarService } from '@sbi/design-system';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { GetItemValuePipe } from '../../common/pipes/get-item-value.pipe';
@@ -15,6 +16,7 @@ import { GetItemValuePipe } from '../../common/pipes/get-item-value.pipe';
     RcButtonComponent,
     GetItemValuePipe
   ],
+  providers: [SbiSnackBarService],
   templateUrl: './server-banner.component.html',
   styleUrl: './server-banner.component.scss'
 })
@@ -23,8 +25,15 @@ export class ServerBannerComponent {
   @Input() server!: Server;
 
   private route = inject(Router);
+  clipboardService = inject(ClipboardService);
+  snackbarService = inject(SbiSnackBarService);
 
-  redirectToServer(id: number) {
+  redirectToServer(id: string) {
     this.route.navigate(['server-info', id]);
+  }
+
+  async copyText(server: Server) {
+    await this.clipboardService.copyToClipboard(server.address);
+    setTimeout(() => { this.snackbarService.openSnackBar({contentText: 'Скопировано!', appearance: 'success'}) },10);
   }
 }

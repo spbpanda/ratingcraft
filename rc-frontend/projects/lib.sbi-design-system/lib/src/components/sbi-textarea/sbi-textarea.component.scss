@@ -95,12 +95,10 @@ mat-form-field {
     }
 
     // Default
-    .mdc-text-field--filled.mdc-text-field:not(.mdc-text-field--disabled):not(
-        .mdc-text-field--invalid
-      ) {
+    .mdc-text-field--filled.mdc-text-field:not(.mdc-text-field--disabled):not(.mdc-text-field--invalid) {
       background: var(--surface-primary);
       border-radius: 16px;
-      border: 1px solid var(--state-neutral-borderprimary---hover);
+      border: 1px solid var(--border-primary);
       padding: 0;
       width: 100%;
       min-height: 90px;
@@ -112,7 +110,11 @@ mat-form-field {
       }
 
       &:hover {
-        border-color: var(--border-fockus);
+        border-color: var(--state-neutral-borderprimary---hover);
+      }
+
+      &:focus {
+        border-color: var(--state-neutral-borderprimary---pressed);
       }
 
       .mdc-floating-label {
@@ -121,9 +123,7 @@ mat-form-field {
     }
 
     // Invalid
-    .mdc-text-field--filled.mdc-text-field.mdc-text-field--invalid:not(
-        .mdc-text-field--disabled
-      ) {
+    .mdc-text-field--filled.mdc-text-field.mdc-text-field--invalid:not(.mdc-text-field--disabled) {
       border-radius: 16px;
       padding: 0;
       background: var(--surface-primary);
@@ -200,9 +200,7 @@ mat-form-field {
       z-index: 1;
     }
 
-    .mdc-text-field--filled.mdc-text-field.mdc-text-field--invalid:not(
-        .mdc-text-field--disabled
-      ),
+    .mdc-text-field--filled.mdc-text-field.mdc-text-field--invalid:not(.mdc-text-field--disabled),
     .mdc-text-field--filled.mdc-text-field.mdc-text-field--disabled {
       .textarea-container {
         padding-bottom: 32px;
@@ -225,6 +223,7 @@ mat-form-field {
     color: var(--text-secondary);
     position: relative;
     z-index: 1;
+    word-break: break-word;
   }
 
   sbi-error {

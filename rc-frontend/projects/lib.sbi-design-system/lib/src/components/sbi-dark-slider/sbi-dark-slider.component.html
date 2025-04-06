@@ -1,7 +1,3 @@
 <button mat-button (click)="toggleTheme()" [id]="testId">
-    @if (themeService.isDarkTheme$ | async) {
-        Light Theme
-    } @else {
-        Dark Theme
-    }
+  <span class="sbi-dark-slider-label">{{ (themeService.isDarkTheme$ | async) ? 'Light' : 'Dark' }} Theme</span>
 </button>

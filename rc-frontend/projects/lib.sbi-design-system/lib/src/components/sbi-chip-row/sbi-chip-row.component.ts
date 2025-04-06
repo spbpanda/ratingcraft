@@ -12,6 +12,21 @@ import {
 import { FormControl } from '@angular/forms';
 import { SbiChipComponent } from '../sbi-chip/sbi-chip.component';
 
+
+/**
+ * Chip row - Компонент, отображаемый список chip-ов.
+ *
+ * Принимает несколько ng-content для отображения контента:
+ * 1. in-chip-row - контент отображаемый в блоке chip-ов, после всех элементов;
+ * 2. under-chip-row - контент отображаемый после блока chip-ов.
+ *
+ * @Component
+ * @selector: 'sbi-chip-row'
+ * @standalone: true
+ * @imports: [SbiChipComponent]
+ * @templateUrl: './sbi-chip-row.component.html'
+ * @styleUrls: ['sbi-chip-row.component.scss'],
+ *  */
 @Component({
   selector: 'sbi-chip-row',
   templateUrl: './sbi-chip-row.component.html',

@@ -1,4 +1,4 @@
-@import "../../../assets/fonts/sbi.typography";
+@import '../../../assets/fonts/sbi.typography';
 
 $action-card-box-shadow: #2324250f !default;
 
@@ -13,7 +13,8 @@ $action-card-box-shadow: #2324250f !default;
   box-shadow: 0 2px 5px 1px #23242508, 0 2px 4px 0 $action-card-box-shadow;
 
   &:hover {
-    box-shadow: 0 0 2px 0 $action-card-box-shadow, 0 0 6px 0 $action-card-box-shadow, 0 6px 12px 0 $action-card-box-shadow;
+    box-shadow: 0 0 2px 0 $action-card-box-shadow, 0 0 6px 0 $action-card-box-shadow,
+    0 6px 12px 0 $action-card-box-shadow;
   }
 
   &:active {
@@ -35,6 +36,7 @@ $action-card-box-shadow: #2324250f !default;
     .subtitle {
       @extend .body-regular;
       color: var(--text-secondary);
+      word-break: break-word;
     }
   }
 
@@ -51,6 +53,7 @@ $action-card-box-shadow: #2324250f !default;
 .tint {
   .sbi-action-card {
     background-color: var(--surface-informationtint);
+    box-shadow: none;
 
     &:hover {
       box-shadow: none;

@@ -1,8 +1,8 @@
-<div class="sbi-modal-form-container">
+<div class="sbi-modal-form-container" [class]="adaptiveSize">
   <div
     sbiResizable
     class="sbi-modal-info-block"
-    [ngClass]="{ 'no-scroll': noScroll }"
+    [ngClass]="{ scrollable: scrollableContent }"
     [open]="true"
     (opened)="!$event && onClose()"
     [baseSize]="0"
@@ -11,14 +11,44 @@
     [activeForOpen]="meIsActive && isMobile"
     [openCloseDelta]="openCloseDelta"
     [attr.data-testid]="testId">
-    <div class="icon-wrapper" (click)="onClose()" (tap)="onClose()">
-      <sbi-icon [testId]="testId + '-clear-icon'" [iconImage]="closeIcon"></sbi-icon>
+    <div class="sbi-dialog-content">
+      <ng-content select="[dialog-header]"></ng-content>
+      <div class="sbi-modal-form-header header" *ngIf="type === 'header' && title">
+        <div class="sbi-dialog-title" *ngIf="title">{{ title }}</div>
+        <div *ngIf="showCloseIcon" class="close-icon-wrapper" (click)="onClose()" (tap)="onClose()">
+          <sbi-icon [testId]="testId + '-clear-icon'" [iconImage]="closeIcon"></sbi-icon>
+        </div>
+      </div>
+      <sbi-divider class="modal-divider" *ngIf="title && type === 'header'"></sbi-divider>
+      <div class="scroll-container" [ngClass]="type">
+        @if (type === 'illustration') {
+          <div class="sbi-modal-form-header illustration"
+               *ngIf="type === 'illustration' && (title || note || showIcon)">
+            <sbi-icon class="icon" *ngIf="showIcon" [iconImage]="icon"></sbi-icon>
+            <ng-content select="[dialog-icon]"></ng-content>
+            <div class="sbi-dialog-title" *ngIf="title">{{ title }}</div>
+            <div class="sbi-dialog-note" *ngIf="note">{{ note }}</div>
+          </div>
+        } @else {
+          <div class="sbi-dialog-note" *ngIf="note">{{ note }}</div>
+        }
+        <ng-content></ng-content>
+        <div class="sbi-modal-button-container" [ngClass]="type" *ngIf="submitButtonTitle || secondButtonTitle">
+          <sbi-button *ngIf="submitButtonTitle" appearance="primary" size="small" (click)="onSubmitClick()">
+            {{ submitButtonTitle }}
+          </sbi-button>
+          <sbi-button *ngIf="secondButtonTitle" appearance="primary-tint" size="small" (click)="onSecondaryClick()">
+            {{ secondButtonTitle }}
+          </sbi-button>
+          <ng-content select="[dialog-buttons]"></ng-content>
+        </div>
+      </div>
     </div>
-    <div *ngIf="isMobile" class="drag-wrapper" id="drag-line">
-      <div class="drag" id="drag" [attr.data-testid]="testId + '-drag-line'"></div>
-    </div>
-    <div class="scroll-container">
-      <ng-content></ng-content>
-    </div>
+  </div>
+  <div *ngIf="isMobile" class="drag-wrapper" id="drag-line">
+    <div class="drag" id="drag" [attr.data-testid]="testId + '-drag-line'"></div>
+  </div>
+  <div *ngIf="type==='illustration' && showCloseIcon" class="close-icon-wrapper" (click)="onClose()" (tap)="onClose()">
+    <sbi-icon [testId]="testId + '-clear-icon'" [iconImage]="closeIcon"></sbi-icon>
   </div>
 </div>

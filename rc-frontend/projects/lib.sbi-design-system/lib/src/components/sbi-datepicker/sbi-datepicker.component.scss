@@ -14,11 +14,8 @@ mat-form-field {
     color: var(--text-secondary) !important;
   }
 
-  .calendar-icon {
-    padding-top: 2px;
-  }
-
   .mat-datepicker-content {
+    --mdc-icon-button-state-layer-size: 24px;
     --mat-datepicker-calendar-container-shape: 16px;
     --mat-datepicker-calendar-date-text-color: var(--text-primary);
     --mat-datepicker-calendar-header-text-color: var(--text-primary);
@@ -210,6 +207,19 @@ mat-form-field {
         border-bottom-left-radius: 0 !important;
         border-top-right-radius: 50% !important;
         border-bottom-right-radius: 50% !important;
+      }
+    }
+  }
+
+  .mat-mdc-form-field-icon-suffix .mat-datepicker-toggle {
+    --mat-icon-button-state-layer-color: transparent;
+    .mat-mdc-icon-button {
+      &.mat-mdc-button-base {
+        --mdc-icon-button-state-layer-size: 24px;
+        padding: 0 4px 0 0;
+      }
+      .mat-mdc-focus-indicator, .mat-mdc-button-touch-target, .mat-mdc-button-ripple {
+        display: none;
       }
     }
   }

@@ -1,0 +1,2 @@
+export const JAVA_DEFAULT_PORT = 25565;
+export const BEDROCK_DEFAULT_PORT = 19132;

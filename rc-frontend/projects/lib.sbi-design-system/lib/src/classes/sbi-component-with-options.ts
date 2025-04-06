@@ -11,7 +11,15 @@ export abstract class SbiComponentWithOptions<T> extends SbiComponentWithInput<T
     return CHEVRON_DOWN_ICON_SVG;
   }
 
+  @Input() hasDisabledOptions = false;
   @Input() options: SelectableItem<T>[] | null = [];
 
   @Output() selectionChange: EventEmitter<T> = new EventEmitter<T>();
+
+  public isDisabledOption(option: SelectableItem<T>) {
+    if (!this.hasDisabledOptions) {
+      return false;
+    }
+    return Boolean((option as any).disabled);
+  }
 }

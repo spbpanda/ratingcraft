@@ -6,7 +6,7 @@
     [disabled]="option.disabled">
     <div
       class="sbi-radio-label"
-      [ngClass]="{ link: option.isLink }"
+      [ngClass]="{ link: option.isLink, 'margin-label': !!option.label || !!option.note }"
       (click)="onClickToLink(option)"
       [attr.data-testid]="testId + '-radio-label'">
       @if (option.label || option.note) {

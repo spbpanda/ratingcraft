@@ -6,6 +6,7 @@ import { CLEAR_ICON_SVG } from '../const/icons';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { SelectableItem } from '../models/selectable-item';
+import { isEqual } from '../utils/check-equal-objects';
 
 @Component({
   template: ``,
@@ -27,7 +28,6 @@ export abstract class SbiComponentWithAutocomplete<T>
   @Input() prefixIconType: PrefixIconType = 'none';
   @Input() inputUppercaseActive: boolean = false;
   @Input() inputTitleCaseActive: boolean = false;
-  @Input() hasDisabledOptions = false;
   @Input() mask: MaskitoOptions = {
     mask: /\.*/,
   };
@@ -81,27 +81,18 @@ export abstract class SbiComponentWithAutocomplete<T>
   }
 
   private async setNewOptionsIfNotEquals(opts: SelectableItem<T>[]) {
-    let equals = true;
     const actualValues = this.filteredOptions$.value;
     if (actualValues.length !== opts.length) {
       this.filteredOptions$.next(opts);
       return;
     }
-    actualValues.forEach((elem, idx) => (equals = equals && this.compareFn(elem.value, opts[idx].value)));
-    if (!equals) {
+    if (actualValues.some((elem, idx) => !isEqual(elem, opts[idx]))) {
       this.filteredOptions$.next(opts);
     }
   }
 
   public override onClearControl(event: Event) {
     this.clearControl.emit(event);
-  }
-
-  public isDisabledOption(option: SelectableItem<T>) {
-    if (!this.hasDisabledOptions) {
-      return false;
-    }
-    return Boolean((option as any).disabled);
   }
 
   public trackByFn(index: number, item: any): any {

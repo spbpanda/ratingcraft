@@ -21,6 +21,8 @@ export * from './models/date-range.model';
 export * from './models/multi-autocomplete';
 export * from './models/counted-caption.model';
 export * from './models/input.types';
+export * from './models/avatar.types';
+export * from './models/side-bar-model';
 
 // Directives
 export * from './directives/sbi-upload-file.directive';
@@ -74,19 +76,16 @@ export * from './components/sbi-multi-autocomplete/sbi-multi-autocomplete.compon
 export * from './components/sbi-action-card/sbi-action-card.component';
 export * from './components/sbi-suggest-chip/sbi-suggest-chip.component';
 export * from './components/sbi-suggest-chip-row/sbi-suggest-chip-row.component';
-export * from './components/sbi-footer/sbi-footer.component';
 export * from './components/sbi-progress-bar/sbi-progress-bar.component';
 export * from './components/sbi-card-element/sbi-card-element.component';
 export * from './components/sbi-snackbar/sbi-snackbar.component';
+export * from './components/sbi-avatar/sbi-avatar.component';
+export * from './components/sbi-floating-action-button/sbi-floating-action-button.component';
 
 // Services
 export * from './components/sbi-dark-slider/theme.service';
 export * from './components/sbi-stepper/sbi-stepper.service';
 export * from './services/sbi-swipe-service';
-export * from './services/cookie-banner.service';
-export * from './components/sbi-banner/sbi-banner.service';
-export * from './services/yandex-metrika.service';
-export * from './services/dmpkit-metrics.service';
 export * from './components/sbi-snackbar/sbi-snackbar.service';
 
 // Pipes
@@ -96,3 +95,6 @@ export * from './pipes/sbi-sum-formatter.pipe';
 export * from './pipes/sbi-animated-number.pipe';
 export * from './pipes/sbi-translit.pipe';
 export * from './pipes/sbi-translit-keyboard.pipe';
+
+// Utils
+export * from './utils/check-equal-objects';

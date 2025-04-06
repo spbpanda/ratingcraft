@@ -1,77 +1,79 @@
+@import '../../../assets/fonts/sbi.typography';
+
 :host.hide-banner {
-    display: none;
+  display: none;
 }
 
-.sbi-banner{
-    &__wrapper {
-        display: flex;
-        align-items: center;
-        border-radius: 16px;
-        padding: 16px;
+.sbi-banner {
+  &__wrapper {
+    display: flex;
+    align-items: center;
+    border-radius: 16px;
+    padding: 16px;
 
-        &--info {
-            background-color: var(--surface-informationtint);
+    &--info {
+      background-color: var(--surface-informationtint);
 
-            ::ng-deep svg path {
-                fill: var(--alias-informations-500);
-            }
-        }
-
-        &--warn {
-            background-color: var(--surface-errortint);
-
-            ::ng-deep svg path {
-                fill: var(--alias-warning-500);
-            }
-        }
-
-        &--success {
-            background-color: var(--surface-accenttint);
-
-            ::ng-deep svg path {
-                fill: var(--icons-accent);
-            }
-        }
+      ::ng-deep svg path {
+        fill: var(--alias-informations-500);
+      }
     }
 
-    &__column {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 8px;
+    &--warn {
+      background-color: var(--surface-errortint);
+
+      ::ng-deep svg path {
+        fill: var(--alias-warning-500);
+      }
     }
 
-    &__header {
-        display: flex;
-        align-items: center;
-        width: 100%
-    }
+    &--success {
+      background-color: var(--surface-accenttint);
 
-    &__title {
-        flex-grow: 1;
+      ::ng-deep svg path {
+        fill: var(--icons-accent);
+      }
     }
+  }
 
-    &__icon {
-        margin-right: 8px;
-        width: 24px;
-        height: 24px;
-    }
+  &__column {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
 
-    &__icon-close {
-        margin-left: auto;
-        display: flex;
-        align-self: flex-start;
-        width: 24px;
-        height: 24px;
-        cursor: pointer;
-    }
+  &__header {
+    display: flex;
+    align-items: center;
+    width: 100%
+  }
+
+  &__title {
+    flex-grow: 1;
+  }
+
+  &__icon {
+    margin-right: 8px;
+    width: 24px;
+    height: 24px;
+  }
+
+  &__icon-close {
+    margin-left: auto;
+    display: flex;
+    align-self: flex-start;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+  }
 
 }
 
 ::ng-deep .sbi-banner {
-    --mdc-snackbar-supporting-text-color: var(--text-primary);
-    --mdc-snackbar-container-color: transparent;
-    
-    .mdc-snackbar__surface {
-        box-shadow: none !important;
-    }
+  --mdc-snackbar-supporting-text-color: var(--text-primary);
+  --mdc-snackbar-container-color: transparent;
+
+  .mdc-snackbar__surface {
+    box-shadow: none !important;
+  }
 }

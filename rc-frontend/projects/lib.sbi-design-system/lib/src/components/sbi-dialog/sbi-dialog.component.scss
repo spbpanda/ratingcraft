@@ -1,3 +1,16 @@
+@import '../../../assets/fonts/sbi.typography';
+
+:host {
+  width: 100%;
+}
+
+.sbi-dialog-content {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 100%;
+}
+
 .sbi-modal-form-container {
   display: flex;
   flex-direction: row;
@@ -5,27 +18,99 @@
   max-height: 90vh;
   overflow: hidden;
   height: 100%;
-}
+  width: 100%;
 
-.no-scroll {
-  .scroll-container {
-    overflow: hidden !important;
+  &.small {
+    min-width: 360px;
+  }
+
+  &.large {
+    min-width: 440px;
   }
 }
 
 .sbi-modal-info-block {
-  padding: 4px;
+  padding: 0 4px;
   background-color: var(--surface-primary);
-  border-radius: 12px;
+  border-radius: 16px;
   overflow: hidden;
   width: 100%;
 
+  .sbi-modal-form-header.header {
+    display: flex;
+    align-items: center;
+    height: 56px;
+    min-height: 56px;
+    padding: 0 16px;
+  }
+
+  .scroll-container.header {
+    padding: 16px 20px 24px;
+  }
+
   .scroll-container {
-    overflow-y: scroll;
-    overflow-x: hidden;
-    height: calc(100% - 36px);
+    overflow: hidden;
     width: auto;
-    padding: 36px;
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    height: 100%;
+
+    .sbi-modal-form-header {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      .modal-divider {
+        position: relative;
+        width: 120%;
+        left: -5%;
+      }
+
+      .icon {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 8px;
+
+        ::ng-deep .sbi-icon {
+          height: 60px;
+          width: 60px;
+        }
+      }
+    }
+
+    .sbi-modal-form-header.illustration {
+      align-items: center;
+    }
+
+    .sbi-modal-button-container {
+      display: flex;
+      flex-direction: row;
+      gap: 8px;
+
+      ::ng-deep button {
+        width: fit-content;
+      }
+    }
+
+    .sbi-modal-button-container.illustration {
+      justify-content: center;
+    }
+
+    .sbi-modal-button-container.header {
+      justify-content: start;
+    }
+  }
+}
+
+.scrollable {
+  .scroll-container {
+    overflow-y: scroll !important;
+
+    &:hover {
+      padding-right: 17px;
+    }
 
     &::-webkit-scrollbar {
       width: 3px;
@@ -54,34 +139,50 @@
   box-shadow: none;
 }
 
-.icon-wrapper {
-  position: absolute;
-  right: 0;
-  height: 40px;
-  width: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.close-icon-wrapper {
+  ::ng-deep svg {
+    path {
+      fill: var(--icons-tertiary) !important;
+    }
+  }
+}
 
-  ::ng-deep sbi-icon div {
-    height: 24px;
-    width: 24px;
-    cursor: pointer;
+.sbi-dialog-title {
+  @extend .headline-regular;
+  color: var(--text-primary);
+  word-break: break-word;
+}
 
-    ::ng-deep svg path {
-      fill: var(--text-tertiary);
+.sbi-dialog-note {
+  @extend .body-large;
+  color: var(--text-secondary);
+  word-break: break-word;
+}
+
+@media (max-width: 1150px) {
+  .sbi-modal-button-container {
+    sbi-button,
+    ::ng-deep button {
+      width: 100% !important;
+    }
+
+    &.illustration {
+      flex-direction: column !important;
     }
   }
 }
 
 // Планшет
-@media (max-width: 1150px) {
+@media (max-width: 550px) {
+
+  ::ng-deep .mat-mdc-dialog-surface .mdc-dialog__surface::before {
+    content: none !important;
+  }
+
   ::ng-deep .mat-mdc-dialog-container .mdc-dialog__surface {
     background-color: var(--surface-primary);
-    border-top-left-radius: 24px;
-    border-top-right-radius: 24px;
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
+    border-radius: 16px 16px 0 0;
+    overflow: hidden !important;
   }
   ::ng-deep .cdk-overlay-pane.mat-mdc-dialog-panel {
     width: 100% !important;
@@ -91,30 +192,31 @@
     max-width: unset !important;
   }
 
-  .sbi-modal-info-block {
-    border-bottom-left-radius: 0;
-    border-bottom-right-radius: 0;
+  .sbi-modal-form-container.large,
+  .sbi-modal-form-container.small {
     width: 100%;
+  }
+
+  .sbi-modal-info-block {
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
+    width: 100%;
+    padding-bottom: 12px;
 
     .scroll-container {
-      padding: 0 36px;
-    }
-
-    .drag-wrapper {
-      margin: 20px 0;
+      padding: 12px 12px 0 12px;
     }
   }
-}
 
-// Мобилка
-@media (max-width: 550px) {
-  .sbi-modal-info-block {
+  .scrollable {
     .scroll-container {
-      padding: 0 16px;
+      &:hover {
+        padding-right: 13px;
+      }
     }
+  }
 
-    .drag-wrapper {
-      margin: 12px 0;
-    }
+  .scroll-container.header {
+    padding-bottom: 0 !important;
   }
 }

@@ -48,7 +48,7 @@ $default-box-shadow: #3338640f !default;
   border-radius: 12px;
 
   &.invalid {
-    border-color: var(--brand-brandorange);
+    border-color: var(--border-warning);
   }
 
   &__container {
@@ -138,15 +138,15 @@ $default-box-shadow: #3338640f !default;
 }
 
 .sbi-file-over {
-  background-color: var(--alias-accent-100);
-  border: 1px solid var(--brand-brandgreen);
+  background-color: var(--surface-accenttint);
+  border: 1px solid var(--surface-accenttint);
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 77px;
 
   &__label {
-    color: var(--brand-brandgreen);
+    color: var(--surface-accent);
 
     font-size: 14px;
     font-weight: 400;
@@ -173,7 +173,7 @@ $default-box-shadow: #3338640f !default;
 }
 
 .invalid {
-  color: var(--brand-brandorange);
+  color: var(--surface-warning);
 }
 
 .desktop {
