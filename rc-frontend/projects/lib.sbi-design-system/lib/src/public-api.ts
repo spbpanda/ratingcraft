@@ -12,7 +12,6 @@ export * from './classes/sbi-swipe-component';
 export * from './models/selectable-item';
 export * from './models/toggle-button';
 export * from './models/upload-files';
-export * from './components/sbi-stepper/stepper.model';
 export * from './models/status.types';
 export * from './models/badge.types';
 export * from './models/card.types';
@@ -59,7 +58,6 @@ export * from './components/sbi-dark-slider/sbi-dark-slider.component';
 export * from './components/sbi-chip/sbi-chip.component';
 export * from './components/sbi-chip-row/sbi-chip-row.component';
 export * from './components/sbi-button-toggle-group/sbi-button-toggle-group.component';
-export * from './components/sbi-stepper/sbi-stepper.component';
 export * from './components/sbi-sms-code/sbi-sms-code.component';
 export * from './components/sbi-file-uploader/sbi-file-uploader.component';
 export * from './components/sbi-mobile-curtain/sbi-mobile-curtain.component';
@@ -84,7 +82,6 @@ export * from './components/sbi-floating-action-button/sbi-floating-action-butto
 
 // Services
 export * from './components/sbi-dark-slider/theme.service';
-export * from './components/sbi-stepper/sbi-stepper.service';
 export * from './services/sbi-swipe-service';
 export * from './components/sbi-snackbar/sbi-snackbar.service';
 
