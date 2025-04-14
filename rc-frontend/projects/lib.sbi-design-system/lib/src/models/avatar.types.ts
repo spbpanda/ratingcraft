@@ -1,9 +1,14 @@
 /**
  * Размеры аватара
  */
-export type AvatarSize = 'large' | 'regular' | 'small' | 'extra-small';
+export type SbiAvatarSize = 'large' | 'regular' | 'small' | 'extra-small';
 
 /**
  * Типы аватара
  */
-export type AvatarType = 'image' | 'initials'; 
+export type SbiAvatarType = 'image' | 'initials'; 
+
+/**
+ * Гендер пользователя в аватаре
+ */
+export type SbiAvatarGender = 'MALE' | 'FEMALE'; 

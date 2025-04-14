@@ -1,0 +1,14 @@
+<sbi-dialog (close)="dialogRef.close()" (secondaryClick)="dialogRef.close()" (submitClick)="dialogRef.close()"
+    [note]="" [title]="'Усилить позицию в рейтинге!'" [type]="'header'" [scrollableContent]="false" [showCloseIcon]="true">
+    <div class="dialog">
+        <div class="content">
+            <sbi-input [control]="boostControl" type="number" placeholder="Сколько баллов добавить" label="Баллы"></sbi-input>
+            <!-- TODO: сделать то что будет показывать сумму -->
+            Будет стоить: {{boostControl.value ?? 0 | sbiSumFormatter }}
+        </div>
+        <div class="dialog--actions">
+            <rc-button [type]="'default'" (click)="dialogRef.close()">Отмена</rc-button>
+            <rc-button [type]="'warning'" (click)="boostServer()">Раскрутить!</rc-button>
+        </div>
+    </div>
+</sbi-dialog>

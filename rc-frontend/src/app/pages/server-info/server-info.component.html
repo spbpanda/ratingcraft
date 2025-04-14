@@ -30,7 +30,7 @@
             </div>
             <div class="content__info">
                 <div class="content__info-label">Место в топе</div>
-                <div class="content__info-value">Место в топе</div>
+                <div class="content__info-value">{{ server.ratingPlace }}</div>
             </div>
             <div class="content__info">
                 <div class="content__info-label">Баллы</div>
@@ -38,15 +38,33 @@
             </div>
             <div class="content__info">
                 <div class="content__info-label">Сайт сервера</div>
-                <div class="content__info-value"><a [href]="server.site" class="link" target="_blank">{{server.site}}</a></div>
+                <div class="content__info-value">
+                    @if (server.site) {
+                        <a [href]="server.site" class="link" target="_blank">{{server.site}}</a>
+                    } @else {
+                        Ссылка не добавлена
+                    }
+                </div>
             </div>
             <div class="content__info">
                 <div class="content__info-label">Группа сервера в ВК</div>
-                <div class="content__info-value"><a [href]="server.vk" class="link" target="_blank">{{server.vk}}</a></div>
+                <div class="content__info-value">
+                    @if (server.site) {
+                        <a [href]="server.vk" class="link" target="_blank">{{server.vk}}</a>
+                    } @else {
+                        Ссылка не добавлена
+                    }
+                </div>
             </div>
             <div class="content__info">
                 <div class="content__info-label">Discord</div>
-                <div class="content__info-value"><a [href]="server.discord" class="link" target="_blank">{{server.discord}}</a></div>
+                <div class="content__info-value">
+                    @if (server.site) {
+                        <a [href]="server.discord" class="link" target="_blank">{{server.discord}}</a>
+                    } @else {
+                        Ссылка не добавлена
+                    }
+                </div>
             </div>
         </div>
         <sbi-divider></sbi-divider>
@@ -94,7 +112,11 @@
         <div class="content">
             <div class="content__title">Описание сервера</div>
             <div class="content__info">
-                <div class="content__info-value" [innerHtml]="server.description"></div>
+                @if (server.description) {
+                    <div class="content__info-value" [innerHtml]="server.description"></div>
+                } @else {
+                    <div class="content__info-value">Описания нет</div>
+                }
             </div>
         </div>
         <sbi-divider></sbi-divider>
@@ -102,13 +124,17 @@
             <div class="content__title">Скриншоты</div>
             <div class="content__info">
                 <div class="screenshot-gallery">
-                  <div 
-                    *ngFor="let screenshot of server.screenshots; let i = index" 
-                    class="screenshot-thumbnail"
-                    (click)="openImageDialog(screenshot)"
-                  >
-                    <img [src]="screenshot" alt="Screenshot {{ i + 1 }}" />
-                  </div>
+                    @if (server.screenshots && server.screenshots.length > 0) {
+                        <div 
+                          *ngFor="let screenshot of server.screenshots; let i = index" 
+                          class="screenshot-thumbnail"
+                          (click)="openImageDialog(screenshot)"
+                        >
+                          <img [src]="screenshot" alt="Screenshot {{ i + 1 }}" />
+                        </div>
+                    } @else {
+                        <div class="content__info-value">Скриншотов нет</div>
+                    }
                 </div>
               </div>
         </div>

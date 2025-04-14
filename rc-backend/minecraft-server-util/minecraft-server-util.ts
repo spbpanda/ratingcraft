@@ -12,7 +12,6 @@ const { status } = require('minecraft-server-util');
 export default async function getMinecraftServerStatus(host: string, port?: number) {
     try {
         const response = await status(host, port ?? JAVA_DEFAULT_PORT) ?? await statusBedrock(host, port ?? BEDROCK_DEFAULT_PORT);
-        console.log(response);
         return {
             online: true,
             host: host,

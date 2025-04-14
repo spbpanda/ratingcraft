@@ -19,29 +19,44 @@ export class SbiFeedbackQuestionsComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<boolean>();
   private compareFn = (elem1: FeedbackQuestion, elem2: FeedbackQuestion) =>
     JSON.stringify(elem1) === JSON.stringify(elem2);
-  private selectedFeedbackQuestions = new SelectionModel<FeedbackQuestion>(true, [], true, this.compareFn);
+  public selectedFeedbackQuestions = new SelectionModel<FeedbackQuestion>(true, [], true, this.compareFn);
 
-  public comment = new FormControl('');
+  public commentControl = new FormControl('');
 
   @Input() questions: FeedbackQuestion[] = [];
   @Input() testId: string = 'sbi-feedback-questions-test-id';
+
+  @Input() set selectedQuestions(selectedQuestions: FeedbackQuestion[]) {
+    this.selectedFeedbackQuestions.clear();
+    this.selectedFeedbackQuestions.select(...selectedQuestions);
+  }
+
+  @Input() set comment(comment: string) {
+    this.commentControl.setValue(comment);
+  }
 
   @Output() changeSelectedFeedbackQuestions = new EventEmitter<FeedbackQuestion[]>();
   @Output() changeComment = new EventEmitter<string>();
 
   public get showComment() {
-    return this.selectedFeedbackQuestions.isSelected({label: 'Другое'})
+    return this.selectedFeedbackQuestions.isSelected({ label: 'Другое' })
   }
 
   ngOnInit() {
-    this.comment.valueChanges
+    this.commentControl.valueChanges
       .pipe(takeUntil(this.destroy$), debounceTime(300))
       .subscribe(comment => this.changeComment.emit(comment || ''));
   }
 
   public onSelectedFeedbackQuestions(selectedFeedbackQuestion: FeedbackQuestion) {
-    this.selectedFeedbackQuestions.toggle(selectedFeedbackQuestion);
-    this.changeSelectedFeedbackQuestions.emit(this.selectedFeedbackQuestions.selected);
+    if (selectedFeedbackQuestion.label === 'Другое') {
+      this.commentControl.setValue('');
+    }
+    if (this.selectedFeedbackQuestions.isSelected(selectedFeedbackQuestion)) {
+      this.changeSelectedFeedbackQuestions.emit(this.selectedFeedbackQuestions.selected.filter(elem => !this.compareFn(elem, selectedFeedbackQuestion)))
+    } else {
+      this.changeSelectedFeedbackQuestions.emit(this.selectedFeedbackQuestions.selected.concat(selectedFeedbackQuestion));
+    }
   }
 
   ngOnDestroy() {

@@ -2,11 +2,11 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatChip } from '@angular/material/chips';
 import { NgClass, NgIf } from '@angular/common';
 import { SbiIconComponent } from '../sbi-icon/sbi-icon.component';
-import { CLEAR_ICON_SVG } from '../../const/icons';
+import { BUTTON_CROSS } from '../../const/icons';
 
 /**
  * Компонент для отображения элемента-чипа.
- * 
+ *
  * Поддерживает состояния выбора, отключения, ошибки, а также возможность удаления элемента.
  * Может содержать дополнительный контент через <ng-content> с селекторами "prefix" и "suffix".
  *
@@ -14,8 +14,8 @@ import { CLEAR_ICON_SVG } from '../../const/icons';
  * @selector: 'sbi-chip'
  * @standalone: true
  * @imports: [MatChip, NgIf, SbiIconComponent, NgClass]
- * @templateUrl: './sbi-chip.component.html'
- * @styleUrls: ['sbi-chip.component.scss']
+ * @templateUrl: './sbi-text-list.component.html'
+ * @styleUrls: ['sbi-text-list.component.scss']
  */
 @Component({
   selector: 'sbi-chip',
@@ -30,7 +30,7 @@ export class SbiChipComponent<T> {
    * @returns {string} SVG строка иконки удаления.
    */
   public get clearIcon() {
-    return CLEAR_ICON_SVG;
+    return BUTTON_CROSS;
   }
 
   /**

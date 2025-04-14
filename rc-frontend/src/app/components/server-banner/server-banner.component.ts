@@ -6,6 +6,7 @@ import { SbiChipComponent, SbiSnackBarService } from '@sbi/design-system';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { GetItemValuePipe } from '../../common/pipes/get-item-value.pipe';
+import { BEDROCK_DEFAULT_PORT, JAVA_DEFAULT_PORT } from '../../common/consts/ports';
 
 @Component({
   selector: 'rc-server-banner',
@@ -35,5 +36,9 @@ export class ServerBannerComponent {
   async copyText(server: Server) {
     await this.clipboardService.copyToClipboard(server.address);
     setTimeout(() => { this.snackbarService.openSnackBar({contentText: 'Скопировано!', appearance: 'success'}) },10);
+  }
+
+  getServerDomain(server: Server) {
+    return server.port === JAVA_DEFAULT_PORT || server.port === BEDROCK_DEFAULT_PORT ? server.address : `${server.address}:${server.port}`
   }
 }

@@ -8,8 +8,8 @@ import { NgClass } from '@angular/common';
  * @selector: 'sbi-suggest-chip'
  * @standalone: true
  * @imports: [NgClass]
- * @templateUrl: './sbi-suggest-chip.component.html'
- * @styleUrl: './sbi-suggest-chip.component.scss'
+ * @templateUrl: './sbi-suggest-text-list.component.html'
+ * @styleUrl: './sbi-suggest-text-list.component.scss'
  */
 @Component({
   selector: 'sbi-suggest-chip',

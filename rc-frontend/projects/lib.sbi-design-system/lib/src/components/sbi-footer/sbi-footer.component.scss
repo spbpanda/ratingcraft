@@ -1,0 +1,38 @@
+:host {
+  .sbi-footer {
+    background-color: var(--surface-primary);
+    color: var(--text-secondary);
+  }
+  
+  .sbi-footer-wrapper {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding: 28px 20px;
+  }
+
+  .footer-container {
+    margin: 0 auto;
+    max-width: var(--max-width, 1200px);
+    width: fit-content;
+  }
+
+  .footer-link {
+    color: inherit;
+  }
+
+  /* Стили для планшетов */
+  @media (max-width: 1027px) {
+    .sbi-footer-wrapper {
+      padding-bottom: var(--padding-bottom, 20px);
+    }
+  }
+
+  /* Стили для мобильных устройств */
+  @media (max-width: 500px) {
+    .sbi-footer-wrapper {
+      padding-bottom: var(--padding-bottom, 20px);
+    }
+  }
+
+}

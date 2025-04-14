@@ -45,6 +45,11 @@ $calendar-box-shadow: #3338640f !default;
       .sbi-checkbox-label .label {
         @extend .label-large;
       }
+
+      .mdc-list-item__primary-text {
+        --mdc-list-list-item-disabled-label-text-color: var(--text-primary);
+        color: var(--text-primary);
+      }
     }
 
     &::-webkit-scrollbar {
@@ -67,6 +72,8 @@ $calendar-box-shadow: #3338640f !default;
 
   .mat-mdc-option-active {
     ::ng-deep .mdc-list-item__primary-text {
+      --mdc-list-list-item-disabled-label-text-color: var(--text-primary);
+      color: var(--text-primary);
       text-align: left;
       text-underline-position: from-font;
       text-decoration-skip-ink: none;

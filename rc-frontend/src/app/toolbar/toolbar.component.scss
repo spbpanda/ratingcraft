@@ -10,6 +10,12 @@
     .rc-toolbar {
         background: var(--surface-secondary);
         box-shadow: 6px 17px 24px 0px #494B590A;
+        &--actions {
+            display: flex;
+            flex-direction: row;
+            gap: 0.5rem;
+            align-items: center;
+        }
     }
 
     .avatar {

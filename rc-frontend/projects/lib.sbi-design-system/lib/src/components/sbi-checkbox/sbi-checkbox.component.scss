@@ -9,7 +9,7 @@ $checkbox-checked: url('data:image/svg+xml,<svg width="20" height="20" viewBox="
 
 .sbi-checkbox-content {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 0.5rem;
 }
 
@@ -73,7 +73,7 @@ $checkbox-checked: url('data:image/svg+xml,<svg width="20" height="20" viewBox="
 
   ::ng-deep {
     .label {
-      @extend .body-large;
+      @extend .label-large;
       color: var(--text-primary);
       word-break: break-word;
     }

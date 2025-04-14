@@ -1,0 +1,62 @@
+[
+  {
+    "id": "47dafbfa-217a-481e-be74-7bf1f790f921",
+    "userId": "112194226574548936431",
+    "serverId": "f12f0c70-4f52-4e67-97bb-b857715bcc00",
+    "amount": 3690,
+    "ratingAdded": "123",
+    "paymentMethod": "card",
+    "date": "2025-04-14T14:54:28.864Z",
+    "status": "completed"
+  },
+  {
+    "id": "544a8aa0-d34a-4a6a-b491-e7fe05d13a5b",
+    "userId": "112194226574548936431",
+    "serverId": "f12f0c70-4f52-4e67-97bb-b857715bcc00",
+    "amount": 3690,
+    "ratingAdded": "123",
+    "paymentMethod": "card",
+    "date": "2025-04-14T15:00:34.671Z",
+    "status": "completed"
+  },
+  {
+    "id": "847a56be-707a-4543-82e2-442d066f0627",
+    "userId": "112194226574548936431",
+    "serverId": "f12f0c70-4f52-4e67-97bb-b857715bcc00",
+    "amount": 3690,
+    "ratingAdded": "123",
+    "paymentMethod": "card",
+    "date": "2025-04-14T15:02:50.109Z",
+    "status": "completed"
+  },
+  {
+    "id": "1cf4dcab-7ae0-47c7-86fc-f9d81f244a40",
+    "userId": "112194226574548936431",
+    "serverId": "f12f0c70-4f52-4e67-97bb-b857715bcc00",
+    "amount": 3690,
+    "ratingAdded": "123",
+    "paymentMethod": "card",
+    "date": "2025-04-14T15:08:11.069Z",
+    "status": "completed"
+  },
+  {
+    "id": "669793cd-6412-4088-a33f-3da13db34b9b",
+    "userId": "112194226574548936431",
+    "serverId": "f12f0c70-4f52-4e67-97bb-b857715bcc00",
+    "amount": 3690,
+    "ratingAdded": "123",
+    "paymentMethod": "card",
+    "date": "2025-04-14T15:10:02.448Z",
+    "status": "completed"
+  },
+  {
+    "id": "3c3dbc6e-ecad-4ffd-a214-466b2e33fd56",
+    "userId": "112194226574548936431",
+    "serverId": "f12f0c70-4f52-4e67-97bb-b857715bcc00",
+    "amount": 3690,
+    "ratingAdded": "123",
+    "paymentMethod": "card",
+    "date": "2025-04-14T15:16:33.581Z",
+    "status": "completed"
+  }
+]

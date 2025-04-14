@@ -1,14 +1,14 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SbiComponentWithInput } from './sbi-component-with-input.component';
 import { SelectableItem } from '../models/selectable-item';
-import { CHEVRON_DOWN_ICON_SVG } from '../const/icons';
+import { CHEVRON_DOWN_OUTLINE } from '../const/icons';
 
 @Component({
   template: ``
 })
 export abstract class SbiComponentWithOptions<T> extends SbiComponentWithInput<T> {
   public get chevronIcon() {
-    return CHEVRON_DOWN_ICON_SVG;
+    return CHEVRON_DOWN_OUTLINE;
   }
 
   @Input() hasDisabledOptions = false;

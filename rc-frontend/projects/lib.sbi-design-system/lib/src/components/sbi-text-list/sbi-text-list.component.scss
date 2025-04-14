@@ -1,0 +1,54 @@
+@import '../../../assets/fonts/sbi.typography';
+
+.flex-start {
+  .sbi-list-wrapper {
+    align-items: flex-start !important;
+
+    .sbi-list-icon,
+    .sbi-list-badge {
+      padding-top: 4px;
+    }
+  }
+}
+
+.sbi-list-container {
+  display: flex;
+  flex-direction: column;
+
+  .sbi-list-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+
+    .sbi-list-element {
+      @extend .body-regular;
+      white-space: pre-line;
+      word-break: break-word;
+      color: var(--text-secondary);
+    }
+
+    .sbi-list-icon {
+      height: 12px;
+      width: 12px;
+
+      ::ng-deep div,
+      ::ng-deep .sbi-icon {
+        height: 12px;
+        width: 12px;
+      }
+    }
+  }
+}
+
+.sbi-list-wrapper.active {
+  ::ng-deep svg path {
+    fill: var(--icons-accent);
+  }
+}
+
+.sbi-list-wrapper.inactive {
+  ::ng-deep svg path {
+    fill: var(--icons-tertiary);
+  }
+}

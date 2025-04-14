@@ -1,0 +1,7 @@
+<div class="sbi-list-container" [attr.data-testid]="testId" [ngClass]="{ 'flex-start': leftContentInTop }">
+  <div class="sbi-list-wrapper" *ngFor="let elem of list" [class]="elem.iconState">
+    <sbi-icon class="sbi-list-icon" *ngIf="elem.iconImage" [iconImage]="elem.iconImage"></sbi-icon>
+    <sbi-badge *ngIf="elem.useBadge && !elem.iconImage" class="sbi-list-badge" size="small"></sbi-badge>
+    <span class="sbi-list-element">{{ elem.label }}</span>
+  </div>
+</div>

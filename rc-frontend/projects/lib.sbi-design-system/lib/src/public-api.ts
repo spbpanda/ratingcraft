@@ -22,6 +22,9 @@ export * from './models/counted-caption.model';
 export * from './models/input.types';
 export * from './models/avatar.types';
 export * from './models/side-bar-model';
+export * from './models/sbi-text-list.model';
+export * from './models/sbi-card-element.model';
+
 
 // Directives
 export * from './directives/sbi-upload-file.directive';
@@ -74,11 +77,14 @@ export * from './components/sbi-multi-autocomplete/sbi-multi-autocomplete.compon
 export * from './components/sbi-action-card/sbi-action-card.component';
 export * from './components/sbi-suggest-chip/sbi-suggest-chip.component';
 export * from './components/sbi-suggest-chip-row/sbi-suggest-chip-row.component';
+export * from './components/sbi-footer/sbi-footer.component';
 export * from './components/sbi-progress-bar/sbi-progress-bar.component';
 export * from './components/sbi-card-element/sbi-card-element.component';
 export * from './components/sbi-snackbar/sbi-snackbar.component';
 export * from './components/sbi-avatar/sbi-avatar.component';
 export * from './components/sbi-floating-action-button/sbi-floating-action-button.component';
+export * from './components/sbi-address/sbi-address.component';
+export * from './components/sbi-text-list/sbi-text-list.component';
 
 // Services
 export * from './components/sbi-dark-slider/theme.service';
@@ -95,3 +101,6 @@ export * from './pipes/sbi-translit-keyboard.pipe';
 
 // Utils
 export * from './utils/check-equal-objects';
+
+// Validators
+export * from './validators/sbi-address.validators';

@@ -4,13 +4,14 @@
   --mat-tab-header-active-label-text-color: var(--text-primary);
   --mat-tab-header-inactive-label-text-color: var(--text-secondary);
   --mat-tab-header-inactive-hover-label-text-color: var(--text-primary);
-  --mdc-tab-indicator-active-indicator-color: var(--brand-brandgreen);
+  --mdc-tab-indicator-active-indicator-color: var(--border-accent);
   --mdc-tab-indicator-active-indicator-height: 3px;
   --mdc-tab-indicator-active-indicator-shape: 0;
   --mat-tab-header-divider-height: 0;
   --mat-tab-header-active-hover-indicator-color: var(--border-accent);
   --mat-tab-header-active-focus-indicator-color: var(--border-accent);
   --mat-tab-header-inactive-ripple-color: transparent;
+  --mat-tab-header-active-ripple-color: transparent;
   background-color: var(--surface-secondary);
   border-radius: 16px;
 }
@@ -29,8 +30,25 @@
     }
   }
   .mat-mdc-tab {
+    &.mdc-tab--active {
+      &:hover, &:focus {
+        .mdc-tab-indicator__content {
+          opacity: 1;
+          border-color: var(--border-accent);
+          border-width: 3px;
+        }
+      }
+    }
+    
     &:not(.mdc-tab--active) {
       &:hover {
+        .mdc-tab-indicator__content {
+          opacity: 1;
+          border-color: var(--border-primary);
+          border-width: 3px;
+        }
+      }
+      &:focus {
         .mdc-tab-indicator__content {
           opacity: 1;
           border-color: var(--border-primary);
@@ -42,10 +60,54 @@
 }
 
 .sbi-tab {
+  &:focus {
+    outline: none;
+  }
+  
   &--large {
     @extend .body-large;
   }
   &--small {
     @extend .body-regular;
+  }
+  
+  &--default {
+    &.sbi-tab--inactive {
+      color: var(--text-secondary);
+      
+      &:hover, &:focus {
+        color: var(--text-primary);
+      }
+    }
+    
+    &:not(.sbi-tab--inactive) {
+      color: var(--text-primary);
+      
+      &:hover, &:focus {
+        color: var(--text-primary);
+      }
+    }
+  }
+  
+  &--overlay {
+    color: var(--text-contrast);
+    
+    &.sbi-tab--inactive {
+      color: var(--text-contrast);
+      opacity: var(--opacity-opacity40);
+      
+      &:hover, &:focus {
+        color: var(--text-contrast);
+        opacity: 1;
+      }
+    }
+    
+    &:not(.sbi-tab--inactive) {
+      color: var(--text-contrast);
+      
+      &:hover, &:focus {
+        color: var(--text-contrast);
+      }
+    }
   }
 }

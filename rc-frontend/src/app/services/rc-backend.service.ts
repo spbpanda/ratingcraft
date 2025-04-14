@@ -113,4 +113,11 @@ export class RcBackendService {
   addUserServer(serverData: any) {
     return this.http.post(`${this.api}/add-server`, serverData);
   }
+
+  boostServer(server: Server, boostAmount: number) {
+    return this.http.post(`${this.api}/servers/${server.id}/boost`, {
+      amount: boostAmount,
+      paymentMethod: 'card'
+    })
+  }
 }

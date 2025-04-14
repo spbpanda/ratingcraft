@@ -1,5 +1,5 @@
-<sbi-dialog (close)="dialogRef.close()">
-    <div class="form-demo-dialog">
+<sbi-dialog (close)="dialogRef.close()" [title]="'Выполните вход'" [scrollableContent]="false" [showCloseIcon]="true">
+    <div class="dialog-login">
         <div id="google-btn"></div>
     </div>
 </sbi-dialog>

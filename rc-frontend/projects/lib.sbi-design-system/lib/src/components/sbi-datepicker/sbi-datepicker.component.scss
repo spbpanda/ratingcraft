@@ -11,7 +11,7 @@ mat-form-field {
 
 ::ng-deep {
   .mat-calendar-body-disabled .mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
-    color: var(--text-secondary) !important;
+    color: var(--text-tertiary) !important;
   }
 
   .mat-datepicker-content {
@@ -30,8 +30,8 @@ mat-form-field {
 
     .mat-calendar.sbi-calendar {
       --mat-datepicker-calendar-date-selected-state-background-color: var(--surface-primary);
-      --mat-datepicker-calendar-date-today-outline-color: var(--border-accent);
-      --mat-datepicker-calendar-date-focus-state-background-color: var(--state-accent-tint---hover);
+      --mat-datepicker-calendar-date-today-outline-color: var(--border-primary);
+      --mat-datepicker-calendar-date-focus-state-background-color: var(--surface-neutral-5);
       height: auto;
       width: auto;
       box-shadow: none !important;
@@ -55,14 +55,23 @@ mat-form-field {
       .mat-calendar-body-today {
         @extend .label-regular;
         box-shadow: none;
-        color: var(--text-accent);
-        --mat-datepicker-calendar-date-outline-color: var(--border-accent);
+        --mat-datepicker-calendar-date-outline-color: var(--border-primary);
 
-        &:hover {
-          border-color: var(--state-accent-hover);
-          color: var(--state-accent-hover);
+        &:hover, &:focus-visible {
+          --mat-datepicker-calendar-date-hover-state-background-color: var(--surface-neutral-5);
+          --mat-datepicker-calendar-date-today-outline-color: var(--surface-neutral-5);
+        }
+        &:focus {
+          --mat-datepicker-calendar-date-outline-color: var(--surface-neutral-5);
+          --mat-datepicker-calendar-date-today-outline-color: var(--surface-neutral-5);
+        }
+        &.mat-calendar-body-selected:not(.mat-calendar-body-comparison-identical) {
+          --mat-datepicker-calendar-date-outline-color: transparent;
+          --mat-datepicker-calendar-date-selected-state-background-color: var(--surface-accent);
+          --mat-datepicker-calendar-date-selected-state-text-color: var(--text-contrast);
         }
       }
+
 
       .mat-calendar-body-cell:not(.mat-calendar-body-disabled) {
         --mat-datepicker-calendar-date-hover-state-background-color: transparent;
@@ -70,7 +79,7 @@ mat-form-field {
         .mat-calendar-body-cell-content {
           @extend .label-regular;
 
-          &.mat-calendar-body-selected:not(.mat-calendar-body-comparison-identical):not(.mat-calendar-body-today) {
+          &.mat-calendar-body-selected:not(.mat-calendar-body-comparison-identical) {
             --mat-datepicker-calendar-date-selected-state-background-color: var(--surface-accent);
             --mat-datepicker-calendar-date-selected-state-text-color: var(--text-contrast);
           }
@@ -80,7 +89,14 @@ mat-form-field {
           .mat-calendar-body-cell-content:not(.mat-calendar-body-selected):not(
               .mat-calendar-body-comparison-identical
             ):not(.mat-calendar-body-today) {
-            --mat-datepicker-calendar-date-hover-state-background-color: var(--state-accent-tint---hover);
+            --mat-datepicker-calendar-date-hover-state-background-color: var(--surface-neutral-5);
+          }
+        }
+
+        &.mat-calendar-body-active {
+          &:focus-visible, &:focus {
+            --mat-datepicker-calendar-date-outline-color: transparent;
+            --mat-datepicker-calendar-date-today-outline-color: transparent;
           }
         }
       }
@@ -96,13 +112,19 @@ mat-form-field {
       .datepicker-header {
         .date-picker-arrows .date-picker-arrow-wrapper {
           &:hover {
-            background-color: var(--state-accent-tint---hover) !important;
+            background-color: var(--surface-neutral-5) !important;
+          }
+          &:active {
+            background-color: var(--surface-neutral-10) !important;
           }
         }
 
         .label-wrapper {
           &:hover {
-            background-color: var(--state-accent-tint---hover);
+            background-color: var(--surface-neutral-5);
+          }
+          &:active {
+            background-color: var(--surface-neutral-10);
           }
 
           .label {

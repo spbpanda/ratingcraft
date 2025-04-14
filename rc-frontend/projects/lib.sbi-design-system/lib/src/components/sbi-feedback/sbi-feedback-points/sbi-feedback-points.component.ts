@@ -14,10 +14,10 @@ export class SbiFeedbackPointsComponent implements OnInit {
   @Input() pointsCount = 5;
   @Input() label = '';
   @Input() testId = 'sbi-feedback-points-test-id';
+  @Input() activePoint = signal(0);
 
   @Output() selectPoints = new EventEmitter<number>();
 
-  public activePoint = signal(0);
   public focusedIdx = signal(0);
   public icons: number[] = [];
   public readonly icon = STAR_ICON_SVG;

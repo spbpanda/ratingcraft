@@ -1,9 +1,25 @@
-<section>
+<section [attr.data-testid]="testId" style="gap: {{gap}}px">
   <div class="sbi-section-header">
-    <span *ngIf="title" class="sbi-section-title">{{ title }}</span>
-    <ng-content select="[header-title]"></ng-content>
+    <div class="sbi-section-header-block" *ngIf="title || badgeContent || tooltipContent">
+      <div class="sbi-section-header-title-content">
+        <span *ngIf="title" class="sbi-section-title">{{ title }}</span>
+        <sbi-badge *ngIf="badgeContent" size="small" [content]="badgeContent" [type]="badgeType"></sbi-badge>
+        <sbi-question-info *ngIf="tooltipContent" [tooltipPosition]="tooltipPosition" [tooltipContent]="tooltipContent"
+                           [testId]="testId + '-info'"></sbi-question-info>
+      </div>
+      <sbi-icon class="expand-icon" *ngIf="isExpanded" [iconImage]="arrowIcon"
+                (click)="expand = !expand"></sbi-icon>
+    </div>
     <span *ngIf="note" class="sbi-section-note">{{ note }}</span>
-    <ng-content select="[header-note]"></ng-content>
   </div>
-  <ng-content></ng-content>
+  @if (!isExpanded || expand) {
+    <div class="sbi-section-body" *ngIf="infoItems.length">
+      <div class="sbi-section-body-element" [ngClass]="{ invert: invertItemsContent }"
+           *ngFor="let infoItem of infoItems">
+        <span class="title" *ngIf="infoItem.title">{{ infoItem.title | sbiDynamic : infoItem.titlePipe : infoItem.titleArgs }}</span>
+        <span class="note" *ngIf="infoItem.note">{{ infoItem.note | sbiDynamic : infoItem.notePipe : infoItem.noteArgs }}</span>
+      </div>
+    </div>
+    <ng-content></ng-content>
+  }
 </section>

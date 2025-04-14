@@ -22,7 +22,7 @@
 
 .sbi-slide-toggle-content {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 8px;
 }
 
@@ -30,8 +30,8 @@
 .switch {
   position: relative;
   display: inline-block;
-  width: 39px;
-  height: 24px;
+  min-width: 39px;
+  min-height: 24px;
 }
 
 /* Скрываем стандартный чекбокс */
@@ -85,7 +85,7 @@ input:disabled + .slider {
 .sbi-slide-toggle-label {
   ::ng-deep {
     .label {
-      @extend .body-large;
+      @extend .label-large;
       color: var(--text-primary);
       word-break: break-word;
     }

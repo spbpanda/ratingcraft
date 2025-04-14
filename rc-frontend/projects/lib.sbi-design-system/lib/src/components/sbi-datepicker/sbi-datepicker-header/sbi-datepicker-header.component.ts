@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
 import { MatCalendar, MatCalendarView } from '@angular/material/datepicker';
 import { DateAdapter } from '@angular/material/core';
 import { takeUntil } from 'rxjs/operators';
-import { ARROW_DOWN, DATEPICKER_ARROW } from '../../../const/icons';
+import { BUTTON_ARROW_DOWN, DATEPICKER_ARROW } from '../../../const/icons';
 import { SbiIconComponent } from '../../sbi-icon/sbi-icon.component';
 
 @Component({
@@ -29,7 +29,7 @@ export class SbiDatepickerHeaderComponent<D> implements OnInit, OnDestroy {
   }
 
   public get selectorArrow() {
-    return ARROW_DOWN;
+    return BUTTON_ARROW_DOWN;
   }
 
   public get isMonthView(): boolean {
@@ -61,6 +61,10 @@ export class SbiDatepickerHeaderComponent<D> implements OnInit, OnDestroy {
     this.datepicker.viewChanged.pipe(takeUntil(this.destroyed$)).subscribe(val => this.setLabelByViewState(val));
   }
 
+  public updateLabel() {
+    setTimeout(() => this.setLabelByViewState(this.datepicker.currentView));
+  }
+
   private setLabelByViewState(val: MatCalendarView) {
     const date = this.datepicker.activeDate;
     const monthName = this.dateAdapter.getMonthNames('long')[this.dateAdapter.getMonth(date)];
@@ -71,13 +75,15 @@ export class SbiDatepickerHeaderComponent<D> implements OnInit, OnDestroy {
       this.label.set(this.dateAdapter.getYear(date).toString());
     }
     if (val === 'multi-year') {
-      this.label.set(this.getMultiyearLabel());
+      setTimeout(() => this.label.set(this.getMultiyearLabel()));
     }
   }
 
   private getMultiyearLabel() {
     const rows = this.datepicker?.multiYearView?._matCalendarBody?.rows;
-    console.log(rows);
+    if (!rows?.[0]?.[0]) {
+      return '';
+    }
     const startYear = rows[0][0].value ?? 0;
     return `${startYear} - ${startYear + this.yearsOnPage - 1}`;
   }

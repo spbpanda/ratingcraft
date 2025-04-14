@@ -8,7 +8,7 @@ import { SbiErrorComponent } from '../sbi-error/sbi-error.component';
 import { SbiUppercaseDirective } from '../../directives/sbi-uppercase.directive';
 import { SbiNameUppercaseDirective } from '../../directives/sbi-name-uppercase.directive';
 import { SbiIconComponent } from '../sbi-icon/sbi-icon.component';
-import { CLEAR_ICON_SVG } from '../../const/icons';
+import { BUTTON_CROSS } from '../../const/icons';
 import { SbiComponentWithInput } from '../../classes/sbi-component-with-input.component';
 import { PrefixIconType, SuffixIconType } from '../../models/input.types';
 import { SbiMultiUppercaseDirective } from '../../directives/sbi-multi-uppercase.directive';
@@ -61,7 +61,7 @@ export class SbiInputComponent<T>
    * @returns {string} SVG строка иконки очистки.
    */
   public get clearIcon() {
-    return CLEAR_ICON_SVG;
+    return BUTTON_CROSS;
   }
 
   /**

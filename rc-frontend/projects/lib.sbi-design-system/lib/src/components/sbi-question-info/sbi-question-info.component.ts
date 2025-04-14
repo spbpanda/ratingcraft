@@ -1,6 +1,6 @@
 import { SbiTooltipDirective } from '../sbi-tooltip/sbi-tooltip.directive';
 import { Component, Input, TemplateRef } from '@angular/core';
-import { QUESTION_MARK_SVG_ICON } from './../../const/icons';
+import { STATUS_QUESTION_FILL } from './../../const/icons';
 import { SbiIconComponent } from '../sbi-icon/sbi-icon.component';
 
 /**
@@ -47,6 +47,6 @@ export class SbiQuestionInfoComponent {
    * Иконка вопросительного знака, используемая в компоненте.
    * @type {string}
    */
-  questionIcon = QUESTION_MARK_SVG_ICON;
+  questionIcon = STATUS_QUESTION_FILL;
 
 }

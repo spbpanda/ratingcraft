@@ -1,6 +1,7 @@
 declare var google: any;
 import { Injectable } from '@angular/core';
 import { User } from '../common/interfaces/user';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,9 @@ export class AuthService {
 
   private readonly TOKEN_EXPIRY_TIME = 30 * 60 * 1000; // 30 минут в миллисекундах
 
-  constructor() { }
+  constructor(
+    private router: Router
+  ) { }
 
   logout() {
     google.accounts.id.disableAutoSelect();
@@ -31,6 +34,7 @@ export class AuthService {
 
     if (timeElapsed > this.TOKEN_EXPIRY_TIME) {
       this.logout();
+      this.router.navigate(['']);
       return false;
     }
 

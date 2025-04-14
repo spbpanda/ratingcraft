@@ -1,9 +1,53 @@
 :host {
     &, div {
-        width: 24px;
-        height: 24px;
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+
+    // Переменные для размеров иконок
+    $icon-sizes: (
+        12: 12px,
+        16: 16px,
+        24: 24px,
+        32: 32px,
+        48: 48px
+    );
+    // Переменные для цветов иконок
+    $icon-colors: (
+        primary: var(--icons-primary),
+        tertiary: var(--icons-tertiary),
+        accent: var(--icons-accent),
+        accenttint: var(--icons-accenttint),
+        warning: var(--icons-warning),
+        error: var(--icons-error),
+        information: var(--icons-information),
+        contrast: var(--icons-contrast),
+    );
+
+    // Миксин для генерации стилей иконок
+    @mixin icon-size($size) {
+        width: $size;
+        height: $size;
+    }
+    // Миксин для генерации цветов иконок
+    @mixin icon-color($color) {
+        ::ng-deep svg path {
+          fill: $color;
+        }
+    }
+
+    // Генерация классов через цикл
+    @each $name, $size in $icon-sizes {
+        .sbi-icon-size-#{$name}, div.sbi-icon-size-#{$name} {
+            @include icon-size($size);
+        }
+    }
+
+    // Генерация классов цветов через цикл
+    @each $name, $color in $icon-colors {
+        .sbi-icon-color-#{$name} {
+            @include icon-color($color);
+        }
     }
 }

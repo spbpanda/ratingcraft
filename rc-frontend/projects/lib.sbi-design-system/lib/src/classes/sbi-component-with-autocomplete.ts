@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnDestroy, Output, SimpleCha
 import { SbiComponentWithOptions } from './sbi-component-with-options';
 import { PrefixIconType, SuffixIconType } from '../models/input.types';
 import { MaskitoOptions } from '@maskito/core';
-import { CLEAR_ICON_SVG } from '../const/icons';
+import { BUTTON_CROSS } from '../const/icons';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { SelectableItem } from '../models/selectable-item';
@@ -17,7 +17,7 @@ export abstract class SbiComponentWithAutocomplete<T>
   protected destroy$ = new Subject<boolean>();
 
   public get clearIcon() {
-    return CLEAR_ICON_SVG;
+    return BUTTON_CROSS;
   }
 
   @Input() displayFunc: (arg: any) => string;

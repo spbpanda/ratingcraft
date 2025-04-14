@@ -12,14 +12,7 @@
           [ngTemplateOutlet]="tab.customLabel"
         ></ng-container>
         <ng-template #defaultLabel>
-          <span
-            class="sbi-tab"
-            [ngClass]="{
-              'sbi-tab--large': tab.size === 'large',
-              'sbi-tab--small': tab.size === 'small',
-              'sbi-tab--inactive': !matTab.isActive
-            }"
-          >
+          <span class="sbi-tab sbi-tab--{{tab.size}} sbi-tab--{{tab.appearance}} {{matTab.isActive ? '' : 'sbi-tab--inactive'}}">
             {{ tab.label }}
           </span>
         </ng-template>

@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DeleteServerComponent } from '../../../components/delete-server/delete-server.component';
 import { Router } from '@angular/router';
 import { GetItemValuePipe } from '../../../common/pipes/get-item-value.pipe';
+import { BoostServerComponent } from '../../../components/boost-server/boost-server.component';
 
 @Component({
   selector: 'rc-my-servers',
@@ -29,7 +30,20 @@ export class MyServersComponent implements OnDestroy {
   router = inject(Router);
   servers$: Observable<Server[]> = this.rcBackend.getUserServers()
 
-  promote(server: Server) {
+  boost(server: Server) {
+    const dialogRef = this.dialog.open(BoostServerComponent, {
+      data: {
+        server: server
+      }
+    });
+
+    dialogRef.afterClosed()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((confirmed) => {
+        if (confirmed) {
+          this.servers$ = this.rcBackend.getUserServers();
+        }
+    });
   }
   edit(server: Server) {
     this.router.navigate(['/user/edit-server', server.id]);

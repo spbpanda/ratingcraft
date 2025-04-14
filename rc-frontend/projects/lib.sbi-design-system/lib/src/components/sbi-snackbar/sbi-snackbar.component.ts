@@ -1,13 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, Inject } from '@angular/core';
-import { MAT_SNACK_BAR_DATA, MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarModule, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import { MAT_SNACK_BAR_DATA, MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { SbiIconComponent } from '../sbi-icon/sbi-icon.component';
-import { CLEAR_ICON_SVG, EXCLAMATION_MARK_SVG_ICON_24_px, SUCCESS_MARK_SVG_ICON_24_px } from '../../const/icons';
+import { BUTTON_CROSS, STATUS_ATTENTION_FILL, STATUS_SUCCES_FILL } from '../../const/icons';
 
 
 export interface DataModel {
     contentText: string;
-    appearance: 'warn' | 'success';
+    appearance: 'warning' | 'success';
 }
 
 @Component({
@@ -24,15 +24,15 @@ export interface DataModel {
 export class SbiSnackbarComponent {
 
     public get clearIcon() {
-        return CLEAR_ICON_SVG;
+        return BUTTON_CROSS;
     }
 
     public get svgIcon() {
         switch (this.data.appearance) {
-        case 'warn':
-            return EXCLAMATION_MARK_SVG_ICON_24_px;
+        case 'warning':
+            return STATUS_ATTENTION_FILL;
         case 'success':
-            return SUCCESS_MARK_SVG_ICON_24_px;
+            return STATUS_SUCCES_FILL;
         }
     }
 

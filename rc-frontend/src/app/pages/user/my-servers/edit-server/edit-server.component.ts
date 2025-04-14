@@ -152,7 +152,7 @@ export class EditServerComponent implements OnInit {
         error: (err) => {
           this.snackbarService.openSnackBar({
             contentText: `Ошибка при обновлении сервера: ${err.error.error}`,
-            appearance: 'warn',
+            appearance: 'warning',
           });
         }
       });

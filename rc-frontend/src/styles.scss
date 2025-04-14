@@ -121,3 +121,32 @@ button {
     justify-content: center;
     align-items: center;
 }
+
+.dialog {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 600px;
+    
+    &--actions {
+        padding: 0.5rem 0;
+        display: flex;
+        flex-direction: row;
+        gap: 0.5rem;
+        justify-content: flex-end;
+    }
+}
+@media (max-width: 1150px) {
+  .dialog {
+    width: 400px;
+  }
+}
+
+@media (max-width: 550px) {
+    .logo {
+        font-size: 1rem;
+    }
+    .dialog {
+        width: auto;
+    }
+}

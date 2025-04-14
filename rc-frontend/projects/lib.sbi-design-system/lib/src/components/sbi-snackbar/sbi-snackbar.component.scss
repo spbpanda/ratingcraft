@@ -5,7 +5,7 @@
         border-radius: 16px;
         padding: 12px;
 
-        &--warn {
+        &--warning {
             background-color: var( --surface-warning);
 
             ::ng-deep svg path {

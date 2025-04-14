@@ -3,7 +3,7 @@ import { SbiResizableDirective } from '../../directives/sbi-resize.directive';
 import { SbiSwipeComponent } from '../../classes/sbi-swipe-component';
 import { NgClass, NgIf } from '@angular/common';
 import { SbiIconComponent } from '../sbi-icon/sbi-icon.component';
-import { CLEAR_ICON_SVG, SUCCESS_DIALOG_ICON } from '../../const/icons';
+import { BUTTON_CROSS, SUCCESS_DIALOG_ICON } from '../../const/icons';
 import { SbiDividerComponent } from '../sbi-divider/sbi-divider.component';
 import { SbiButtonComponent } from '../sbi-button/sbi-button.component';
 
@@ -135,7 +135,7 @@ export class SbiDialogComponent extends SbiSwipeComponent {
    * @returns {string} SVG строка иконки закрытия модального окна.
    */
   public get closeIcon(): string {
-    return CLEAR_ICON_SVG;
+    return BUTTON_CROSS;
   }
 
   /**

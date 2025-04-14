@@ -27,6 +27,7 @@ export interface Server {
     miniGames: Item[];
     onlinePlayers?: number;
     maxPlayers?: number;
+    ratingPlace?: number;
 }
 
 export interface ApiResponse {

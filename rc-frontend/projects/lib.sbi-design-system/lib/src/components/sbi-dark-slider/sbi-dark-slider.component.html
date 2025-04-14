@@ -1,3 +1,9 @@
-<button mat-button (click)="toggleTheme()" [id]="testId">
-  <span class="sbi-dark-slider-label">{{ (themeService.isDarkTheme$ | async) ? 'Light' : 'Dark' }} Theme</span>
-</button>
+<div class="sbi-dark-slider" (click)="toggleTheme()" [attr.data-testid]="testId">
+  @if (isDarkTheme()) {
+  <sbi-floating-action-button [icon]="sun" appearance="neutral" size="S" [testId]="testId + '-sun'">
+  </sbi-floating-action-button>
+  } @else {
+  <sbi-floating-action-button [icon]="moon" appearance="neutral" size="S" [testId]="testId + '-moon'">
+  </sbi-floating-action-button>
+  }
+</div>

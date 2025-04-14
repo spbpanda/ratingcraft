@@ -2,7 +2,7 @@ import { Component, Inject, Input, Optional, TemplateRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SbiIconComponent } from '../sbi-icon/sbi-icon.component';
 import { MAT_SNACK_BAR_DATA, MatSnackBarAction, MatSnackBarModule, MatSnackBarRef } from '@angular/material/snack-bar';
-import { CLEAR_ICON_SVG, EXCLAMATION_MARK_SVG_ICON_24_px, INFO_MARK_SVG_ICON_24_px, SUCCESS_MARK_SVG_ICON_24_px } from '../../const/icons';
+import { BUTTON_CROSS, STATUS_ATTENTION_FILL, STATUS_INFO_FILL, STATUS_SUCCES_FILL } from '../../const/icons';
 
 
 export interface BannerDataModel {
@@ -67,7 +67,7 @@ export class SbiBannerComponent {
   public hideStaticBanner: boolean = false;
 
   public get clearIcon() {
-    return CLEAR_ICON_SVG;
+    return BUTTON_CROSS;
   }
 
   constructor(
@@ -92,13 +92,13 @@ export class SbiBannerComponent {
   private setDefaultIcon() {
     switch (this.appearance) {
       case 'warn':
-        this.defaultIcon = EXCLAMATION_MARK_SVG_ICON_24_px;
+        this.defaultIcon = STATUS_ATTENTION_FILL;
         break;
       case 'info':
-        this.defaultIcon = INFO_MARK_SVG_ICON_24_px;
+        this.defaultIcon = STATUS_INFO_FILL;
         break
       case 'success':
-        this.defaultIcon = SUCCESS_MARK_SVG_ICON_24_px;
+        this.defaultIcon = STATUS_SUCCES_FILL;
         break
     }
   }

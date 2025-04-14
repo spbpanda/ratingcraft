@@ -3,7 +3,7 @@ import { SbiResizableDirective } from '../../directives/sbi-resize.directive';
 import { NgIf } from '@angular/common';
 import { SbiSwipeComponent } from '../../classes/sbi-swipe-component';
 import { SbiIconComponent } from '../sbi-icon/sbi-icon.component';
-import { CLEAR_ICON_SVG } from '../../const/icons';
+import { BUTTON_CROSS } from '../../const/icons';
 
 /**
  * Компонент - обёртка для "шторки".
@@ -57,7 +57,7 @@ export class SbiMobileCurtainComponent implements AfterViewInit, OnDestroy {
    * @returns {string} SVG строка иконки закрытия модального окна.
    */
   public get closeIcon(): string {
-    return CLEAR_ICON_SVG;
+    return BUTTON_CROSS;
   }
 
   /**
@@ -115,7 +115,7 @@ export class SbiMobileCurtainComponent implements AfterViewInit, OnDestroy {
    * @returns {number} максимальная высота шторки в пикелях.
    */
   public get contentHeight(): number {
-    return Math.min(this.sbiCurtainContent?.nativeElement?.getBoundingClientRect()?.height ?? 99999, this.maxHeight);
+    return Math.min(this.sbiCurtainContent?.nativeElement?.getBoundingClientRect()?.height ?? 99999, this.maxHeight) ?? 0;
   }
 
   /**

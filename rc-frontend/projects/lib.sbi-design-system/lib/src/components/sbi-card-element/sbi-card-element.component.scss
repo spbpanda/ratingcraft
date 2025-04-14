@@ -2,7 +2,6 @@
 
 :host {
   section {
-    gap: 20px;
     display: flex;
     flex-direction: column;
   }
@@ -21,11 +20,49 @@
     @extend .body-regular;
     color: var(--text-secondary);
   }
+
+  .sbi-section-header-block {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .expand-icon {
+      cursor: pointer;
+
+      ::ng-deep svg path {
+        fill: var(--icons-accent);
+      }
+    }
+  }
+
+  .sbi-section-header-title-content {
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+  }
 }
 
-// мобилка
-@media (max-width: 550px) {
-  section {
-    gap: 16px;
+.sbi-section-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+
+  .sbi-section-body-element {
+    display: flex;
+    flex-direction: column;
+
+    .title {
+      @extend .body-small;
+      color: var(--text-secondary);
+    }
+
+    .note {
+      @extend .body-regular;
+      color: var(--text-primary);
+    }
+  }
+
+  .sbi-section-body-element.invert {
+    flex-direction: column-reverse;
   }
 }

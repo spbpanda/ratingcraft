@@ -28,6 +28,14 @@ export class SbiTabComponent {
   @Input() size: 'large' | 'small' = 'large';
 
   /**
+   * Внешний вид вкладки.
+   * - 'default': Стандартный вид на светлом фоне (по умолчанию)
+   * - 'overlay': Вид с адаптацией для темного фона
+   * @type {'default' | 'overlay'}
+   */
+  @Input() appearance: 'default' | 'overlay' = 'default';
+
+  /**
    * Идентификатор для тестирования.
    * @type {string}
    */

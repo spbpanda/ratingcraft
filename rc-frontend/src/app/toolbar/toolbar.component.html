@@ -4,20 +4,19 @@
         <span class="logo-name2">CRAFT</span>
     </a>
     <span class="spacer"></span>
-
-    @if (authService.isUserLoggedIn() && user) {
-        <sbi-button appearance="overlay" [matMenuTriggerFor]="menu"><img src="/assets/avatar.svg" class="avatar" alt="avatar"><sbi-icon [iconImage]="arrow_down"></sbi-icon></sbi-button>
-    } @else {
+    
+    <div class="rc-toolbar--actions">
         <sbi-dark-slider></sbi-dark-slider>
-        <sbi-button appearance="primary-tint" (click)="openLoginDialog()">Войти</sbi-button>
-    }
+        @if (authService.isUserLoggedIn() && user) {
+            <sbi-button appearance="overlay" [matMenuTriggerFor]="menu"><img src="/assets/avatar.svg" class="avatar" alt="avatar"><sbi-icon [iconImage]="arrow_down"></sbi-icon></sbi-button>
+        } @else {
+            <rc-button (click)="openLoginDialog()" [type]="'submit'">Войти</rc-button>
+        }
+    </div>
       
 </mat-toolbar>
 
 <mat-menu #menu="matMenu" [class]="'rc-menu'">
-    <div mat-menu-item>
-        <sbi-dark-slider></sbi-dark-slider>
-    </div>
     <a mat-menu-item routerLink="user/payments" routerLinkActive="active">Платежи</a>
     <a mat-menu-item routerLink="add-server" routerLinkActive="active">Добавить сервер</a>
     <a mat-menu-item routerLink="user/my-servers" routerLinkActive="active">Мои сервера</a>

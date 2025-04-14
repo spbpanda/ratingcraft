@@ -30,7 +30,7 @@ import { SbiUppercaseDirective } from '../../directives/sbi-uppercase.directive'
 import { distinctUntilChanged, shareReplay, take, takeUntil } from 'rxjs/operators';
 import { BehaviorSubject, merge, of, Subject, Subscription } from 'rxjs';
 import { SelectableItem } from '../../models/selectable-item';
-import { CHEVRON_DOWN_ICON_SVG, CLEAR_ICON_SVG } from '../../const/icons';
+import { CHEVRON_DOWN_OUTLINE, BUTTON_CROSS } from '../../const/icons';
 import { MaskitoDirective } from '@maskito/angular';
 import { PrefixIconType, SuffixIconType } from '../../models/input.types';
 import { MaskitoOptions } from '@maskito/core';
@@ -299,7 +299,7 @@ export class SbiMultiAutocompleteComponent implements OnInit, AfterViewInit, OnC
    * @public
    * @readonly
    */
-  public readonly chevronIcon = CHEVRON_DOWN_ICON_SVG;
+  public readonly chevronIcon = CHEVRON_DOWN_OUTLINE;
 
   /**
    * SVG-иконка удаления элемента.
@@ -307,7 +307,7 @@ export class SbiMultiAutocompleteComponent implements OnInit, AfterViewInit, OnC
    * @public
    * @readonly
    */
-  public readonly clearIcon = CLEAR_ICON_SVG;
+  public readonly clearIcon = BUTTON_CROSS;
 
   /**
    * Базовая маска Maskito для полей ввода.

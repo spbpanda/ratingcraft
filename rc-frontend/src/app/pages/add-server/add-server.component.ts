@@ -37,7 +37,7 @@ export class AddServerComponent {
             catchError((err: any) => {
               this.snackbarService.openSnackBar({
                 contentText: err.error.error,
-                appearance: 'warn',
+                appearance: 'warning',
               });
               
               this.isLoading.set(false);
@@ -58,7 +58,7 @@ export class AddServerComponent {
     } else {
       this.snackbarService.openSnackBar({
         contentText: 'Неверный адрес сервера',
-        appearance: 'warn',
+        appearance: 'warning',
       });
     }
   }

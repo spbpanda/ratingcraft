@@ -1,8 +1,10 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { AvatarSize } from '../../models/avatar.types';
+import { SbiAvatarGender, SbiAvatarSize } from '../../models/avatar.types';
 import { SbiBadgeComponent } from '../sbi-badge/sbi-badge.component';
 import { SbiIconComponent } from '../sbi-icon/sbi-icon.component';
-import { CHEVRON_DOWN_ICON_SVG } from '../../public-api';
+import { CHEVRON_DOWN_OUTLINE } from '../../public-api';
+
+
 
 /**
  * Компонент для отображения аватара пользователя.
@@ -31,15 +33,21 @@ import { CHEVRON_DOWN_ICON_SVG } from '../../public-api';
 export class SbiAvatarComponent {
   /**
    * Размер аватара. Может быть 'large', 'regular', 'small' или 'extra-small'.
-   * @type {AvatarSize}
+   * @type {SbiAvatarSize}
    */
-  @Input() size: AvatarSize = 'regular';
+  @Input() size: SbiAvatarSize = 'regular';
 
   /**
    * URL изображения аватара. Если задан, показывается изображение.
    * @type {string}
    */
   @Input() imageUrl = '';
+
+  /**
+   * Пол пользователя
+   * @type {SbiAvatarGender}
+   */
+  @Input() gender: SbiAvatarGender = 'MALE';
 
   /**
    * Инициалы пользователя. Используются, если не задан imageUrl.
@@ -57,7 +65,7 @@ export class SbiAvatarComponent {
    * Иконка из Дизайн Системы, отображаемой в правом нижнем углу аватара (только для размера 'large').
    * @type {string}
    */
-  @Input() sbiIcon = CHEVRON_DOWN_ICON_SVG;
+  @Input() sbiIcon = CHEVRON_DOWN_OUTLINE;
   
   /**
    * Событие клика по иконке.

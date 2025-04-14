@@ -69,6 +69,13 @@ export class SbiAnimatedNumberPipe implements PipeTransform, OnDestroy {
    */
   private changeDetector = inject(ChangeDetectorRef)
 
+  // Добавляем переменные для хранения предыдущих параметров
+  private previousValue: number | null = null;
+  private previousEndValue: number | null = null;
+  private previousIsFloat = false;
+  private previousDuration = 2000;
+  private previousTickDelay = 10;
+
   /**
    * Трансформирует входное значение в анимированное числовое значение.
    * 
@@ -90,14 +97,23 @@ export class SbiAnimatedNumberPipe implements PipeTransform, OnDestroy {
       return value?.toString() ?? endValue?.toString() ?? '';
     }
 
-    if (
-      value !== this.startValue ||
-      endValue !== this.endValue ||
-      this.isFloat !== isFloat ||
-      this.duration !== this.duration ||
-      this.tickDelay !== tickDelay
-    ) {
+    // Проверяем, изменились ли входные параметры
+    const paramsChanged = 
+      value !== this.previousValue ||
+      endValue !== this.previousEndValue ||
+      isFloat !== this.previousIsFloat ||
+      duration !== this.previousDuration ||
+      tickDelay !== this.previousTickDelay;
+      
+    if (paramsChanged) {
       this.customClearInterval();
+
+      // Сохраняем текущие параметры как предыдущие
+      this.previousValue = value;
+      this.previousEndValue = endValue;
+      this.previousIsFloat = isFloat;
+      this.previousDuration = duration;
+      this.previousTickDelay = tickDelay;
 
       this.startValue = value;
       this.currentValue = value;
@@ -106,14 +122,13 @@ export class SbiAnimatedNumberPipe implements PipeTransform, OnDestroy {
       this.duration = duration;
       this.tickDelay = tickDelay;
 
-      const delta = (endValue - value) / duration * tickDelay;
+      const delta = (endValue - value) / (duration / tickDelay);
       this.startAnimation(delta);
     }
 
-    if (this.isFloat) {
-      return this.currentValue.toFixed(2);
-    }
-    return Math.floor(this.currentValue).toString();
+    return this.isFloat 
+      ? this.currentValue.toFixed(2) 
+      : Math.floor(this.currentValue).toString();
   }
 
   /**
@@ -123,15 +138,24 @@ export class SbiAnimatedNumberPipe implements PipeTransform, OnDestroy {
    * @private
    */
   private startAnimation(delta: number) {
-    this.changeInterval = setInterval(() => {
-      this.currentValue += delta;
-      if (Math.abs(delta) > Math.abs(this.currentValue - this.endValue)) {
-        this.currentValue = this.endValue;
-        this.customClearInterval();
-      }
+    const startTime = Date.now();
 
+    const animate = () => {
+      const now = Date.now();
+      const progress = Math.min(1, (now - startTime) / this.duration);
+      
+      this.currentValue = this.startValue + (this.endValue - this.startValue) * progress;
       this.changeDetector.markForCheck();
-    }, this.tickDelay);
+
+      if (progress < 1) {
+        this.changeInterval = setTimeout(animate, this.tickDelay);
+      } else {
+        this.currentValue = this.endValue;
+        this.changeInterval = undefined;
+      }
+    };
+
+    animate();
   }
 
   /**
@@ -139,8 +163,10 @@ export class SbiAnimatedNumberPipe implements PipeTransform, OnDestroy {
    * @private
    */
   private customClearInterval() {
-    clearInterval(this.changeInterval);
-    this.changeInterval = undefined;
+    if (this.changeInterval) {
+      clearTimeout(this.changeInterval);
+      this.changeInterval = undefined;
+    }
   }
 
   /**

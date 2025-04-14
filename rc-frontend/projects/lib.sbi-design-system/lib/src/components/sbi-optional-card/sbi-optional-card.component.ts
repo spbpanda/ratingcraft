@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output, TemplateRef } from '@angular/core';
 import { CardTypes } from '../../models/card.types';
 import { SbiIconComponent } from '../sbi-icon/sbi-icon.component';
-import { QUESTION_MARK_SVG_ICON } from '../../const/icons';
+import { STATUS_QUESTION_FILL } from '../../const/icons';
 import { SbiCheckboxComponent } from '../sbi-checkbox/sbi-checkbox.component';
 import { FormControl } from '@angular/forms';
 import { NgClass, NgIf, NgSwitch, NgSwitchCase, NgTemplateOutlet } from '@angular/common';
@@ -173,7 +173,7 @@ export class SbiOptionalCardComponent implements OnInit {
   /**
    * Иконка, отображаемая для вывода примечания.
    */
-  public questionIcon = QUESTION_MARK_SVG_ICON;
+  public questionIcon = STATUS_QUESTION_FILL;
 
   ngOnInit() {
     if (this.value !== undefined || this.static) {

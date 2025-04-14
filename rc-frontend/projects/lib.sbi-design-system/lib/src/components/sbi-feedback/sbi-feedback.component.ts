@@ -7,7 +7,7 @@ import { SbiFeedbackQuestionsComponent } from './sbi-feedback-questions/sbi-feed
 import { FeedbackQuestion } from '../../models/feedback-question';
 
 /**
- * @deprecated Возможно не будет будет использоваться из-за использования обратной формы связи из ЛК
+ * @deprecated Возможно не будет использоваться из-за использования обратной формы связи из ЛК
  *
  * Принимает несколько ng-content для отображения контента:
  * 1. points-content - контент отображаемы на странице выбора оценки, сверху над блоком оценок;
@@ -22,11 +22,19 @@ import { FeedbackQuestion } from '../../models/feedback-question';
   styleUrl: './sbi-feedback.component.scss',
 })
 export class SbiFeedbackComponent {
-  @Input() status: 'success' | 'fail' = 'success';
+  private _step = signal<'points' | 'questions' | 'custom'>('custom')
+  @Input() set step(step: 'points' | 'questions' | 'custom') {
+    this._step.set(step);
+  }
+
+  public get step() {
+    return this._step();
+  }
+
   @Input() pointsLabel = 'Насколько вам было удобно при заполнении данных';
   @Input() pointsCount = 5;
-  @Input() sendFeedbackButtonLabel = 'Отправить';
-  @Input() toMainPageButtonLabel = 'На главную';
+  @Input() primaryButtonLabel = '';
+  @Input() secondaryButtonLabel = '';
   @Input() icon = STAR_ICON_SVG;
   @Input() testId = 'sbi-feedback-test-id';
 
@@ -42,47 +50,28 @@ export class SbiFeedbackComponent {
   @Output() sendPointsFeedback = new EventEmitter<number>();
   @Output() sendInfoFeedback = new EventEmitter<FeedbackQuestion[]>();
   @Output() sendFeedbackComment = new EventEmitter<string>();
-  @Output() toMain = new EventEmitter();
+  @Output() primaryButtonClick = new EventEmitter();
+  @Output() secondaryButtonClick = new EventEmitter();
 
-  public step = signal(1);
   public selectedPoints = signal(0);
   public selectedQuestions: WritableSignal<FeedbackQuestion[]> = signal([]);
   public comment: WritableSignal<string> = signal('');
   public disabled: Signal<boolean> = computed(() => {
-    if (this.status === 'fail') {
-      return false;
-    }
-    if (this.step() === 1) {
+    if (this._step() === 'points') {
       return !this.selectedPoints();
     }
-    if (this.step() === 2) {
+    if (this._step() === 'questions') {
       return !this.selectedQuestions().length ||
         this.selectedQuestions().length === 1 && this.selectedQuestions()[0].label === 'Другое' && !this.comment().length;
     }
     return false;
   });
-  public buttonLabel: Signal<string> = computed(() => {
-    if (this.step() === 3 || this.status === 'fail') {
-      return this.toMainPageButtonLabel;
-    }
-    return this.sendFeedbackButtonLabel;
-  });
 
-  public onSendFeedback() {
-    if (this.status === 'fail') {
-      this.toMain.emit();
-      return
-    }
-    if (this.step() === 1) {
-      this.sendPointsFeedback.emit(this.selectedPoints());
-    }
-    if (this.step() === 2) {
-      this.sendInfoFeedback.emit(this.selectedQuestions());
-      this.sendFeedbackComment.emit(this.comment());
-    }
-    if (this.step() === 3) {
-      this.toMain.emit();
-    }
-    this.step.update(step => Math.min(step + 1, 3));
+  public onPrimaryButtonClick() {
+    this.primaryButtonClick.emit();
+  }
+
+  public onSecondaryButtonClick() {
+    this.secondaryButtonClick.emit();
   }
 }

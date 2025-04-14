@@ -4,7 +4,7 @@
 // Plus imports for other components in your app.
 
 $sbi-typography: mat.define-typography-config(
-  $font-family: '"SBSansDisplay-Regular", sans-serif',
+  $font-family: 'SBSansDisplay, SBSansText, "Helvetica Neue", Helvetica, Arial, sans-serif',
 );
 
 // Include the common styles for Angular Material. We include this here so that you only

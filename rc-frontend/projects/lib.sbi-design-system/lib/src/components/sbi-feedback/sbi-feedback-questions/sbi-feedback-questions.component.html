@@ -2,11 +2,12 @@
   <sbi-optional-card
     *ngFor="let question of questions; let i = index"
     type="checkbox"
-    [value]="false"
+    [value]="selectedFeedbackQuestions.isSelected(question)"
     [label]="question.label"
     [note]="question.note"
     [showInfoIcon]="false"
     [testId]="testId + 'question-' + i"
     (valueChanged)="onSelectedFeedbackQuestions(question)"></sbi-optional-card>
-  <sbi-textarea *ngIf="showComment" label="Коментарий" placeholder="Коментарий" [control]="comment"></sbi-textarea>
+  <sbi-textarea *ngIf="showComment" label="Коментарий" placeholder="Коментарий"
+                [control]="commentControl"></sbi-textarea>
 </div>

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ACTION_CARD_ARROW_SVG_ICON } from '../../const/icons';
+import { BUTTON_ARROWS_RIGHT } from '../../const/icons';
 import { SbiIconComponent } from '../sbi-icon/sbi-icon.component';
 import { NgClass, NgIf } from '@angular/common';
 
@@ -63,7 +63,7 @@ export class SbiActionCardComponent {
    * svg код кастомной иконки, располагающейся в правой части карточки.
    * @type {boolean}
    */
-  @Input() rightIcon: string = ACTION_CARD_ARROW_SVG_ICON;
+  @Input() rightIcon: string = BUTTON_ARROWS_RIGHT;
 
   /**
    * Идентификатор для тестирования.

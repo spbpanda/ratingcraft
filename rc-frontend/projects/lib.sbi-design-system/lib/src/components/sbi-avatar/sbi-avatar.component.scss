@@ -3,7 +3,7 @@
 .sbi-avatar {
   position: relative;
   border-radius: 1000px;
-  background: var(--surface-background);
+  background: var(--surface-neutral-10);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -101,7 +101,7 @@
   align-items: center;
 
   ::ng-deep svg path {
-    color: var(--icons-primary);
+    fill: var(--icons-primary);
   }
 }
 
@@ -126,6 +126,7 @@
 }
 
 .sbi-avatar-large ::ng-deep sbi-badge {
+  right: -5.5px;
   transform: translate(-25%);
 }
 

@@ -16,7 +16,7 @@ import { MatFormField, MatSuffix } from '@angular/material/form-field';
 import { MatInput, MatInputModule } from '@angular/material/input';
 import { MAT_LUXON_DATE_FORMATS } from '@angular/material-luxon-adapter';
 import { MY_FORMATS } from '../../const/date-adapter.const';
-import { DATEPICKER_ICON_SVG } from '../../const/icons';
+import { CALENDAR_FILL } from '../../const/icons';
 import { SbiDatepickerHeaderComponent } from './sbi-datepicker-header/sbi-datepicker-header.component';
 import { SbiDateAdapterService } from './sbi-date-adapter.service';
 import { SbiComponentWithInput } from '../../classes/sbi-component-with-input.component';
@@ -454,7 +454,7 @@ export class SbiDatepickerComponent extends SbiComponentWithInput<DateTime | str
   protected readonly DatepickerHeaderComponent = SbiDatepickerHeaderComponent;
 
   public get calendarIcon() {
-    return DATEPICKER_ICON_SVG;
+    return CALENDAR_FILL;
   }
 
   public getTimeDisplay(): string {

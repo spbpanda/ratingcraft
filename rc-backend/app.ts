@@ -11,6 +11,8 @@ import { convertMOTDToHTML } from './utils/convert-motd-to-html';
 import getMinecraftServerStatus from './minecraft-server-util/minecraft-server-util';
 import { BEDROCK_DEFAULT_PORT, JAVA_DEFAULT_PORT } from './consts/ports';
 import { randomUUID, UUID } from 'crypto';
+import { BoostRequest } from './interfaces/boost-request';
+import { Transaction } from './interfaces/transaction';
 
 const app = express();
 const PORT = Number(process.env.PORT) || 10000;
@@ -94,7 +96,7 @@ app.post('/add-server', authMiddleware, async (req, res): Promise<any> => {
       version.protocol === serverInfo.version?.protocol
     );
 
-    console.log(serverInfo)
+    // console.log(serverInfo)
     // Если версия не найдена, возвращаем ошибку
     if (!serverVersion) {
       return res.status(400).json({ error: 'Версия сервера не поддерживается' });
@@ -173,8 +175,7 @@ app.put('/servers/:id', authMiddleware, (req, res): any => {
   }
 
   // Обновляем данные сервера
-  servers[serverIndex] = { ...servers[serverIndex], ...updatedServer };
-
+  servers[serverIndex] = { ...servers[serverIndex], ...updatedServer};
   // Сохраняем обновленные данные в файл
   try {
     fs.writeFileSync('./data/servers.json', JSON.stringify(servers, null, 2));
@@ -188,6 +189,13 @@ app.put('/servers/:id', authMiddleware, (req, res): any => {
 // Получить список серверов
 app.post('/servers', async (req, res) => {
   const { search, versions, bases, mods, plugins, miniGames, page = 0, pageSize = 10 } = req.body;
+
+  // const sortingServers = servers.sort((a: { rating: number; }, b: { rating: number; }) => {
+  //   if (!b.rating || !a.rating) {
+  //     return -1
+  //   }
+  //   return b.rating - a.rating
+  // }).map((server: Server, index: number) => {return {...server, ratingPlace: index+1}});
 
   let filteredServers: Server[] = filterServers(servers, {
     search: typeof search === 'string' ? search : undefined,
@@ -211,12 +219,12 @@ app.post('/servers', async (req, res) => {
   // Пагинация
   const startIndex = page * pageSize;
   const endIndex = startIndex + pageSize;
-  const paginatedServers = filteredServers.slice(startIndex, endIndex).sort((a, b) => {
+  const paginatedServers = filteredServers.slice(startIndex, endIndex).sort((a , b) => {
     if (!b.rating || !a.rating) {
       return -1
     }
     return b.rating - a.rating
-  });
+  })
 
   res.json({
     data: paginatedServers,
@@ -290,7 +298,6 @@ app.post('/find-server', async (req, res) => {
   const { hostname, port } = req.body;
   
   const serverInfo = await pingJavaServer(hostname, port) ?? await pingBedrockServer(hostname, port);
-  console.log(serverInfo);
   try {
     // const response = JSON.parse(serverInfo);
     res.json(serverInfo);
@@ -329,6 +336,79 @@ app.post('/find-server-ai', async (req, res) => {
   }
 });
 
+// Эндпоинт для буста рейтинга
+app.post('/servers/:id/boost', authMiddleware, async (req, res): Promise<any> => {
+  const { id } = req.params;
+  const { amount, paymentMethod }: BoostRequest = req.body;
+  const userId = (req as any).user.id;
+
+  // 1. Находим сервер
+  const server = servers.find((s: Server) => s.id === id);
+  if (!server) {
+    return res.status(404).json({ error: 'Сервер не найден' });
+  }
+
+  // 2. Рассчитываем стоимость
+  const cost = calculateBoostCost(amount);
+  
+  // 3. Проверяем платеж (это упрощенный пример)
+  const paymentSuccess = await processPayment(userId, cost, paymentMethod);
+  
+  if (!paymentSuccess) {
+    return res.status(400).json({ error: 'Ошибка оплаты' });
+  }
+
+  // 4. Обновляем рейтинг
+  server.rating = Number(server.rating) + Number(amount);
+  
+  // 5. Сохраняем транзакцию
+  const transaction: Transaction = {
+    id: randomUUID(),
+    userId,
+    serverId: id,
+    amount: cost,
+    ratingAdded: amount,
+    paymentMethod,
+    date: new Date(),
+    status: 'completed'
+  };
+
+  const transactions = readJsonFile('./data/transactions.json');
+  transactions.push(transaction);
+  fs.writeFileSync('./data/transactions.json', JSON.stringify(transactions, null, 2));
+
+  // 6. Сохраняем обновленный сервер
+  fs.writeFileSync('./data/servers.json', JSON.stringify(servers, null, 2));
+
+  res.json({
+    success: true,
+    newRating: server.rating,
+    transactionId: transaction.id
+  });
+});
+
+// Получение истории бустов для сервера
+app.get('/servers/:id/boosts', (req, res) => {
+  const { id } = req.params;
+  const transactions = readJsonFile('./data/transactions.json');
+  const serverBoosts = transactions.filter((t: Transaction) => t.serverId === id);
+  res.json(serverBoosts);
+});
+
+// Вспомогательные функции
+function calculateBoostCost(amount: number): number {
+  // Например: 30 рублей за 1 пункт рейтинга
+  const basePricePerPoint = 30;
+  return amount * basePricePerPoint;
+}
+
+// Интеграция с платежной системой
+async function processPayment(userId: string, amount: number, method: string): Promise<boolean> {
+  // Здесь должна быть интеграция с платежной системой
+  // Для примера просто возвращаем true
+  return true;
+}
+
 // Фильтр для серверов по всем параметрам
 const filterServers = (servers: Server[], criteria: {
   search?: string;
@@ -349,10 +429,6 @@ const filterServers = (servers: Server[], criteria: {
   });
 };
 
-app.get('/api', (req, res) => {
-  res.send({ message: 'Hello from Node.js API!' });
-});
-
 // // Start server prod
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server is running on http://0.0.0.0:${PORT}`);
@@ -367,14 +443,6 @@ app.listen(PORT, '0.0.0.0', () => {
 async function pingJavaServer(host: any, port: number = JAVA_DEFAULT_PORT, timeout: number = DEFAULT_TIMEOUT) {
   try {
     const data: any = await pingJava(host, { port, timeout });
-    console.log(`Host: ${host}
-    Version: ${data.version?.name} (protocol: ${data.version?.protocol})
-    Players: ${data.players?.online}/${data.players?.max}
-    Description: ${
-      typeof data.description === "string"
-        ? data.description
-        : data.description?.text
-    }`);
     return data;
   } catch (err) {
     console.error('Ошибка при проверке сервера:', err);
@@ -385,12 +453,6 @@ async function pingJavaServer(host: any, port: number = JAVA_DEFAULT_PORT, timeo
 async function pingBedrockServer(host: any, port: number = BEDROCK_DEFAULT_PORT, timeout: number = DEFAULT_TIMEOUT) {
   try {
     const data: any = await pingBedrock(host, { port, timeout });
-    console.log(`Host: ${host}
-    Edition: ${data.edition}
-    Version: ${data.version.minecraftVersion} (protocol: ${data.version.protocolVersion})
-    Players: ${data.players.online}/${data.players.max}
-    Name: ${data.name}
-    Gamemode: ${data.gameMode}`);
     return data;
   } catch (err) {
     console.error('Ошибка при проверке сервера:', err);

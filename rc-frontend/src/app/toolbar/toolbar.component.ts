@@ -2,12 +2,13 @@ import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import {MatMenuModule} from '@angular/material/menu';
-import { SbiDarkSliderComponent, SbiButtonComponent, SbiIconComponent, CHEVRON_DOWN_ICON_SVG } from '@sbi/design-system';
+import { SbiDarkSliderComponent, SbiButtonComponent, SbiIconComponent, BUTTON_ARROWS_DOWN } from '@sbi/design-system';
 import { LoginComponent } from '../components/login/login.component';
 import { AuthService } from '../services/auth.service';
 import { User } from '../common/interfaces/user';
 import { Subject, takeUntil } from 'rxjs';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { RcButtonComponent } from '../components/rc-button/rc-button.component';
 
 @Component({
   selector: 'rc-toolbar',
@@ -18,6 +19,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
     SbiDarkSliderComponent,
     SbiButtonComponent,
     SbiIconComponent,
+    RcButtonComponent,
     RouterLink,
     RouterLinkActive
   ],
@@ -29,7 +31,7 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   private readonly dialog = inject(MatDialog);
   readonly authService = inject(AuthService);
   user: User | null = this.authService.getLoggedInUser();
-  arrow_down = CHEVRON_DOWN_ICON_SVG;
+  arrow_down = BUTTON_ARROWS_DOWN;
 
   ngOnInit() {
   }

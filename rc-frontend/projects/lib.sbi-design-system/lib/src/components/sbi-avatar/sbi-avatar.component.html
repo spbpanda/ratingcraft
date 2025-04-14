@@ -9,6 +9,15 @@
     <div class="sbi-avatar-initials">{{ initials }}</div>
   }
 
+  <!-- Дефолтная картинка (показываются только если нет изображения и инициалов) -->
+  @if (!imageUrl && !initials) {
+    @if (gender === 'MALE') {
+      <img src="assets/images/AvatarM.png" alt="Avatar" class="sbi-avatar-image">
+    } @else {
+      <img src="assets/images/AvatarF.png" alt="Avatar" class="sbi-avatar-image">
+    }
+  }
+
   <!-- Бейдж (используем компонент sbi-badge) -->
   @if (showBadge) {
     <sbi-badge [size]="size === 'large' ? 'large' : 'small'" type="accent">
