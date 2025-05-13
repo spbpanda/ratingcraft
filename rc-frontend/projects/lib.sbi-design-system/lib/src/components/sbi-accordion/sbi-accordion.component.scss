@@ -1,4 +1,4 @@
-@import "../../../assets/fonts/sbi.typography.scss";
+@import '../../../assets/fonts/sbi.typography.scss';
 
 .sbi-accordion {
   --mat-expansion-container-shape: 16px;
@@ -34,7 +34,7 @@
   }
 
   ::ng-deep .mat-expansion-panel-header {
-    padding: 12px 20px 12px 12px;
+    padding: 16px;
     height: auto;
   }
 }

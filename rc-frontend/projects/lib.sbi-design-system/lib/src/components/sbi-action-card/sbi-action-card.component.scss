@@ -64,12 +64,6 @@ $action-card-box-shadow: #2324250f !default;
       background-color: var(--state-information-pressed);
     }
   }
-
-  ::ng-deep .right-arrow {
-    ::ng-deep svg path {
-      fill: var(--icons-information);
-    }
-  }
 }
 
 .small {
@@ -100,15 +94,5 @@ $action-card-box-shadow: #2324250f !default;
 .reverse {
   .label-wrapper {
     flex-direction: column-reverse;
-  }
-}
-
-.right-arrow {
-  width: 24px;
-  height: 24px;
-
-  div {
-    width: 24px;
-    height: 24px;
   }
 }

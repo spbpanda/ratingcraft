@@ -4,7 +4,7 @@ import { Server } from '../../../../common/interfaces/server';
 import { RcBackendService } from '../../../../services/rc-backend.service';
 import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RcButtonComponent } from '../../../../components/rc-button/rc-button.component';
-import { SbiAutocompleteComponent, SbiDropdownComponent, SbiInputComponent, SbiSnackBarService, SbiSuggestChipComponent } from '@sbi/design-system';
+import { SbiAutocompleteComponent, SbiInputComponent, SbiSnackBarService } from '@sbi/design-system';
 import { take } from 'rxjs';
 import { EditorComponent, EditorModule, TINYMCE_SCRIPT_SRC } from '@tinymce/tinymce-angular';
 import { Item } from '../../../../common/interfaces/filter';
@@ -19,7 +19,7 @@ export interface ServerForm {
   address: FormControl<string | null>;
   port: FormControl<number | null>;
   description: FormControl<string | null>;
-  version: FormControl<Item | null>;
+  versions: FormControl<Item[] | null>;
   site: FormControl<string | null>;
   vk: FormControl<string | null>;
   discord: FormControl<string | null>;
@@ -41,7 +41,6 @@ export interface ServerForm {
     RcButtonComponent,
     SbiInputComponent,
     SbiAutocompleteComponent,
-    SbiDropdownComponent,
     SbiDividerComponent,
     EditorComponent,
     EditorModule,
@@ -114,7 +113,7 @@ export class EditServerComponent implements OnInit {
         Validators.max(65535)
       ]),
       description: new FormControl(server.description),
-      version: new FormControl(server.version),
+      versions: new FormControl(server.versions ?? []),
       site: new FormControl(server.site),
       vk: new FormControl(server.vk),
       discord: new FormControl(server.discord),
@@ -144,15 +143,15 @@ export class EditServerComponent implements OnInit {
       this.rcBackend.updateServer({...updatedServer, id: this.serverId}).pipe(take(1)).subscribe({
         next: () => {
           this.snackbarService.openSnackBar({
-            contentText: `Информация по серверу успешно обновлена`,
+            title: `Информация по серверу успешно обновлена`,
             appearance: 'success',
           });
           this.router.navigate(['/user/my-servers']);
         },
         error: (err) => {
           this.snackbarService.openSnackBar({
-            contentText: `Ошибка при обновлении сервера: ${err.error.error}`,
-            appearance: 'warning',
+            title: `Ошибка при обновлении сервера: ${err.error.error}`,
+            appearance: 'error',
           });
         }
       });

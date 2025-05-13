@@ -13,7 +13,7 @@ export interface Server {
     rating: number;
     ownerId: string;
     createDate: Date; // Assuming this is a JavaScript Date object
-    version: Item;
+    versions: Item[];
     site: string;
     vk: string;
     discord: string;

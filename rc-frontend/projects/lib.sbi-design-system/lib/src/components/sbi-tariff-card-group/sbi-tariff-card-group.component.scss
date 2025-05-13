@@ -1,0 +1,64 @@
+@import '../../../assets/fonts/sbi.typography';
+
+.sbi-tariff-card-group {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+  
+  &__select-text {
+    color: var(--text-primary);
+    @extend .body-regular;
+    font-weight: 500;
+  }
+  
+  &__selected-counter {
+    color: var(--text-secondary);
+    @extend .body-small;
+  }
+  
+  &__cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 16px;
+  }
+  
+  &__card-wrapper {
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    
+    display: flex;
+    flex-direction: column;
+    
+    ::ng-deep .sbi-tariff-card {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    ::ng-deep .sbi-tariff-card:not(.sbi-tariff-card--premium) {
+      padding-top: 4px;
+    }
+    
+    &--selected {
+      &::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        border: 2px solid var(--border-accent);
+        border-radius: 14px;
+        z-index: 1;
+      }
+    }
+  }
+}

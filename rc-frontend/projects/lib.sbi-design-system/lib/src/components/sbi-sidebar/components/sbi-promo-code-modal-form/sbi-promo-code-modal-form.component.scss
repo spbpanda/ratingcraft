@@ -1,0 +1,11 @@
+.promo-status-wrapper {
+  margin: 12px 0;
+
+  .invalid-promo-code {
+    color: var(--text-warning);
+  }
+
+  .valid-promo-code {
+    color: var(--text-accent);
+  }
+}

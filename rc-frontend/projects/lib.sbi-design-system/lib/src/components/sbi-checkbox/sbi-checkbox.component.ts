@@ -26,73 +26,93 @@ import { SbiErrorComponent } from '../sbi-error/sbi-error.component';
 })
 export class SbiCheckboxComponent implements OnChanges {
   /**
-   * Лейбл для чекбокса.
+   * @public
+   * @description Лейбл для чекбокса.
    * @type {string}
+   * @defaultValue ''
    */
-  @Input() label: string = '';
+  @Input() public label: string = '';
 
   /**
-   * Дополнительная заметка или описание для чекбокса.
+   * @public
+   * @description Дополнительная заметка или описание для чекбокса.
    * @type {string | undefined}
+   * @defaultValue ''
    */
-  @Input() note?: string = '';
+  @Input() public note?: string = '';
 
   /**
-   * Форм-контроль для управления состоянием чекбокса.
+   * @public
+   * @description Форм-контроль для управления состоянием чекбокса.
    * @type {FormControl<boolean | null>}
+   * @defaultValue new FormControl()
    */
-  @Input() control: FormControl<boolean | null> = new FormControl();
+  @Input() public control: FormControl<boolean | null> = new FormControl();
 
   /**
-   * Значение чекбокса (внешнее управление).
+   * @public
+   * @description Значение чекбокса (внешнее управление).
    * @type {boolean | null | undefined}
+   * @defaultValue null
    */
-  @Input() checkboxValue?: boolean | null = null;
+  @Input() public checkboxValue?: boolean | null = null;
 
   /**
-   * Флаг, указывающий, является ли чекбокс ссылкой.
+   * @public
+   * @description Флаг, указывающий, является ли чекбокс ссылкой.
    * @type {boolean}
+   * @defaultValue false
    */
-  @Input() isLink: boolean = false;
+  @Input() public isLink: boolean = false;
 
   /**
-   * Флаг, указывающий, отключен ли чекбокс.
+   * @public
+   * @description Флаг, указывающий, отключен ли чекбокс.
    * @type {boolean}
+   * @defaultValue false
    */
-  @Input() disabled: boolean = false;
+  @Input() public disabled: boolean = false;
 
   /**
-   * Идентификатор для тестирования.
-   * @type {string}
-   */
-  @Input() testId: string = 'sbi-checkbox';
-
-  /**
-   * Сообщения об ошибках для валидации.
+   * @public
+   * @description Сообщения об ошибках для валидации.
    * @type {Record<string, string> | undefined}
+   * @defaultValue undefined
    */
-  @Input() errorMessages?: Record<string, string>;
+  @Input() public errorMessages?: Record<string, string>;
 
   /**
-   * Флаг, указывающий, нужно ли показывать ошибки.
+   * @public
+   * @description Флаг, указывающий, нужно ли показывать ошибки.
    * @type {boolean}
+   * @defaultValue true
    */
-  @Input() showErrors: boolean = true;
+  @Input() public showErrors: boolean = true;
 
   /**
-   * Событие, которое срабатывает при клике на ссылку (если isLink = true).
+   * @public
+   * @description Идентификатор для тестирования.
+   * @type {string}
+   * @defaultValue 'sbi-checkbox'
+   */
+  @Input() public testId: string = 'sbi-checkbox';
+
+  /**
+   * @public
+   * @description Событие, которое срабатывает при клике на ссылку (если isLink = true).
    * @type {EventEmitter<void>}
    */
-  @Output() clickToLink = new EventEmitter();
+  @Output() public clickToLink: EventEmitter<void> = new EventEmitter<void>();
 
   /**
-   * Событие, которое срабатывает при изменении значения чекбокса.
+   * @public
+   * @description Событие, которое срабатывает при изменении значения чекбокса.
    * @type {EventEmitter<boolean>}
    */
-  @Output() valueChanged: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() public valueChanged: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   /**
-   * Обрабатывает изменения входных свойств.
+   * @description Обрабатывает изменения входных свойств.
    * @param {SimpleChanges} changes - Объект с изменениями входных свойств.
    */
   ngOnChanges(changes: SimpleChanges) {
@@ -107,20 +127,20 @@ export class SbiCheckboxComponent implements OnChanges {
   }
 
   /**
-   * Обрабатывает изменение значения чекбокса.
+   * @public
+   * @description Обрабатывает изменение значения чекбокса.
    * Вызывает событие `valueChanged` с текущим значением чекбокса.
    */
-  onCheckboxValueChanged() {
+  public onCheckboxValueChanged() {
     this.valueChanged.emit(this.control?.value ?? this.checkboxValue ?? false);
   }
 
   /**
-   * Обрабатывает клик на ссылку (если isLink = true).
+   * @public
+   * @description Обрабатывает клик на ссылку (если isLink = true).
    * Вызывает событие `clickToLink`.
    */
-  onClickToLink() {
-    if (this.isLink) {
-      this.clickToLink.emit();
-    }
+  public onClickToLink() {
+    this.isLink && this.clickToLink.emit();
   }
 }

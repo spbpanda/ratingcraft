@@ -1,5 +1,3 @@
-@import '../../../assets/fonts/sbi.typography';
-
 .flex-start {
   .sbi-list-wrapper {
     align-items: flex-start !important;
@@ -22,7 +20,6 @@
     gap: 8px;
 
     .sbi-list-element {
-      @extend .body-regular;
       white-space: pre-line;
       word-break: break-word;
       color: var(--text-secondary);
@@ -38,17 +35,5 @@
         width: 12px;
       }
     }
-  }
-}
-
-.sbi-list-wrapper.active {
-  ::ng-deep svg path {
-    fill: var(--icons-accent);
-  }
-}
-
-.sbi-list-wrapper.inactive {
-  ::ng-deep svg path {
-    fill: var(--icons-tertiary);
   }
 }

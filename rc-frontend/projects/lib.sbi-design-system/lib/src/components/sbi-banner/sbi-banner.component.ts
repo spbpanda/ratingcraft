@@ -1,20 +1,24 @@
-import { Component, Inject, Input, Optional, TemplateRef } from '@angular/core';
+import { Component, Inject, Input, OnInit, Optional, TemplateRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SbiIconComponent } from '../sbi-icon/sbi-icon.component';
 import { MAT_SNACK_BAR_DATA, MatSnackBarAction, MatSnackBarModule, MatSnackBarRef } from '@angular/material/snack-bar';
 import { BUTTON_CROSS, STATUS_ATTENTION_FILL, STATUS_INFO_FILL, STATUS_SUCCES_FILL } from '../../const/icons';
+import { SbiBannerAppearance, SbiBannerDataModel } from './sbi-banner.models';
+import { SbiIconColor } from '../sbi-icon/sbi-icon.models';
 
-
-export interface BannerDataModel {
-  isStatic: boolean;
-  title?: string;
-  content?: TemplateRef<any>;
-  context?: unknown;
-  contentText?: string;
-  appearance: 'info' | 'warn' | 'success';
-}
-
-
+/**
+ * Компонент для отображения всплывающего окна с текстовым содержимым.
+ *
+ * Поддерживает различные типы стилей.
+ *
+ * @Component
+ * @selector: 'sbi-banner'
+ * @standalone: true
+ * @imports: [CommonModule, SbiIconComponent, MatSnackBarAction, MatSnackBarModule]
+ * @templateUrl: './sbi-banner.component.html'
+ * @styleUrl: './sbi-banner.component.scss'
+ * @host: { '[class.hide-banner]': 'hideStaticBanner' }
+ */
 @Component({
   selector: 'sbi-banner',
   standalone: true,
@@ -30,65 +34,111 @@ export interface BannerDataModel {
     '[class.hide-banner]': 'hideStaticBanner',
   }
 })
-export class SbiBannerComponent {
+export class SbiBannerComponent implements OnInit {
 
   /**
-   * Статичный банер или плавающий
+   * @public
+   * @description Статичный банер или плавающий.
+   * @type {boolean}
+   * @defaultValue true
    */
-  @Input() isStatic: boolean = true;
+  @Input() public isStatic: boolean = true;
 
   /**
-   * Строчный контент
+   * @public
+   * @description Строчный контент.
+   * @type {string | null}
+   * @defaultValue null
    */
-  @Input() contentText: string | null = null;
+  @Input() public contentText: string | null = null;
 
   /**
-   * Шаблонный контент
+   * @public
+   * @description Шаблонный контент.
    */
-  @Input() content: TemplateRef<any> | null = null;
+  @Input() public content: TemplateRef<any> | null = null;
 
   /**
-   * svg для иконки
+   * @public
+   * @description svg для иконки.
+   * @type {string}
+   * @defaultValue ''
    */
-  @Input() svgIcon: string = '';
+  @Input() public svgIcon: string = '';
 
   /**
-   * Заголовок банера
+   * @public
+   * @description Заголовок банера.
+   * @type {string | null}
+   * @defaultValue null
    */
-  @Input() title: string | null = null;
+  @Input() public title: string | null = null;
 
   /**
-   * Цвет банера и иконки
+   * @public
+   * @description Цвет банера и иконки.
+   * @type {'info' | 'warn' | 'success'}
+   * @defaultValue 'info'
    */
-  @Input() appearance: 'info' | 'warn' | 'success' = 'info';
+  @Input() public appearance: SbiBannerAppearance = 'info';
 
+  /**
+   * @public
+   * @description svg код иконки, отображаемой по умолчанию.
+   * @type {string}
+   * @defaultValue ''
+   * */
   public defaultIcon: string = '';
 
+  /**
+   * @public
+   * @description Флаг, видимости баннера.
+   * @type {boolean}
+   * @defaultValue false
+   * */
   public hideStaticBanner: boolean = false;
 
-  public get clearIcon() {
+  /**
+   * @public
+   * @getter
+   * @description Возвращает картинку крестика (закрытия баннера).
+   * @return {string}
+   * */
+  public get clearIcon(): string {
     return BUTTON_CROSS;
   }
 
   constructor(
-    @Optional() @Inject(MAT_SNACK_BAR_DATA) public data: BannerDataModel,
+    @Optional() @Inject(MAT_SNACK_BAR_DATA) public data: SbiBannerDataModel,
     @Optional() public snackBarRef: MatSnackBarRef<SbiBannerComponent>,
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     !this.svgIcon && this.setDefaultIcon();
-    
+
+    this.setInitParams();
+  }
+
+  /**
+   * @private
+   * @description Устанавливает значения параметров, для последующего отображения.
+   * */
+  private setInitParams() {
     if (this.data && !this.data.isStatic) {
       this.isStatic = this.data.isStatic;
       this.contentText = this.data.contentText || this.contentText;
       this.content = this.data.content || this.content;
       this.title = this.data.title || this.title;
       this.appearance = this.data.appearance || this.appearance;
-      this.setDefaultIcon(); 
+      this.setDefaultIcon();
     }
-    
   }
 
+  /**
+   * @private
+   * @description Устанавливает значение отображаемой иконки.
+   * */
   private setDefaultIcon() {
     switch (this.appearance) {
       case 'warn':
@@ -103,8 +153,31 @@ export class SbiBannerComponent {
     }
   }
 
+  /**
+   * @public
+   * @description Скрывает баннер.
+   * */
   public closeStaticBanner() {
     this.hideStaticBanner = true;
+  }
+
+  /**
+   * @public
+   * @getter
+   * @description Возвращает актуальный цвет иконки.
+   * @return {SbiIconColor | undefined}
+   * */
+  public get getIconColor(): SbiIconColor | undefined {
+    if (this.appearance === 'info') {
+      return 'information'
+    }
+    if (this.appearance === 'success') {
+      return 'accent';
+    }
+    if (this.appearance === 'warn') {
+      return 'warning';
+    }
+    return undefined;
   }
 
 }

@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { AbstractControl, FormControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+import { AbstractControl, AsyncValidatorFn, FormControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 import { SbiIconButtonComponent } from '@sbi/design-system';
+import { catchError, Observable, of } from 'rxjs';
 export const TRASH_BIN = `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path fill-rule="evenodd" clip-rule="evenodd" d="M8.25 5.75C8.25 4.09315 9.59315 2.75 11.25 2.75H12.75C14.4069 2.75 15.75 4.09315 15.75 5.75V6.5H19.25C19.6642 6.5 20 6.83579 20 7.25C20 7.66421 19.6642 8 19.25 8H18V16.8305C18 17.3646 18 17.8105 17.9703 18.1747C17.9392 18.5546 17.8721 18.9112 17.7003 19.2485C17.4366 19.7659 17.0159 20.1866 16.4985 20.4503C16.1612 20.6221 15.8046 20.6892 15.4247 20.7203C15.0604 20.75 14.6146 20.75 14.0805 20.75H9.91955C9.3854 20.75 8.93956 20.75 8.57533 20.7203C8.19545 20.6892 7.83879 20.6221 7.50153 20.4503C6.98408 20.1866 6.56338 19.7659 6.29973 19.2485C6.12789 18.9112 6.06078 18.5546 6.02974 18.1747C5.99998 17.8104 5.99999 17.3646 6 16.8304L6 8H4.75C4.33579 8 4 7.66421 4 7.25C4 6.83579 4.33579 6.5 4.75 6.5H8.25V5.75ZM9.75 6.5H14.25V5.75C14.25 4.92157 13.5784 4.25 12.75 4.25H11.25C10.4216 4.25 9.75 4.92157 9.75 5.75V6.5ZM10 10.75C10.4142 10.75 10.75 11.0858 10.75 11.5V17.5C10.75 17.9142 10.4142 18.25 10 18.25C9.58579 18.25 9.25 17.9142 9.25 17.5V11.5C9.25 11.0858 9.58579 10.75 10 10.75ZM14.75 11.5C14.75 11.0858 14.4142 10.75 14 10.75C13.5858 10.75 13.25 11.0858 13.25 11.5V17.5C13.25 17.9142 13.5858 18.25 14 18.25C14.4142 18.25 14.75 17.9142 14.75 17.5V11.5Z" fill="#DFE0E2"/>
 </svg>`;
@@ -24,16 +25,15 @@ export class BannerComponent {
     if (!input.files || input.files.length === 0) {
       return;
     }
-  
     const file = input.files[0];
     const reader = new FileReader();
-  
+    
     reader.onload = () => {
       const base64Image = reader.result as string;
       this.bannerControl.setValue(base64Image); // Устанавливаем значение в FormControl
       input.value = ''; // Сбрасываем значение
     };
-  
+    
     reader.readAsDataURL(file);
   }
 
@@ -51,7 +51,62 @@ export class BannerComponent {
     };
   }
 
+  imageDimensionsValidator(
+    requiredWidth: number,
+    requiredHeight: number
+  ): AsyncValidatorFn {
+    return (control: AbstractControl): Observable<ValidationErrors | null> => {
+      const file = control.value as File;
+      
+      if (!file) {
+        return of(null); // Если файла нет, пропускаем валидацию
+      }
+  
+      if (!file.type.startsWith('image/')) {
+        return of({ notAnImage: true }); // Проверяем, что это изображение
+      }
+  
+      return new Observable<ValidationErrors | null>(observer => {
+        const img = new Image();
+        const url = URL.createObjectURL(file);
+  
+        img.onload = () => {
+          URL.revokeObjectURL(url);
+          
+          const errors: ValidationErrors = {};
+          if (img.width !== requiredWidth) {
+            errors['invalidWidth'] = {
+              actual: img.width,
+              required: requiredWidth
+            };
+          }
+          
+          if (img.height !== requiredHeight) {
+            errors['invalidHeight'] = {
+              actual: img.height,
+              required: requiredHeight
+            };
+          }
+  
+          observer.next(Object.keys(errors).length ? errors : null);
+          observer.complete();
+        };
+  
+        img.onerror = () => {
+          URL.revokeObjectURL(url);
+          observer.next({ invalidImage: true });
+          observer.complete();
+        };
+  
+        img.src = url;
+      }).pipe(
+        catchError(() => of({ imageLoadError: true }))
+      );
+    };
+  }
+
   ngAfterViewInit() {
     this.bannerControl.setValidators(this.validateFileSize(this.maxSizeInBytes));
+    this.bannerControl.setAsyncValidators(this.imageDimensionsValidator(80, 468));
   }
 }

@@ -1,60 +1,111 @@
-<div class="sticky-container">
-  <div class="sbi-sidebar-container" *ngIf="!!priceLabel">
-    <div class="sber-grad-wrapper">
-      <div class="sber-grad"></div>
-    </div>
-    <div class="price-container">
-      <div class="sbi-sidebar-container__label-wrapper" [ngClass]="{ 'full-wrapper': !price || price === '0' }">
-        <span class="sbi-sidebar-container__label">{{ priceLabel }}</span>
+<div class="sbi-side-bar" [attr.data-testid]="testId">
+  @if (priceLabel || (typeOf(price) === 'object' ? objPrice?.value : valPrice) || tooltipContent) {
+    <div class="sbi-side-bar-container gradient-header">
+      <div class="sbi-side-bar-label-container white-content">
+        @if (priceLabel || tooltipContent) {
+          <div class="price-label-container">
+            <div class="label body-regular">{{ priceLabel }}</div>
+            @if (tooltipContent) {
+              <sbi-question-info
+                [tooltipContent]="tooltipContent"
+                [tooltipPosition]="tooltipPosition"
+                [testId]="testId + 'question-info'"></sbi-question-info>
+            }
+          </div>
+        }
+        @if (price) {
+          <ng-template [ngTemplateOutlet]="priceTemplate"></ng-template>
+        }
+        <ng-content select="[header-content]"></ng-content>
       </div>
-      <div *ngIf="price && price !== '0'" class="discount-container">
-        <div class="price-value">{{ price }}</div>
-        <div *ngIf="showDiscount" class="price-discount">{{ fullPrice }}</div>
-      </div>
     </div>
-  </div>
-
-  @if (mainElements.length > 0) {
-    <sbi-divider class="big-divider" *ngIf="!isDesktop"></sbi-divider>
-
-    <div class="sbi-sidebar-main-info">
-      <div class="sbi-main-info-container">
+  }
+  <div class="hide-empty sbi-side-bar-container">
+    <div class="hide-empty sbi-side-bar-elements-container">
+      @for (element of mainElements; track element; let i = $index) {
+        @if (i) {
+          <sbi-divider></sbi-divider>
+        }
         <div
-          class="sbi-main-info-block"
-          *ngFor="let element of mainElements; let i = index"
+          class="sbi-side-bar-element"
           [sbiTooltip]="element.tooltip || null"
           [tooltipPosition]="element.tooltipPosition || 'bottom'">
-          <div class="label">{{ element.label }}</div>
-          @if (isStringType(element.note)) {
-            <div class="note">{{ element.note | sbiDynamic : element.pipe : element.pipeArgs }}</div>
-          } @else {
-            <div class="note hideOverText" *ngFor="let note of getNoteList(element.note)">
-              {{ note | sbiDynamic : element.pipe : element.pipeArgs }}
-            </div>
-          }
-          <sbi-divider [ngClass]="{ divider: !isDesktop }" *ngIf="i < mainElements.length - 1"></sbi-divider>
+          <div class="label label-small">
+            {{ element.label | sbiDynamic : element.labelPipe : element.labelPipeArgs }}
+          </div>
+          <div class="note body-regular">{{ element.note | sbiDynamic : element.pipe : element.pipeArgs }}</div>
         </div>
-      </div>
+      }
+      <ng-content select="[body-content]"></ng-content>
     </div>
-  }
-
-  <div class="sbi-sidebar-main-info">
-    <ng-content select="[main-info]"></ng-content>
   </div>
-
-  @if (showPromo || showDocs) {
-    <sbi-divider class="big-divider" *ngIf="!isDesktop"></sbi-divider>
-
-    <div class="sbi-sidebar-container">
-      <div class="sbi-sidebar-container__actions-wrapper">
-        <div class="sbi-sidebar-container__label" *ngIf="showPromo" (click)="onPromoClick($event)">{{ promoLabel }}
-        </div>
-        <div class="sbi-sidebar-container__label" *ngIf="showDocs" (click)="onDocsClick($event)">{{ docsLabel }}</div>
+  @if (promoCodeLabel) {
+    <div class="sbi-side-bar-container active-action" (click)="openPromoModal()">
+      <div class="sbi-side-bar-action">
+        <sbi-icon [iconImage]="promoCodeIcon" size="24" [color]="promoCodeIconColor"></sbi-icon>
+        <div class="label label-regular">{{ promoCodeLabel }}</div>
       </div>
     </div>
   }
-
-  <div class="sbi-sidebar-main-info">
-    <ng-content select="[after-docs-and-promo-info]"></ng-content>
+  @if (docLabel) {
+    <div class="sbi-side-bar-container active-action" (click)="openDocModal()">
+      <div class="sbi-side-bar-action">
+        <sbi-icon [iconImage]="documentIcon" size="24" color="primary"></sbi-icon>
+        <div class="label label-regular">{{ docLabel }}</div>
+      </div>
+    </div>
+  }
+  @if (settingLabel) {
+    <div class="sbi-side-bar-container active-action" (click)="onSettingClick()">
+      <div class="sbi-side-bar-action">
+        <sbi-icon [iconImage]="settingIcon" size="24" color="primary"></sbi-icon>
+        <div class="label label-regular">{{ settingLabel }}</div>
+      </div>
+    </div>
+  }
+  <div class="sbi-side-bar-container hide-empty">
+    <ng-content select="[added-content]"></ng-content>
   </div>
 </div>
+
+<ng-template #priceTemplate>
+  @if (typeOf(price) === 'object') {
+    @if (objPrice.value) {
+      <div class="price-container">
+        <span class="price headline-regular">
+          @if (useAnimationForPrice) {
+            {{ (objPrice.value | sbiSoloAnimatedNumber : dynamicSumSettings?.isFloat || false : dynamicSumSettings?.duration || 2000 : dynamicSumSettings?.tickDelay || 10) | sbiDynamic : objPrice.pipe : objPrice.pipeArgs }}
+          } @else {
+            {{ objPrice.value | sbiDynamic : objPrice.pipe : objPrice.pipeArgs }}
+          }
+        </span>
+        <ng-template
+          [ngTemplateOutlet]="fullPriceTemplate"
+          [ngTemplateOutletContext]="{ price: objPrice.value }"></ng-template>
+      </div>
+    }
+  } @else {
+    @if (valPrice) {
+      <div class="price-container">
+        <span class="price headline-regular">{{ valPrice }}</span>
+        <ng-template
+          [ngTemplateOutlet]="fullPriceTemplate"
+          [ngTemplateOutletContext]="{ price: valPrice }"></ng-template>
+      </div>
+    }
+  }
+</ng-template>
+
+<ng-template #fullPriceTemplate let-price=price>
+  @if (typeOf(fullPrice) === 'object') {
+    @if (objFullPrice && objFullPrice.value && objFullPrice.value !== price) {
+      <span class="full-price body-regular">
+       {{ objFullPrice.value | sbiDynamic : objFullPrice.pipe : objFullPrice.pipeArgs }}
+      </span>
+    }
+  } @else {
+    @if (valFullPrice && valFullPrice !== price) {
+      <span class="full-price body-regular">{{ valFullPrice }}</span>
+    }
+  }
+</ng-template>

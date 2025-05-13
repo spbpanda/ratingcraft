@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { BadgeSize, BadgeTypes } from '../../models/badge.types';
+import { SbiBadgeSize, SbiBadgeType } from './sbi-badge.models';
 import { NgClass, NgIf } from '@angular/common';
 
 /**
@@ -32,21 +32,27 @@ import { NgClass, NgIf } from '@angular/common';
 })
 export class SbiBadgeComponent {
   /**
-   * Размер бейджа. Может быть 'small' или 'large'.
-   * @type {BadgeSize}
+   * @public
+   * @description Размер бейджа. Может быть 'small' или 'large'.
+   * @type {'small' | 'large'}
+   * @defaultValue 'large'
    */
-  @Input() size: BadgeSize = 'large';
+  @Input() public size: SbiBadgeSize = 'large';
 
   /**
-   * Тип (стиль) бейджа. Определяет цветовую схему и визуальное оформление.
+   * @public
+   * @description Тип (стиль) бейджа. Определяет цветовую схему и визуальное оформление.
    * Возможные значения: 'neutral', 'tint', 'accent'.
-   * @type {BadgeTypes}
+   * @type {'neutral' | 'tint' | 'accent'}
+   * @defaultValue 'accent'
    */
-  @Input() type: BadgeTypes = 'accent';
+  @Input() public type: SbiBadgeType = 'accent';
 
   /**
-   * Текстовое содержимое бейджа.
+   * @public
+   * @description Текстовое содержимое бейджа.
    * @type {string}
+   * @defaultValue ''
    */
-  @Input() content = '';
+  @Input() public content: string = '';
 }

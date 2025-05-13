@@ -1,10 +1,5 @@
 import { AfterViewInit, Component, ElementRef, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
-
-// Тип для возможных цветов иконки
-export type SbiIconColor = 'primary' | 'tertiary' | 'accent' | 'accenttint' | 'warning' | 'error' | 'information' | 'contrast';
-
-// Тип для возможных размеров иконки
-export type SbiIconSize = '12' | '16' | '24' | '32' | '48';
+import { SbiIconColor, SbiIconSize } from './sbi-icon.models';
 
 /**
  * Компонент иконка
@@ -14,33 +9,58 @@ export type SbiIconSize = '12' | '16' | '24' | '32' | '48';
  * @Component
  * @selector: 'sbi-icon',
  * @standalone: true
- * @templateUrl: './sbi-icon.component.html', 
- * @styleUrl: './sbi-icon.component.scss', 
+ * @templateUrl: './sbi-icon.component.html',
+ * @styleUrl: './sbi-icon.component.scss',
  */
 @Component({
   selector: 'sbi-icon',
-  templateUrl: './sbi-icon.component.html', 
-  styleUrl: './sbi-icon.component.scss', 
-  standalone: true 
+  templateUrl: './sbi-icon.component.html',
+  styleUrl: './sbi-icon.component.scss',
+  standalone: true
 })
 export class SbiIconComponent implements OnChanges, AfterViewInit {
-  // Ссылка на DOM-элемент иконки через ViewChild
-  @ViewChild('sbiIcon') private _icon?: ElementRef;
-
-  // SVG-изображение иконки в виде строки
-  @Input() iconImage: string = '';
-
-  // Идентификатор для тестирования
-  @Input() testId = 'sbi-icon';
-
-  // Размер иконки с фиксированными допустимыми значениями
-  @Input() size: SbiIconSize = '24';
-
-  // Цвет иконки (опциональный)
-  @Input() color?: SbiIconColor;
+  /**
+   * @private
+   * @description Ссылка на DOM-элемент иконки через ViewChild.
+   * @type {ElementRef<HTMLDivElement>}
+   * @defaultValue ElementRef<HTMLDivElement>
+   */
+  @ViewChild('sbiIcon') private _icon?: ElementRef<HTMLDivElement>;
 
   /**
-   * Вставляет SVG-изображение в DOM, если оно было передано
+   * @public
+   * @description SVG-изображение иконки в виде строки.
+   * @type {string}
+   * @defaultValue ''
+   * */
+  @Input() public iconImage: string = '';
+
+  /**
+   * @public
+   * @description Размер иконки с фиксированными допустимыми значениями.
+   * @type {'12' | '16' | '24' | '32' | '48'}
+   * @defaultValue '24'
+   * */
+  @Input() public size: SbiIconSize = '24';
+
+  /**
+   * @public
+   * @description Цвет иконки.
+   * @type {'primary' | 'tertiary' | 'accent' | 'accenttint' | 'warning' | 'error' | 'information' | 'contrast' | undefined}
+   * @defaultValue undefined
+   * */
+  @Input() public color?: SbiIconColor;
+
+  /**
+   * @public
+   * @description Идентификатор для тестирования.
+   * @type {string}
+   * @defaultValue 'sbi-icon'
+   * */
+  @Input() public testId: string = 'sbi-icon';
+
+  /**
+   * @description Вставляет SVG-изображение в DOM, если оно было передано
    */
   ngAfterViewInit() {
     if (this._icon?.nativeElement && this.iconImage) {
@@ -49,7 +69,7 @@ export class SbiIconComponent implements OnChanges, AfterViewInit {
   }
 
   /**
-   * Обновляет SVG-изображение при изменении iconImage
+   * @description Обновляет SVG-изображение при изменении iconImage
    */
   ngOnChanges(changes: SimpleChanges) {
     // Проверяем, изменилось ли свойство iconImage

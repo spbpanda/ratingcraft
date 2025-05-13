@@ -1,5 +1,5 @@
 import { AfterViewInit, Directive, ElementRef, Input, OnChanges, SimpleChanges } from '@angular/core';
-import { InputMode } from '../models/input.types';
+import { InputMode } from '../components/sbi-input/sbi-input.models';
 
 /**
  * Директива для установки атрибута inputMode для элементов ввода.

@@ -1,0 +1,119 @@
+@import '../../../assets/fonts/sbi.typography';
+
+:host {
+  display: block;
+}
+
+.sbi-breadcrumb {
+  display: inline-flex;
+  align-items: center;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  position: relative;
+}
+
+.sbi-breadcrumb-item {
+  padding-left: 4px;
+  padding-right: 4px;
+  border-radius: 4px;
+  display: inline-flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 4px;
+  transition: background-color 0.2s ease-in-out;
+
+  &.default {
+    .sbi-breadcrumb-link {
+      color: var(--text-tertiary);
+    }
+
+    &:hover {
+      background: var(--surface-neutral-10);
+      .sbi-breadcrumb-link {
+        color: var(--text-primary);
+      }
+    }
+  }
+
+  &.active {
+    .sbi-breadcrumb-link {
+      color: var(--text-primary);
+    }
+  }
+  
+  &.dots-item {
+    cursor: pointer;
+    
+    .sbi-breadcrumb-link {
+      color: var(--text-tertiary);
+    }
+    
+    &:hover {
+      background: var(--surface-neutral-10);
+      .sbi-breadcrumb-link {
+        color: var(--text-primary);
+      }
+    }
+    
+    &:active {
+      background: var(--surface-neutral-10);
+      .sbi-breadcrumb-link {
+        color: var(--text-primary);
+      }
+    }
+  }
+}
+
+.sbi-breadcrumb-link {
+  flex: 1 1 0;
+  max-width: 160px;
+  @extend .body-regular;
+  word-wrap: break-word;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+  transition: color 0.2s ease-in-out;
+}
+
+.sbi-breadcrumb-separator {
+  padding-left: 4px;
+  padding-right: 4px;
+  overflow: hidden;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  color: var(--text-tertiary);
+  @extend .body-regular;
+}
+
+::ng-deep {
+  .mat-mdc-menu-panel.sbi-breadcrumb-menu {
+    border: 1px solid var(--border-secondary);
+    box-shadow: 0px 2px 5px 1px rgba(35, 36, 37, 0.03);
+    border-radius: 16px;
+    background: var(--surface-primary);
+    margin-top: 4px;
+    --mat-menu-item-label-text-color: var(--text-primary);
+  
+    .mat-mdc-menu-content {
+      padding: 4px;
+      
+      .mat-mdc-menu-item {
+        min-height: 40px;
+        padding: 8px 12px;
+        border-radius: 12px;
+        
+        span {
+          color: var(--text-primary);
+          @extend .body-large;
+        }
+
+        &:hover {
+          background: var(--surface-neutral-10);
+        }
+      }
+    }
+  }
+} 

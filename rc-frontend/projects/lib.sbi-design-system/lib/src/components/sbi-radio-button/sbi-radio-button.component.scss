@@ -19,7 +19,7 @@ $radio-checked: url('data:image/svg+xml,<svg width="20" height="20" viewBox="0 0
 }
 
 .sbi-radio,
-.sbi-radio-content.mat-mdc-radio-button.mat-primary {
+.sbi-radio-content.mat-mdc-radio-button {
   --mdc-form-field-label-text-color: var(--text-primary);
   --mdc-form-field-label-text-size: 16px;
   --mdc-form-field-label-text-line-height: 24px;
@@ -39,6 +39,7 @@ $radio-checked: url('data:image/svg+xml,<svg width="20" height="20" viewBox="0 0
   --mat-radio-checked-ripple-color: transparent;
   --mat-radio-disabled-label-color: var(--text-primary);
   --mdc-radio-disabled-unselected-icon-opacity: 1;
+  --mat-radio-touch-target-display: none;
 }
 
 .sbi-radio-label {
@@ -84,6 +85,9 @@ $radio-checked: url('data:image/svg+xml,<svg width="20" height="20" viewBox="0 0
 }
 
 :host ::ng-deep {
+  .mdc-radio {
+    margin-top: 2px;
+  }
 
   .mdc-radio__background {
     width: 20px;

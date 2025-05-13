@@ -1,5 +1,24 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnDestroy, Output, QueryList, ViewChildren } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  Output,
+  QueryList,
+  ViewChildren
+} from '@angular/core';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators
+} from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgFor, NgIf } from '@angular/common';
 import { smsAutocomplete } from './utils/sms-autocomplete';
@@ -30,6 +49,7 @@ export class SbiSmsCodeComponent implements AfterViewInit, OnDestroy {
   @Input() testId: string = 'sbiSmsCode';
   @Input() resendCodeLabel = 'Получить код повторно';
   @Input() timerLabel = 'Отправить код еще раз через';
+  @Input() public resendSmsDelay: number = 300;
 
   /**
    * Для корректной автоподстановки кода, в тексте смс должен содержаться текст формата
@@ -53,7 +73,8 @@ export class SbiSmsCodeComponent implements AfterViewInit, OnDestroy {
   private timerId: any;
 
   constructor(
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private cdRef: ChangeDetectorRef // Добавляем ChangeDetectorRef
   ) {
     this.smsCodeForm = this.createSmsCodeForm();
     this.smsCodeForm.statusChanges.subscribe(() => {
@@ -109,17 +130,19 @@ export class SbiSmsCodeComponent implements AfterViewInit, OnDestroy {
 
   onInput(index: number, event: Event): void {
     const target = event.target as HTMLInputElement;
-    const value = target.value;
+    const value = (event as InputEvent).data || '';
 
     if (!/^\d$/.test(value)) {
-      target.value = '';
-      this.codeControls[index].setValue('');
+      const oldValue = value.match(/\d/g)?.join('') || '';
+      target.value = oldValue;
+      this.codeControls[index].setValue(oldValue);
       return;
     }
 
-    if (value && index < this.codeControls.length - 1) {
-      const inputFieldsArray = this.inputFields.toArray();
-      const nextInput = inputFieldsArray[index + 1].nativeElement as HTMLInputElement;
+    if (value && index < this.codeControls.length) {
+      target.value = value;
+      this.codeControls[index].setValue(value);
+      const nextInput = this.inputFields.toArray()[index + 1]?.nativeElement;
       nextInput?.focus();
     }
   }
@@ -135,6 +158,26 @@ export class SbiSmsCodeComponent implements AfterViewInit, OnDestroy {
         const prevInput = inputFieldsArray[index - 1].nativeElement as HTMLInputElement;
         prevInput?.focus();
       }
+    }
+    if (event.key === 'ArrowUp') {
+      const currentControl = this.codeControls[index];
+      const value = (Number(currentControl.value || 0) + 1) % 10;
+      currentControl.setValue(value.toString());
+      target.value = value.toString();
+    }
+    if (event.key === 'ArrowDown') {
+      const currentControl = this.codeControls[index];
+      const value = (Number(currentControl.value || 0) - 1);
+      currentControl.setValue(value < 0 ? '9' : value.toString());
+      target.value = value < 0 ? '9' : value.toString();
+    }
+    if (index + 1 < this.smsCodeLength && event.key === 'ArrowRight') {
+      const prevInput = this.inputFields.toArray()[index + 1]?.nativeElement;
+      prevInput?.focus();
+    }
+    if (index - 1 >= 0 && event.key === 'ArrowLeft') {
+      const prevInput = this.inputFields.toArray()[index - 1]?.nativeElement;
+      prevInput?.focus();
     }
   }
 
@@ -163,8 +206,9 @@ export class SbiSmsCodeComponent implements AfterViewInit, OnDestroy {
 
   resetTimer(): void {
     this.stopTimer(); // Останавливаем предыдущий таймер
-    this.timer = 300; // 5 минут в секундах
+    this.timer = this.resendSmsDelay; // 5 минут в секундах
     this.showResendLink = false;
+    this.cdRef.markForCheck(); // Помечаем для проверки изменений
     this.startTimer(); // Запускаем новый таймер
   }
 
@@ -172,10 +216,12 @@ export class SbiSmsCodeComponent implements AfterViewInit, OnDestroy {
     const updateTimer = () => {
       if (this.timer > 0) {
         this.timer -= 1;
+        this.cdRef.markForCheck(); // Помечаем для проверки изменений
         this.timerId = setTimeout(updateTimer, 1000); // Обновляем таймер каждую секунду
       } else {
         this.stopTimer();
         this.showResendLink = true;
+        this.cdRef.markForCheck(); // Помечаем для проверки изменений
       }
     };
 
@@ -185,6 +231,7 @@ export class SbiSmsCodeComponent implements AfterViewInit, OnDestroy {
   stopTimer(): void {
     if (this.timerId) {
       clearTimeout(this.timerId);
+      this.cdRef.markForCheck(); // Помечаем для проверки изменений
     }
   }
 

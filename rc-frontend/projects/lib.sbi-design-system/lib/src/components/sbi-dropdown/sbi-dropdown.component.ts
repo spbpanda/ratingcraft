@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, SimpleChanges, ViewChild } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteTrigger, MatOption } from '@angular/material/autocomplete';
 import { MatFormField, MatPrefix, MatSuffix } from '@angular/material/form-field';
 import { AsyncPipe, NgForOf, NgIf } from '@angular/common';
@@ -15,6 +15,7 @@ import { SbiInputModeDirective } from '../../directives/sbi-input-mode.directive
 import { SbiTitleCaseDirective } from '../../directives/sbi-title-case.directive';
 import { SbiNameUppercaseDirective } from '../../directives/sbi-name-uppercase.directive';
 import { MaskitoDirective } from '@maskito/angular';
+import { BUTTON_SEARCH } from '../../const/icons';
 
 /**
  * Компонент выпадающего списка (dropdown) с функцией автозаполнения.
@@ -31,6 +32,27 @@ import { MaskitoDirective } from '@maskito/angular';
  * @standalone: true
  * @templateUrl: './sbi-dropdown.component.html'
  * @styleUrls: ['./sbi-dropdown.component.scss']
+ * @imports: [
+ *   MatFormField,
+ *   NgIf,
+ *   MatInput,
+ *   ReactiveFormsModule,
+ *   MatAutocompleteTrigger,
+ *   MatAutocomplete,
+ *   SbiErrorComponent,
+ *   MatSuffix,
+ *   SbiIconComponent,
+ *   MatLabel,
+ *   MatPrefix,
+ *   MatOption,
+ *   AsyncPipe,
+ *   SbiMultiUppercaseDirective,
+ *   SbiInputModeDirective,
+ *   SbiTitleCaseDirective,
+ *   SbiNameUppercaseDirective,
+ *   MaskitoDirective,
+ *   NgForOf,
+ * ]
  */
 @Component({
   selector: 'sbi-dropdown',
@@ -61,37 +83,63 @@ import { MaskitoDirective } from '@maskito/angular';
 })
 export class SbiDropdownComponent<T> extends SbiComponentWithAutocomplete<T> {
   /**
-   * Ссылка на элемент ввода в DOM.
+   * @public
+   * @readonly
+   * @description Иконка поиска.
+   * @type {string}
+   * @defaultValue BUTTON_SEARCH
+   */
+  public readonly searchIcon: string = BUTTON_SEARCH;
+
+  /**
    * @private
+   * @description Ссылка на элемент ввода в DOM.
+   * @type {ElementRef<HTMLInputElement>}
+   * @defaultValue ElementRef<HTMLInputElement>
    */
   @ViewChild('input') private input!: ElementRef<HTMLInputElement>;
 
   /**
-   * Флаг, определяющий, нужно ли удалять специальные символы при вводе.
-   * @type {boolean}
+   * @public
+   * @description Форм контрол.
+   * @type {FormControl<T | string | null>}
    */
-  @Input() dropSpecialCharacters = true;
+  @Input() public declare control: FormControl<T | string | null>;
 
   /**
-   * Флаг, определяющий, активно ли автоматическое преобразование текста в верхний регистр по определенным правилам.
+   * @public
+   * @description Флаг, определяющий, нужно ли удалять специальные символы при вводе.
    * @type {boolean}
+   * @defaultValue true
    */
-  @Input() inputMultiUppercaseActive = false;
+  @Input() public dropSpecialCharacters: boolean = true;
 
   /**
-   * Флаг, определяющий, активно ли автоматическое преобразование имен в верхний регистр.
+   * @public
+   * @description Флаг, определяющий, активно ли автоматическое преобразование текста в верхний регистр по определенным правилам.
    * @type {boolean}
+   * @defaultValue false
    */
-  @Input() inputNameUppercaseActive = false;
+  @Input() public inputMultiUppercaseActive: boolean = false;
 
   /**
-   * Флаг, определяющий, нужно ли показывать иконку стрелки (шеврон) для выпадающего списка.
+   * @public
+   * @deprecated Флаг, определяющий, активно ли автоматическое преобразование имен в верхний регистр.
    * @type {boolean}
+   * @defaultvalue false
    */
-  @Input() showChevron = true;
+  @Input() public inputNameUppercaseActive: boolean = false;
 
   /**
-   * Инициализирует компонент.
+   * @public
+   * @description Флаг, определяющий, нужно ли показывать иконку стрелки (шеврон) для выпадающего списка.
+   * @type {boolean}
+   * @defaultValue true
+   */
+  @Input() public showChevron: boolean = true;
+
+  /**
+   * @description Инициализирует компонент.
    * Вызывает родительский метод ngOnInit и подключает фильтрацию опций.
    * @override
    */
@@ -101,9 +149,9 @@ export class SbiDropdownComponent<T> extends SbiComponentWithAutocomplete<T> {
   }
 
   /**
-   * Подключает фильтрацию опций на основе изменений значения контрола.
-   * Использует debounceTime и distinctUntilChanged для оптимизации частоты вызовов.
    * @private
+   * @description Подключает фильтрацию опций на основе изменений значения контрола.
+   * Использует debounceTime и distinctUntilChanged для оптимизации частоты вызовов.
    */
   private connectFilterOptions() {
     this.control.valueChanges
@@ -112,7 +160,7 @@ export class SbiDropdownComponent<T> extends SbiComponentWithAutocomplete<T> {
   }
 
   /**
-   * Обрабатывает изменения входных свойств компонента.
+   * @description Обрабатывает изменения входных свойств компонента.
    * Фильтрует опции на основе текущего значения и обновляет значение элемента ввода при изменении маски.
    * @param {SimpleChanges} changes - Объект с изменениями входных свойств.
    * @override
@@ -125,10 +173,10 @@ export class SbiDropdownComponent<T> extends SbiComponentWithAutocomplete<T> {
   }
 
   /**
-   * Очищает контрол при нажатии на кнопку очистки.
-   * @param {Event} event - Событие клика.
-   * @override
    * @public
+   * @override
+   * @description Очищает контрол при нажатии на кнопку очистки.
+   * @param {Event} event - Событие клика.
    */
   public override onClearControl(event: Event) {
     super.onClearControl(event);

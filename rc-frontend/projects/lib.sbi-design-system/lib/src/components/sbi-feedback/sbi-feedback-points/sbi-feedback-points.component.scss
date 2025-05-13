@@ -1,5 +1,3 @@
-@import '../../../../assets/fonts/sbi.typography';
-
 $feedback-label-wrapper-box-shadow: #23242508 !default;
 $feedback-box-shadow: #2324250f !default;
 
@@ -14,7 +12,6 @@ $feedback-box-shadow: #2324250f !default;
 }
 
 .label {
-  @extend .body-large;
   text-align: center;
   background: linear-gradient(0deg, #08a652 18.66%, #17b897 100%);
   -webkit-background-clip: text;

@@ -36,8 +36,8 @@ export class AddServerComponent {
             take(1),
             catchError((err: any) => {
               this.snackbarService.openSnackBar({
-                contentText: err.error.error,
-                appearance: 'warning',
+                title: err.error.error,
+                appearance: 'error',
               });
               
               this.isLoading.set(false);
@@ -47,7 +47,7 @@ export class AddServerComponent {
           .subscribe((result) => {
             console.log(result);
             this.snackbarService.openSnackBar({
-              contentText: 'Сервер успешно добавлен!',
+              title: 'Сервер успешно добавлен!',
               appearance: 'success',
             });
 
@@ -57,8 +57,8 @@ export class AddServerComponent {
       this.address.reset();
     } else {
       this.snackbarService.openSnackBar({
-        contentText: 'Неверный адрес сервера',
-        appearance: 'warning',
+        title: 'Неверный адрес сервера',
+        appearance: 'error',
       });
     }
   }

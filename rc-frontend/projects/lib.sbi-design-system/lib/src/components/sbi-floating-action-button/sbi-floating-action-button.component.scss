@@ -8,102 +8,92 @@
   overflow: hidden;
   border-radius: 1000px;
   transition: background-color 0.3s ease;
-  
+
   &.disabled {
     cursor: default;
     pointer-events: none;
     opacity: var(--opacity-opacity40);
   }
-  
+
   // Размер L
   &--size-L {
     width: 56px;
     height: 56px;
-    
-    sbi-icon {
-      width: 24px;
-      height: 24px;
-    }
   }
-  
+
   // Размер S
   &--size-S {
     width: 44px;
     height: 44px;
-    
-    sbi-icon {
-      width: 24px;
-      height: 24px;
-    }
   }
-  
+
   // Внешний вид Accent
   &--accent {
     background: var(--surface-accent);
-    
+
     &:hover {
       background: var(--state-accent-hover);
     }
-    
+
     &:active {
       background: var(--state-accent-pressed);
     }
-    
+
     ::ng-deep {
       sbi-icon svg path {
         fill: var(--icons-contrast);
       }
     }
   }
-  
+
   // Внешний вид Overlay
   &--overlay {
     background: rgba(255, 255, 255, var(--opacity-opacity20));
-    
+
     &:hover {
       background: rgba(255, 255, 255, var(--opacity-opacity40));
     }
-    
+
     &:active {
       background: rgba(255, 255, 255, var(--opacity-opacity20));
     }
-    
+
     ::ng-deep {
       sbi-icon svg path {
         fill: var(--icons-contrast);
       }
     }
   }
-  
+
   // Внешний вид Neutral
   &--neutral {
     background: var(--surface-primary);
-    
+
     &:hover {
       background: var(--surface-primary);
       box-shadow: 0px 2px 5px 1px #23242508, 0px 2px 4px 0px #2324250F;;
-      
+
       ::ng-deep {
         sbi-icon svg path {
           fill: var(--icons-accent);
         }
       }
     }
-    
+
     &:active {
       background: var(--surface-primary);
-      
+
       ::ng-deep {
         sbi-icon svg path {
           fill: var(--icons-accent);
         }
       }
     }
-    
+
     ::ng-deep {
       sbi-icon svg path {
         fill: var(--icons-primary);
       }
     }
   }
-} 
+}

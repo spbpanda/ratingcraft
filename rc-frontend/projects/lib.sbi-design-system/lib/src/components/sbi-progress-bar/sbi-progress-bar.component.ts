@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, Input, OnChanges, SimpleChanges, ViewChild } from '@angular/core';
 import { MatProgressBar } from '@angular/material/progress-bar';
 import { NgIf } from '@angular/common';
+import { SbiProgressBarMode, SbiProgressBarSize } from './sbi-progress-bar.models';
 
 /**
  * Компонент для отображения прогресса прохождения процесса или прогресса загрузки.
@@ -21,63 +22,86 @@ import { NgIf } from '@angular/common';
 })
 export class SbiProgressBarComponent implements AfterViewInit, OnChanges {
   /**
-   * Элемент шкалы прогресса.
+   * @private
+   * @description Элемент шкалы прогресса.
+   * @type {MatProgressBar}
+   * @defaultValue MatProgressBar
    */
-  @ViewChild('progressBar') progressBar!: MatProgressBar;
+  @ViewChild('progressBar') private progressBar!: MatProgressBar;
 
   /**
-   * Режим работы шкалы прогресса.
+   * @public
+   * @description Режим работы шкалы прогресса.
    * @type {'determinate' | 'indeterminate'}
+   * @defaultValue 'indeterminate'
    */
-  @Input() mode: 'determinate' | 'indeterminate' = 'indeterminate';
+  @Input() public mode: SbiProgressBarMode = 'indeterminate';
 
   /**
-   * Процент заполненности шкалы прогресса.
+   * @public
+   * @description Процент заполненности шкалы прогресса.
    * @type {number}
+   * @defaultValue 0
    */
-  @Input() value = 0;
+  @Input() public value: number = 0;
 
   /**
-   * Размер шкалы прогресса.
+   * @public
+   * @description Размер шкалы прогресса.
    * @type {'large' | 'small'}
+   * @defaultValue 'large'
    */
-  @Input() size: 'large' | 'small' = 'large';
+  @Input() public size: SbiProgressBarSize = 'large';
 
   /**
-   * Лейбл шкалы прогресса.
+   * @public
+   * @description Лейбл шкалы прогресса.
    * @type {string | undefined}
+   * @defaultValue undefined
    */
-  @Input() label?: string;
+  @Input() public label?: string;
 
   /**
-   * Примечание шкалы прогресса.
+   * @public
+   * @description Примечание шкалы прогресса.
    * @type {string | undefined}
+   * @defaultValue undefined
    */
-  @Input() note?: string;
+  @Input() public note?: string;
 
   /**
-   * Валидность или не валидность шкалы прогресса.
+   * @public
+   * @description Валидность или не валидность шкалы прогресса.
    * @type {boolean}
+   * @defaultValue false
    */
-  @Input() invalid = false;
+  @Input() public invalid: boolean = false;
 
   /**
-   * Идентификатор для тестирования.
+   * @public
+   * @description Идентификатор для тестирования.
    * @type {string}
+   * @defaultValue 'sbi-progress-bar-test-id'
    */
-  @Input() testId = 'sbi-progress-bar-test-id';
+  @Input() public testId: string = 'sbi-progress-bar-test-id';
 
   /**
-   * Процент прогресса.
+   * @private
+   * @getter
+   * @description Процент прогресса.
+   * @return {number}
    */
-  private get width() {
+  private get width(): number {
     return Math.min(Math.max(this.value, 0), 100);
   }
 
   /**
-   * Компонент линии шкалы прогресса.
+   * @private
+   * @getter
+   * @description Компонент линии шкалы прогресса.
+   * @return {HTMLElement | null | undefined}
    */
-  private get progressLine() {
+  private get progressLine(): HTMLElement | null | undefined {
     return this.progressBar?._elementRef?.nativeElement?.children?.item(1) as HTMLElement | null | undefined;
   }
 
@@ -101,7 +125,8 @@ export class SbiProgressBarComponent implements AfterViewInit, OnChanges {
   }
 
   /**
-   * Устанавливает процент прогресса.
+   * @private
+   * @description Устанавливает процент прогресса.
    */
   private setWidth() {
     if (this.progressLine) {

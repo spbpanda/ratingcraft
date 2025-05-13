@@ -1,5 +1,9 @@
 @import '../../../assets/fonts/sbi.typography.scss';
 
+:host {
+  width: 100%;
+}
+
 .sbi-button-toggle-group {
   width: 100%;
   border-radius: 100px;
@@ -9,6 +13,9 @@
   padding: 2px;
 
   ::ng-deep {
+    width: 100%;
+    max-width: -webkit-fill-available;
+
     --mat-standard-button-toggle-state-layer-color: transparent;
     --mat-standard-button-toggle-divider-color: var(--surface-neutral-10);
 

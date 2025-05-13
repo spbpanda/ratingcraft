@@ -69,11 +69,6 @@
         border-color: var(--state-neutral-borderprimary---hover);
       }
 
-      svg path {
-        fill: var(--icons-primary);
-        fill-opacity: 1;
-      }
-
       .mdc-floating-label {
         color: var(--text-secondary);
       }
@@ -95,7 +90,6 @@
 
       svg path {
         fill: var(--icons-warning);
-        fill-opacity: 1;
       }
 
       .mdc-floating-label {
@@ -120,11 +114,6 @@
 
       &:hover {
         border-color: var(--border-primary);
-      }
-
-      svg path {
-        fill: var(--icons-primary);
-        fill-opacity: 1;
       }
 
       .mdc-floating-label {

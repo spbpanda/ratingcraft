@@ -6,6 +6,7 @@ import { SbiIconComponent } from '../sbi-icon/sbi-icon.component';
 import { BUTTON_CROSS } from '../../const/icons';
 
 /**
+ * @experimental
  * Компонент - обёртка для "шторки".
  *
  * Позволяет выводить информацию снизу экрана
@@ -29,31 +30,41 @@ import { BUTTON_CROSS } from '../../const/icons';
 export class SbiMobileCurtainComponent implements AfterViewInit, OnDestroy {
 
   /**
-   * Экземпляр контейнера шторки.
-   * @type {ElementRef<HTMLDivElement>} экземпляр контейнера шторки.
+   * @private
+   * @description Экземпляр контейнера шторки.
+   * @type {ElementRef<HTMLDivElement>} Экземпляр контейнера шторки.
+   * @defaultValue ElementRef<HTMLDivElement>
    */
   @ViewChild('sbiCurtainContainer') private curtainContainer!: ElementRef<HTMLDivElement>;
 
   /**
-   * Экземпляр контента шторки.
+   * @private
+   * @description Экземпляр контента шторки.
    * @type {ElementRef<HTMLDivElement>} экземпляр контента шторки.
+   * @defaultValue ElementRef<HTMLDivElement>
    */
   @ViewChild('sbiCurtainContent') private sbiCurtainContent!: ElementRef<HTMLDivElement>;
 
   /**
-   * Экземпляр фона шторки.
+   * @private
+   * @description Экземпляр фона шторки.
    * @type {ElementRef<HTMLDivElement>} Экземпляр фона шторки.
+   * @defaultValue ElementRef<HTMLDivElement>
    */
   @ViewChild('sbiCurtainHideBackground') private sbiCurtainHideBackground!: ElementRef<HTMLDivElement>;
 
   /**
-   * Состояние шторки (открыта\закрыта).
+   * @private
+   * @description Состояние шторки (открыта\закрыта).
    * @type {boolean} состояние шторки (открыта - true\закрыта - false).
+   * @defaultValue false
    */
   private _open: boolean = false;
 
   /**
-   * Возвращает SVG иконку для закрытия модального окна.
+   * @public
+   * @getter
+   * @description Возвращает SVG иконку для закрытия модального окна.
    * @returns {string} SVG строка иконки закрытия модального окна.
    */
   public get closeIcon(): string {
@@ -61,49 +72,64 @@ export class SbiMobileCurtainComponent implements AfterViewInit, OnDestroy {
   }
 
   /**
-   * Базовый размер шторки в закрытом состоянии.
+   * @public
+   * @description Базовый размер шторки в закрытом состоянии.
    * @type {number} размер шторки в закрытом состоянии в пикселях.
+   * @defaultValue 0
    */
-  @Input() baseSize: number = 0;
+  @Input() public baseSize: number = 0;
 
   /**
-   * Активна ли шторка для свайпа.
+   * @public
+   * @description Активна ли шторка для свайпа.
    * @type {boolean} флаг, активности шторки для свайпа.
+   * @defaultValue false
    */
-  @Input() activeForOpen: boolean = false;
+  @Input() public activeForOpen: boolean = false;
 
   /**
-   * Максимальный размер шторки.
+   * @public
+   * @description Максимальный размер шторки.
    * @type {number} максимальный размер шторки в открытом состоянии.
+   * @defaultValue 700
    */
-  @Input() maxHeight: number = 700;
+  @Input() public maxHeight: number = 700;
 
   /**
-   * Количество пикселей, необходимое для изменения состояния шторки.
+   * @public
+   * @description Количество пикселей, необходимое для изменения состояния шторки.
    * @type {number | undefined} на сколько нужно открыть\закрыть шторку (в пикселях) чтобы она изменила состояние открыт\закрыт.
+   * @defaultValue undefined
    */
-  @Input() openCloseDelta?: number;
+  @Input() public openCloseDelta?: number;
 
   /**
-   * Флаг отображения иконки закрытия шторки.
+   * @public
+   * @description Флаг отображения иконки закрытия шторки.
    * @type {boolean} отображать ли иконку закрытия (крестик) шторки.
+   * @defaultValue true
    */
-  @Input() showCloseIcon: boolean = true;
+  @Input() public showCloseIcon: boolean = true;
 
   /**
-   * Идентификатор для авто тестов.
+   * @public
+   * @description Идентификатор для авто тестов.
    * @type {string} идентификатор для авто тестов.
+   * @defaultValue 'sbi-mobile-curtain'
    */
-  @Input() testId: string = 'sbi-mobile-curtain';
+  @Input() public testId: string = 'sbi-mobile-curtain';
 
   /**
-   * Событие открытия\закрытия шторки.
+   * @public
+   * @description Событие открытия\закрытия шторки.
    * @type {EventEmitter<boolean>} изменение состояния открытия\закрытия шторки.
    */
-  @Output() openEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() public openEvent: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   /**
-   * Получение состояния шторки.
+   * @public
+   * @getter
+   * @description Получение состояния шторки.
    * @returns {boolean} открыта шторка или закрыта.
    */
   public get open(): boolean {
@@ -111,7 +137,9 @@ export class SbiMobileCurtainComponent implements AfterViewInit, OnDestroy {
   }
 
   /**
-   * Получение максимальной высоты шторки.
+   * @public
+   * @getter
+   * @description Получение максимальной высоты шторки.
    * @returns {number} максимальная высота шторки в пикелях.
    */
   public get contentHeight(): number {
@@ -119,7 +147,9 @@ export class SbiMobileCurtainComponent implements AfterViewInit, OnDestroy {
   }
 
   /**
-   * Изменение состояния шторки.
+   * @public
+   * @setter
+   * @description Изменение состояния шторки.
    * @param {boolean} open - новое состояние шторки
    */
   public set open(open: boolean) {
@@ -136,7 +166,7 @@ export class SbiMobileCurtainComponent implements AfterViewInit, OnDestroy {
   }
 
   /**
-   * Функция удаления шторки ид текущего положения в DOM и встраивания её в body
+   * @description Функция удаления шторки ид текущего положения в DOM и встраивания её в body
    */
   private insertCurtainInToBody() {
     if (this.sbiCurtainHideBackground && SbiSwipeComponent.isMobile(window)) {
@@ -148,7 +178,8 @@ export class SbiMobileCurtainComponent implements AfterViewInit, OnDestroy {
   }
 
   /**
-   * Функция встраивания шторки в body
+   * @description Функция встраивания шторки в body
+   * @param {HTMLElement} elem
    */
   private insertInToBody(elem: HTMLElement) {
     elem.remove();
@@ -156,7 +187,7 @@ export class SbiMobileCurtainComponent implements AfterViewInit, OnDestroy {
   }
 
   /**
-   * Функция обрабатывающая изменение состояния шторки
+   * @description Функция обрабатывающая изменение состояния шторки
    * @param {boolean} val - новое значение состояния шторки
    */
   public openOrClose(val: boolean) {

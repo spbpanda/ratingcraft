@@ -1,41 +1,41 @@
-<div class="sbi-banner__wrapper sbi-banner__wrapper--{{appearance}}" 
-    [ngClass]="title ? 'sbi-banner__column' : null"
+<div class="sbi-banner__wrapper sbi-banner__wrapper--{{appearance}}"
+     [ngClass]="title ? 'sbi-banner__column' : null"
 >
-    @if (title) {
-        <div class="sbi-banner__header">
-            <ng-container *ngTemplateOutlet="icon"></ng-container>
-            <p class="sbi-banner__title label-large-prominent">{{ title }}</p>
-            @if(!isStatic){
-                <ng-container *ngTemplateOutlet="iconClose"></ng-container>
-            }
-        </div>
-        <ng-container *ngTemplateOutlet="bannerContent"></ng-container>
-        
-    } @else {
-        <ng-container *ngTemplateOutlet="icon"></ng-container>
-        <ng-container *ngTemplateOutlet="bannerContent"></ng-container>
-        @if(!isStatic){
-            <ng-container *ngTemplateOutlet="iconClose"></ng-container>
-        }
+  @if (title) {
+    <div class="sbi-banner__header">
+      <ng-container *ngTemplateOutlet="icon"></ng-container>
+      <p class="sbi-banner__title label-large-prominent">{{ title }}</p>
+      @if (!isStatic) {
+        <ng-container *ngTemplateOutlet="iconClose"></ng-container>
+      }
+    </div>
+    <ng-container *ngTemplateOutlet="bannerContent"></ng-container>
+
+  } @else {
+    <ng-container *ngTemplateOutlet="icon"></ng-container>
+    <ng-container *ngTemplateOutlet="bannerContent"></ng-container>
+    @if (!isStatic) {
+      <ng-container *ngTemplateOutlet="iconClose"></ng-container>
     }
+  }
 </div>
 
 <ng-template #icon>
-    <sbi-icon class="sbi-banner__icon" [iconImage]="svgIcon || defaultIcon"></sbi-icon>
+  <sbi-icon [color]="getIconColor" class="sbi-banner__icon" [iconImage]="svgIcon || defaultIcon"></sbi-icon>
 </ng-template>
 
 <ng-template #bannerContent>
-    <div class="sbi-banner__content">
-        @if (content) {
-            <ng-container *ngTemplateOutlet="content"></ng-container>
-        } @else {
-            <p class="body-regular">{{ contentText }}</p>
-        }
-    </div>
+  <div class="sbi-banner__content">
+    @if (content) {
+      <ng-container *ngTemplateOutlet="content"></ng-container>
+    } @else {
+      <p class="body-regular">{{ contentText }}</p>
+    }
+  </div>
 </ng-template>
 
 <ng-template #iconClose>
-    <sbi-icon matSnackBarAction class="sbi-banner__icon-close"
-        [iconImage]="clearIcon" (click)="snackBarRef ? snackBarRef.dismiss() : closeStaticBanner()"
-    ></sbi-icon>
+  <sbi-icon matSnackBarAction class="sbi-banner__icon-close"
+            [iconImage]="clearIcon" (click)="snackBarRef ? snackBarRef.dismiss() : closeStaticBanner()"
+  ></sbi-icon>
 </ng-template>

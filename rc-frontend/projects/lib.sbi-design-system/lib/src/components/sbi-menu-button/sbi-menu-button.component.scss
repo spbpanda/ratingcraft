@@ -1,0 +1,164 @@
+@import '../../../assets/fonts/sbi.typography.scss';
+
+.sbi-menu-button {
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+
+  &__trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    justify-content: center;
+    cursor: pointer;
+  }
+
+  &__label {
+    text-align: center;
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    color: var(--text-primary);
+    @extend .body-regular;
+    word-wrap: break-word;
+  }
+
+  &__icon {
+    overflow: hidden;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    display: flex;
+  }
+
+  &__content {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 4px;
+    z-index: 1000;
+    padding: 4px;
+    max-height: 208px;
+    width: fit-content;
+    max-width: 160px;
+    transform: scale(0.95);
+    transform-origin: top left;
+    background: var(--surface-primary);
+    box-shadow: 0px 2px 5px 1px rgba(35, 36, 37, 0.03);
+    overflow: hidden;
+    border-radius: 16px;
+    outline: 1px var(--border-secondary) solid;
+    outline-offset: -1px;
+    overflow-y: auto;
+    
+    // Стили для скроллбара
+    &::-webkit-scrollbar {
+      width: 3px;
+      padding: 12px 0;
+      margin: 12px 0;
+    }
+    
+    &::-webkit-scrollbar-track {
+      background: var(--surface-neutral-5, #F4F5F6);
+      border-radius: 1000px;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background: var(--surface-neutral-50, #DFE0E2);
+      border-radius: 1000px;
+    }
+    
+    scrollbar-width: thin;
+    scrollbar-color: var(--surface-neutral-50, #DFE0E2) var(--surface-neutral-5, #F4F5F6);
+    
+    ::ng-deep {
+      sbi-checkbox {
+        display: block;
+        padding: 8px;
+        border-radius: 12px;
+        
+        .sbi-checkbox {
+          gap: 8px;
+          
+          &__label {
+            padding-right: 8px;
+          }
+        }
+        
+        &:hover {
+          background-color: var(--surface-neutral-5);
+        }
+      }
+    }
+  }
+
+  // Outline стиль
+  &-outline {
+    .sbi-menu-button__trigger {
+      border-radius: 1000px;
+      outline: 1px var(--border-primary) solid;
+      outline-offset: -1px;
+    }
+
+    &.sbi-menu-button-large {
+      .sbi-menu-button__trigger {
+        padding: 10px 12px 10px 16px;
+      }
+    }
+
+    &.sbi-menu-button-small {
+      .sbi-menu-button__trigger {
+        padding: 6px 8px 6px 16px;
+      }
+    }
+
+    &.sbi-menu-button-focus {
+      .sbi-menu-button__trigger {
+        background: var(--surface-primary);
+        outline: 1px var(--state-neutral-borderprimary---pressed) solid;
+      }
+    }
+
+    &:not(.sbi-menu-button-disabled):not(.sbi-menu-button-focus):hover {
+      .sbi-menu-button__trigger {
+        outline: 1px var(--state-neutral-borderprimary---hover) solid;
+      }
+    }
+  }
+
+  // Ghost стиль
+  &-ghost {
+    .sbi-menu-button__trigger {
+      padding-left: 4px;
+      padding-right: 4px;
+    }
+
+    &.sbi-menu-button-large {
+      .sbi-menu-button__trigger {
+        padding-top: 10px;
+        padding-bottom: 10px;
+      }
+    }
+
+    &.sbi-menu-button-small {
+      .sbi-menu-button__trigger {
+        padding-top: 6px;
+        padding-bottom: 6px;
+      }
+    }
+
+    &:not(.sbi-menu-button-disabled):hover {
+      .sbi-menu-button__label {
+        color: var(--text-secondary);
+      }
+    }
+  }
+
+  // Disabled состояние
+  &-disabled {
+    opacity: var(--opacity-opacity40);
+    pointer-events: none;
+  }
+}

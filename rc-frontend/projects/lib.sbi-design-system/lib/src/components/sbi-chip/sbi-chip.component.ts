@@ -26,76 +26,94 @@ import { BUTTON_CROSS } from '../../const/icons';
 })
 export class SbiChipComponent<T> {
   /**
-   * Возвращает SVG иконку для удаления элемента.
+   * @public
+   * @getter
+   * @description Возвращает SVG иконку для удаления элемента.
    * @returns {string} SVG строка иконки удаления.
    */
-  public get clearIcon() {
+  public get clearIcon(): string {
     return BUTTON_CROSS;
   }
 
   /**
-   * Флаг, указывающий на состояние ошибки чипа.
+   * @public
+   * @description Флаг, указывающий на состояние ошибки чипа.
    * @type {boolean}
+   * @defaultValue false
    */
-  @Input() invalid = false;
+  @Input() public invalid: boolean = false;
 
   /**
-   * Флаг, указывающий, отключен ли чип.
+   * @public
+   * @description Флаг, указывающий, отключен ли чип.
    * @type {boolean}
+   * @defaultValue false
    */
-  @Input() disabled = false;
+  @Input() public disabled: boolean = false;
 
   /**
-   * Флаг, указывающий, выбран ли чип.
+   * @public
+   * @description Флаг, указывающий, выбран ли чип.
    * @type {boolean}
+   * @defaultValue false
    */
-  @Input() selected = false;
+  @Input() public selected: boolean = false;
 
   /**
-   * Текстовая метка, отображаемая в чипе.
+   * @public
+   * @description Текстовая метка, отображаемая в чипе.
    * @type {string | undefined}
+   * @defaultValue undefined
    */
-  @Input() label?: string;
+  @Input() public label?: string;
 
   /**
-   * Флаг, указывающий, отображать ли иконку для удаления элемента.
+   * @public
+   * @description Флаг, указывающий, отображать ли иконку для удаления элемента.
    * @type {boolean}
+   * @defaultValue true
    */
-  @Input() showClearIcon = true;
+  @Input() public showClearIcon: boolean = true;
 
   /**
-   * Идентификатор для тестирования.
+   * @public
+   * @description Идентификатор для тестирования.
    * @type {string}
+   * @defaultValue 'sbi-chip'
    */
-  @Input() testId = 'sbi-chip';
+  @Input() public testId: string = 'sbi-chip';
 
   /**
-   * Событие, которое срабатывает при клике на иконку удаления элемента.
+   * @public
+   * @description Событие, которое срабатывает при клике на иконку удаления элемента.
    * @type {EventEmitter<Event>}
    */
-  @Output() clearChipEvent = new EventEmitter<Event>();
+  @Output() public clearChipEvent: EventEmitter<Event> = new EventEmitter<Event>();
 
   /**
-   * Событие, которое срабатывает при клике на чип.
+   * @public
+   * @description Событие, которое срабатывает при клике на чип.
    * @type {EventEmitter<Event>}
    */
-  @Output() clickChipEvent = new EventEmitter<Event>();
+  @Output() public clickChipEvent: EventEmitter<Event> = new EventEmitter<Event>();
 
   /**
-   * Обрабатывает клик на иконку удаления элемента.
+   * @public
+   * @description Обрабатывает клик на иконку удаления элемента.
    * Вызывает событие `clearChipEvent` если чип не отключен.
    * @param {Event} event - Событие клика.
    */
-  onClearChip(event: Event) {
+  public onClearChip(event: Event) {
     !this.disabled && this.clearChipEvent.emit(event);
   }
 
   /**
-   * Обрабатывает клик на чип.
+   * @public
+   * @description Обрабатывает клик на чип.
    * Вызывает событие `clickChipEvent` если чип не отключен.
    * @param {Event} event - Событие клика.
    */
-  onChipClick(event: Event) {
+  public onChipClick(event: Event) {
     !this.disabled && this.clickChipEvent.emit(event);
   }
 }

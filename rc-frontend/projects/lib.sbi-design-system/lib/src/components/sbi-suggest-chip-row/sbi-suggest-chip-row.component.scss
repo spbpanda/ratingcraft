@@ -1,33 +1,28 @@
-:host {
-  overflow-x: scroll;
-  width: 100%;
-
-  //todo: Вернуть если нужен скролл
-  //&::-webkit-scrollbar {
-  //  height: 3px;
-  //  background: var(--surface-neutral-5);
-  //  border-radius: 100px;
-  //}
-  //
-  //&:hover::-webkit-scrollbar {
-  //  height: 6px;
-  //}
-  //
-  //&::-webkit-scrollbar-thumb {
-  //  background: var(--surface-neutral-50);
-  //  border-radius: 100px;
-  //}
-
-  &::-webkit-scrollbar,
-  &::-webkit-scrollbar-thumb {
-    display: none;
-  }
-}
-
 .sbi-suggest-chip-row {
   display: flex;
   flex-direction: row;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: pre;
   gap: 4px;
-  padding: 4px 0;
-  width: max-content;
+  align-items: center;
+
+  &::-webkit-scrollbar {
+    position: relative;
+    height: 3px;
+    background: var(--surface-neutral-5);
+    border-radius: 100px;
+  }
+
+  &:hover {
+    &::-webkit-scrollbar {
+      height: 6px;
+    }
+  }
+
+  &::-webkit-scrollbar-thumb {
+    height: 3px;
+    background: var(--surface-neutral-50);
+    border-radius: 100px;
+  }
 }

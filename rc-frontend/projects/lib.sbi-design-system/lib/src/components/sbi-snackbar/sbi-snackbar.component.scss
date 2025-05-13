@@ -1,49 +1,41 @@
-.sbi-snackbar{
-    &__wrapper {
-        display: flex;
-        align-items: center;
-        border-radius: 16px;
-        padding: 12px;
+.sbi-snackbar {
+  &__wrapper {
+    display: flex;
+    align-items: center;
+    border-radius: 16px;
+    padding: 12px;
+    background-color: var(--alias-neutral-600);
+  }
 
-        &--warning {
-            background-color: var( --surface-warning);
+  &__icon {
+    margin-right: 8px;
+  }
 
-            ::ng-deep svg path {
-                fill: var(--icons-contrast);
-            }
-        }
+  &__icon-close {
+    padding-left: 16px;
+    margin-left: auto;
+    display: flex;
+    cursor: pointer;
+  }
 
-        &--success {
-            background-color: var(--surface-accent);
+  &__content {
+    display: flex;
+    flex-direction: column;
 
-            ::ng-deep svg path {
-                fill: var(--icons-contrast);
-            }
-        }
+    &-title {
+      color: var(--alias-neutral-10);
     }
-
-    &__icon {
-        margin-right: 8px;
-        width: 24px;
-        height: 24px;
+    &-subtitle {
+      color: var(--alias-neutral-200);
     }
-
-    &__icon-close {
-        margin-left: auto;
-        display: flex;
-        align-self: flex-start;
-        width: 24px;
-        height: 24px;
-        cursor: pointer;
-    }
-
+  }
 }
 
 ::ng-deep .sbi-snackbar {
-    --mdc-snackbar-supporting-text-color: var(--text-contrast);
-    --mdc-snackbar-container-color: transparent;
-    
-    .mdc-snackbar__surface {
-        box-shadow: none !important;
-    }
+  --mdc-snackbar-supporting-text-color: var(--text-contrast);
+  --mdc-snackbar-container-color: transparent;
+
+  .mdc-snackbar__surface {
+    box-shadow: none !important;
+  }
 }

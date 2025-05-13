@@ -10,14 +10,24 @@
   margin-left: 4px;
 }
 
-.drag-wrapper {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  padding: 4px;
-  height: 56px;
-  position: absolute;
-  top: 0;
+.drag-container {
+  position: relative;
+  height: 0;
+
+  .drag-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 4px;
+    height: 56px;
+
+    .drag {
+      height: 4px;
+      border-radius: 10000px;
+      background-color: var(--surface-neutral-50);
+      width: 32px;
+    }
+  }
 }
 
 .close-icon-wrapper {
@@ -31,21 +41,6 @@
   justify-content: center;
   z-index: 3;
   cursor: pointer;
-
-  ::ng-deep .sbi-icon div {
-    height: 24px;
-    width: 24px;
-    cursor: pointer;
-  }
-}
-
-.drag {
-  height: 4px;
-  border-radius: 10000px;
-  background-color: var(--surface-neutral-50);
-  width: 32px;
-  position: fixed;
-  left: calc(50% - 16px);
 }
 
 .sbi-link {
@@ -56,6 +51,10 @@
   &:hover {
     text-decoration: underline;
   }
+}
+
+.hide-empty:empty {
+  display: none !important;
 }
 
 //screen sizes

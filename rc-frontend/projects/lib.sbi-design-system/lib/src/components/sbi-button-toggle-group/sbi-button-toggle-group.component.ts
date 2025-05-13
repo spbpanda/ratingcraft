@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { MatButtonToggle, MatButtonToggleGroup } from '@angular/material/button-toggle';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { NgClass, NgForOf } from '@angular/common';
-import { ToggleButton } from '../../models/toggle-button';
+import { SbiButtonToggleGroupSize, SbiToggleButton } from './sbi-button-toggle-group.models';
 
 /**
  * Button Toggle Group — это элемент интерфейса, который позволяет пользователю выбирать одну опцию из группы кнопок.
@@ -26,59 +26,76 @@ import { ToggleButton } from '../../models/toggle-button';
 })
 export class SbiButtonToggleGroupComponent<T> implements OnInit, OnChanges {
   /**
-   * Форм-контроль для управления состоянием выбранной радио-кнопки.
+   * @public
+   * @description Форм-контроль для управления состоянием выбранной радио-кнопки.
    * @type {FormControl<T | null>}
    */
-  @Input() control!: FormControl<T | null>;
+  @Input() public control!: FormControl<T | null>;
 
   /**
-   * Выбранная кнопка. Используется в том случае, если не предполагается использовать передача control-а.
+   * @public
+   * @description Выбранная кнопка. Используется в том случае, если не предполагается использовать передача control-а.
    * @type {T | undefined}
+   * @defaultValue undefined
    */
-  @Input() selectedValue?: T;
+  @Input() public selectedValue?: T;
 
   /**
-   * Список кнопок.
-   * @type {ToggleButton<T>[]}
+   * @public
+   * @description Список кнопок.
+   * @type {Array<SbiToggleButton<T>>}
+   * @defaultValue []
    */
-  @Input() buttons: ToggleButton<T>[] = [];
+  @Input() public buttons: Array<SbiToggleButton<T>> = [];
 
   /**
-   * Заблокировать элемент целиком (все кнопки).
+   * @public
+   * @description Заблокировать элемент целиком (все кнопки).
    * @type {boolean}
+   * @defaultValue false
    */
-  @Input() disabled = false;
+  @Input() public disabled: boolean = false;
 
   /**
-   * Размер кнопок
+   * @public
+   * @description Размер кнопок.
    * @type {'large' | 'small' | 'mini'}
+   * @defaultValue 'large'
    */
-  @Input() size: 'large' | 'small' | 'mini' = 'large';
+  @Input() public size: SbiButtonToggleGroupSize = 'large';
 
   /**
-   * Горизонтальное или вертикальное расположение кнопок (по умолчанию горизонтальное).
+   * @public
+   * @experimental
+   * @description Горизонтальное или вертикальное расположение кнопок (по умолчанию горизонтальное).
    * @type {boolean}
+   * @defaultValue false
    */
-  @Input() isVertical = false;
+  @Input() public isVertical: boolean = false;
 
   /**
-   * Функция, помогающая выделить кнопку. Сопоставляет значение в control и в списке кнопок.
+   * @public
+   * @description Функция, помогающая выделить кнопку. Сопоставляет значение в control и в списке кнопок.
    * @type {string}
+   * @defaultValue (elem1, elem2) => JSON.stringify(elem1) === JSON.stringify(elem2)
    */
-  @Input() compareFn: (elem1: T, elem2: T) => boolean = (elem1, elem2) =>
+  @Input() public compareFn: (elem1: T, elem2: T) => boolean = (elem1, elem2) =>
     JSON.stringify(elem1) === JSON.stringify(elem2);
 
   /**
-   * Идентификатор для тестирования.
+   * @public
+   * @description Идентификатор для тестирования.
    * @type {string}
+   * @defaultValue 'sbi-button-toggle-group'
    */
-  @Input() testId = 'sbi-button-toggle-group';
+  @Input() public testId: string = 'sbi-button-toggle-group';
 
   /**
-   * Событие изменения активной кнопки.
-   * @type {EventEmitter<ToggleButton<T>>}
+   * @public
+   * @description Событие изменения активной кнопки.
+   * @type {EventEmitter<SbiToggleButton<T>>}
    */
-  @Output() onChangeEvent = new EventEmitter<ToggleButton<T>>();
+  @Output() public onChangeEvent: EventEmitter<SbiToggleButton<T>> = new EventEmitter<SbiToggleButton<T>>();
 
   ngOnInit() {
     if (this.selectedValue !== undefined) {
@@ -100,11 +117,11 @@ export class SbiButtonToggleGroupComponent<T> implements OnInit, OnChanges {
   }
 
   /**
-   * Обрабатывает клик на кнопку (если disabled !== true && button.disabled !== true).
+   * @description Обрабатывает клик на кнопку (если disabled !== true && button.disabled !== true).
    * Вызывает событие `onChangeEvent` с выбранной кнопкой.
-   * @param {ToggleButton<T>} button - Кнопка, на которую кликнули.
+   * @param {SbiToggleButton<T>} button - Кнопка, на которую кликнули.
    */
-  public onButtonChange(button: ToggleButton<T>) {
+  public onButtonChange(button: SbiToggleButton<T>) {
     if (!button.disabled && !this.disabled) {
       this.control.setValue(button.value);
       this.onChangeEvent.emit(button);
@@ -112,11 +129,11 @@ export class SbiButtonToggleGroupComponent<T> implements OnInit, OnChanges {
   }
 
   /**
-   * Функция, проверяющая выбрана кнопка или нет.
+   * @description Функция, проверяющая выбрана кнопка или нет.
    * @param {T} value - Значение кнопки, которую проверяем на выбранность.
    */
   public buttonToggleIsChecked(value: T) {
-    if (!this.control.value) {
+    if (this.control.value == null) {
       return false;
     }
     return this.compareFn(value, this.control.value);

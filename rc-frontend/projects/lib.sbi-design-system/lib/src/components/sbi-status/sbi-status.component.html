@@ -1,5 +1,5 @@
 <div class="sbi-status-wrapper" [class]="[appearance, type]">
-  <sbi-icon class="sbi-status__icon" *ngIf="showIcon" [iconImage]="icon || defaultIcon"></sbi-icon>
-  <div *ngIf="label" class="sbi-status-label">{{ label }}</div>
+  <sbi-icon [color]="getIconColor" *ngIf="showIcon" [iconImage]="icon || defaultIcon"></sbi-icon>
+  <div *ngIf="label" class="sbi-status-label label-small">{{ label }}</div>
   <ng-content></ng-content>
 </div>

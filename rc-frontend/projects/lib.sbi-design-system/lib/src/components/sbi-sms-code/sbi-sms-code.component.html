@@ -3,9 +3,9 @@
     <div class="code-inputs" [attr.data-testid]="testId + '-input'">
       <input
         *ngFor="let control of codeControls; let i = index"
+        inputmode="numeric"
         class="input-field"
         type="text"
-        maxlength="1"
         #smsCodeInputField
         [class.valid]="successMessage"
         [class.invalid]="errorMessage"
@@ -15,16 +15,27 @@
         (keydown)="onKeyDown(i, $event)"
       />
     </div>
-    <div *ngIf="errorMessage" [attr.data-testid]="testId + '-error-message'" class="error-message">{{ errorMessage }}</div>
-    <div *ngIf="successMessage" [attr.data-testid]="testId + '-success-message'" class="success-message">{{ successMessage }}</div>
+    <div *ngIf="errorMessage" [attr.data-testid]="testId + '-error-message'" class="error-message">{{ errorMessage }}
+    </div>
+    <div *ngIf="successMessage" [attr.data-testid]="testId + '-success-message'"
+         class="success-message">{{ successMessage }}
+    </div>
   </form>
 
   <ng-container *ngIf="showResendLink; else timerTemplate">
-    <a (click)="resendCode()" class="resend-link" [attr.data-testid]="testId + '-resend-link'">{{resendCodeLabel}}</a>
+    <a
+      class="resend-link body-large"
+      [attr.data-testid]="testId + '-resend-link'"
+      (click)="resendCode()">
+      {{ resendCodeLabel }}
+    </a>
   </ng-container>
   <ng-template #timerTemplate>
-    <span class="timer" [attr.data-testid]="testId + '-timer'">{{timerLabel}} {{ getTimerMinutes() }}:{{ getTimerSeconds() }}</span>
+    <span class="timer body-large" [attr.data-testid]="testId + '-timer'">
+      {{ timerLabel }} {{ getTimerMinutes() }}:{{ getTimerSeconds() }}
+    </span>
   </ng-template>
 </div>
 
-<input [attr.data-testid]="testId + '-code-value'" [hidden]="true" [value]="codeValue" autocomplete="one-time-code" name="sms" inputmode="numeric" />
+<input [attr.data-testid]="testId + '-code-value'" [hidden]="true" [value]="codeValue" autocomplete="one-time-code"
+       name="sms" inputmode="numeric"/>

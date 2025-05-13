@@ -10,6 +10,7 @@
     display: flex;
     flex-direction: column;
     max-width: min-content;
+    gap: 8px;
   }
 
   .code-inputs {
@@ -23,45 +24,50 @@
     font-size: 32px;
     font-weight: 500;
     line-height: 24px;
-    color: #222222;
+    color: var(--text-primary);
     text-align: center;
-    background: #ededed;
-    border: 1px solid #ededed;
+    background: var(--surface-neutral-5);
+    border: 1px solid var(--border-primary);
     border-radius: 16px;
     outline: none;
     transition: border-color 0.2s;
 
+
+    &:hover {
+      border: 1px solid var(--state-neutral-borderprimary---hover);
+    }
+
     &:focus {
       background: transparent;
-      caret-color: #26c93c;
-      border: 1px solid #26c93c;
+      caret-color: var(--brand-brandgreen);
+      border: 1px solid var(--border-accent);
     }
 
     &.valid {
       background: transparent;
-      color: #26c93c;
-      border: 1px solid #26c93c;
+      color: var(--brand-brandgreen);
+      border: 1px solid var(--border-accent);
     }
 
     &.invalid {
       background: transparent;
-      color: #f6650a;
-      border: 1px solid #f6650a;
+      color: var(--brand-brandorange);
+      border: 1px solid var(--border-warning);
     }
   }
 
   .resend-link {
-    color: #26c93c;
+    color: var(--brand-brandgreen);
     cursor: pointer;
     text-decoration: none;
 
     &:hover {
-      text-decoration: none;
+      text-decoration: underline;
     }
   }
 
   .timer {
-    color: #00000052;
+    color: var(--text-secondary);
   }
 
   /* Для сообщения ошибки */
@@ -75,10 +81,16 @@
   }
 
   .error-message {
-    color: #f6650a;
+    color: var(--brand-brandorange);
   }
 
   .success-message {
-    color: #26c93c;
+    color: var(--brand-brandgreen);
+  }
+}
+
+@media (max-width: 550px) {
+  .sms-code-container {
+    flex-direction: column;
   }
 }

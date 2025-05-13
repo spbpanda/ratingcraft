@@ -7,7 +7,7 @@ import { SbiErrorComponent } from '../sbi-error/sbi-error.component';
  * Компонент для отображения переключателя (switch/toggle) с поддержкой лейбла, заметки, ошибок и ссылки.
  *
  * Поддерживает передачу <ng-content> (обязательное условие отображения ng-content - отсутствие label и note).
- * 
+ *
  * @Component
  * @selector: 'sbi-slide-toggle'
  * @standalone: true
@@ -24,73 +24,92 @@ import { SbiErrorComponent } from '../sbi-error/sbi-error.component';
 })
 export class SbiSlideToggleComponent implements OnChanges {
   /**
-   * Лейбл для переключателя.
+   * @public
+   * @description Лейбл для переключателя.
    * @type {string}
+   * @defaultValue ''
    */
-  @Input() label: string = '';
+  @Input() public label: string = '';
 
   /**
-   * Дополнительная заметка или описание для переключателя.
+   * @public
+   * @description Дополнительная заметка или описание для переключателя.
    * @type {string | undefined}
+   * @defaultValue ''
    */
-  @Input() note?: string = '';
+  @Input() public note?: string = '';
 
   /**
-   * Форм-контроль для управления состоянием переключателя.
+   * @public
+   * @description Форм-контроль для управления состоянием переключателя.
    * @type {FormControl<boolean | null>}
    */
-  @Input() control!: FormControl<boolean | null>;
+  @Input() public control!: FormControl<boolean | null>;
 
   /**
-   * Значение переключателя.
+   * @public
+   * @description Значение переключателя.
    * @type {boolean | null | undefined}
+   * @defaultValue null
    */
-  @Input() slideToggleValue?: boolean | null = null;
+  @Input() public slideToggleValue?: boolean | null = null;
 
   /**
-   * Флаг, указывающий, является ли переключатель ссылкой.
+   * @public
+   * @description Флаг, указывающий, является ли переключатель ссылкой.
    * @type {boolean}
+   * @defaultValue false
    */
-  @Input() isLink: boolean = false;
+  @Input() public isLink: boolean = false;
 
   /**
-   * Флаг, указывающий, отключен ли переключатель.
+   * @public
+   * @description Флаг, указывающий, отключен ли переключатель.
    * @type {boolean}
+   * @defaultValue false
    */
-  @Input() disabled: boolean = false;
+  @Input() public disabled: boolean = false;
 
   /**
-   * Идентификатор для тестирования.
+   * @public
+   * @description Идентификатор для тестирования.
    * @type {string}
+   * @defaultValue 'sbi-slide-toggle'
    */
-  @Input() testId: string = 'sbi-slide-toggle';
+  @Input() public testId: string = 'sbi-slide-toggle';
 
   /**
-   * Сообщения об ошибках для валидации.
+   * @public
+   * @description Сообщения об ошибках для валидации.
    * @type {Record<string, string> | undefined}
+   * @defaultValue undefined
    */
-  @Input() errorMessages?: Record<string, string>;
+  @Input() public errorMessages?: Record<string, string>;
 
   /**
-   * Флаг, указывающий, нужно ли показывать ошибки.
+   * @public
+   * @description Флаг, указывающий, нужно ли показывать ошибки.
    * @type {boolean}
+   * @defaultValue true
    */
-  @Input() showErrors: boolean = true;
+  @Input() public showErrors: boolean = true;
 
   /**
-   * Событие, которое срабатывает при клике на ссылку (если isLink = true).
+   * @public
+   * @description Событие, которое срабатывает при клике на ссылку (если isLink = true).
    * @type {EventEmitter<void>}
    */
-  @Output() clickToLink = new EventEmitter();
+  @Output() public clickToLink: EventEmitter<void> = new EventEmitter();
 
   /**
-   * Событие, которое срабатывает при изменении значения переключателя.
+   * @public
+   * @description Событие, которое срабатывает при изменении значения переключателя.
    * @type {EventEmitter<boolean>}
    */
-  @Output() valueChanged: EventEmitter<boolean> = new EventEmitter<boolean>();
+  @Output() public valueChanged: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   /**
-   * Обрабатывает изменения входных свойств.
+   * @description Обрабатывает изменения входных свойств.
    * @param {SimpleChanges} changes - Объект с изменениями входных свойств.
    */
   ngOnChanges(changes: SimpleChanges) {
@@ -105,7 +124,7 @@ export class SbiSlideToggleComponent implements OnChanges {
   }
 
   /**
-   * Обрабатывает изменение значения переключателя.
+   * @description Обрабатывает изменение значения переключателя.
    * Вызывает событие `valueChanged` с текущим значением переключателя.
    */
   onSlideToggleValueChanged() {
@@ -113,7 +132,7 @@ export class SbiSlideToggleComponent implements OnChanges {
   }
 
   /**
-   * Обрабатывает клик на ссылку (если isLink = true).
+   * @description Обрабатывает клик на ссылку (если isLink = true).
    * Вызывает событие `clickToLink`.
    */
   onClickToLink() {

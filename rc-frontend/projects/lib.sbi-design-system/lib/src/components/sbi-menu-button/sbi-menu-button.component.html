@@ -1,0 +1,18 @@
+<div class="sbi-menu-button" [attr.data-testid]="testId" #menuContainer
+  [ngClass]="[
+    'sbi-menu-button-' + type,
+    'sbi-menu-button-' + size,
+    disabled ? 'sbi-menu-button-disabled' : 'sbi-menu-button-enabled',
+    isMenuOpen ? 'sbi-menu-button-focus' : ''
+  ]">
+  <div class="sbi-menu-button__trigger" (click)="toggleMenu()">
+    <div class="sbi-menu-button__label">{{ label }}</div>
+    <div class="sbi-menu-button__icon">
+      <sbi-icon [iconImage]="BUTTON_ARROWS_DOWN" [color]="'tertiary'" [size]="'16'"></sbi-icon>
+    </div>
+  </div>
+  
+  <div class="sbi-menu-button__content" *ngIf="isMenuOpen">
+    <ng-content></ng-content>
+  </div>
+</div> 

@@ -7,6 +7,9 @@
   <span matPrefix *ngIf="prefixIconType === 'custom'">
     <ng-content select="[prefix-icon]"></ng-content>
   </span>
+  <span matPrefix *ngIf="prefixIconType === 'search'">
+    <sbi-icon size="24" color="primary" [iconImage]="searchIcon"></sbi-icon>
+  </span>
   <mat-label>{{ label }}</mat-label>
   <input
     matInput
@@ -36,20 +39,15 @@
     [inputTitleCaseActive]="inputTitleCaseActive"
     [readonly]="readonly"
     [placeholder]="placeholder"
+    [autofocus]="autofocus"
     (focusin)="onFocusChange(true)"
     (focusout)="onFocusChange(false)"
     (input)="onInputChange($event)"
   />
   <div
-    *ngIf="
-      suffixIconType === 'clear' &&
-      !!control.value &&
-      control.enabled &&
-      focused() &&
-      !readonly
-    "
     class="clear-icon"
     matSuffix
+    *ngIf="suffixIconType === 'clear' && !readonly && !!control.value && focused() && control.enabled"
     [attr.data-testid]="testId + '-clear-icon'"
     [class.invalid]="control.touched && control.invalid"
     [class.focused]="control.valid && focused()"
@@ -68,18 +66,18 @@
 </mat-form-field>
 
 @if (control.invalid && control.touched && showErrors) {
-<sbi-error
-  [testId]="testId + '-error-message'"
-  [errors]="control.errors"
-  [errorMessages]="errorMessages"
-></sbi-error>
+  <sbi-error
+    [testId]="testId + '-error-message'"
+    [errors]="control.errors"
+    [errorMessages]="errorMessages"
+  ></sbi-error>
 } @else {
-<div
-  *ngIf="subtitle !== undefined"
-  class="subtitle"
-  [class.disabled]="control.disabled"
-  [attr.data-testid]="testId + '-subtitle-message'"
->
-  {{ subtitle }}
-</div>
+  <div
+    *ngIf="subtitle !== undefined"
+    class="subtitle"
+    [class.disabled]="control.disabled"
+    [attr.data-testid]="testId + '-subtitle-message'"
+  >
+    {{ subtitle }}
+  </div>
 }

@@ -13,6 +13,8 @@ import {
 } from '@angular/core';
 import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { NgClass } from '@angular/common';
+import { SbiProgressBarMode, SbiProgressBarSize } from '../sbi-progress-bar/sbi-progress-bar.models';
+import { SbiProgressSpinnerAppearance } from './sbi-progress-spinner.models';
 
 /**
  * Компонент (кружок\крутилка) для отображения прогресса прохождения процесса или прогресса загрузки.
@@ -33,76 +35,111 @@ import { NgClass } from '@angular/common';
 })
 export class SbiProgressSpinnerComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
   /**
-   * Элемент контейнера спиннера.
+   * @private
+   * @description Элемент контейнера спиннера.
+   * @type {ElementRef<HTMLDivElement>}
+   * @defaultValue ElementRef<HTMLDivElement>
    */
   @ViewChild('spinnerContainer') private spinnerContainer!: ElementRef<HTMLDivElement>;
+
   /**
-   * Элемент спиннера.
+   * @private
+   * @description Элемент спиннера.
+   * @type {MatProgressSpinner}
+   * @defaultValue MatProgressSpinner
    */
   @ViewChild('progressSpinner') private progressSpinner!: MatProgressSpinner;
 
-  private readonly cdr = inject(ChangeDetectorRef);
-
   /**
-   * Режим работы спиннера.
-   * @type {'accent' | 'neutral'}
+   * @private
+   * @readonly
+   * @description Сервис проверки необходимости пере отрисовки экрана.
    */
-  @Input() appearance: 'accent' | 'neutral' = 'accent';
+  private readonly cdr: ChangeDetectorRef = inject(ChangeDetectorRef);
 
   /**
-   * Режим работы спиннера.
+   * @public
+   * @description Режим работы спиннера.
    * @type {'determinate' | 'indeterminate'}
+   * @defaultValue 'indeterminate'
    */
-  @Input() mode: 'determinate' | 'indeterminate' = 'indeterminate';
+  @Input() public mode: SbiProgressBarMode = 'indeterminate';
 
   /**
-   * Процент заполненности спиннера.
+   * @public
+   * @description Режим работы спиннера.
+   * @type {'accent' | 'neutral'}
+   * @defaultValue 'accent'
+   */
+  @Input() public appearance: SbiProgressSpinnerAppearance = 'accent';
+
+  /**
+   * @public
+   * @description Процент заполненности спиннера.
    * @type {number}
+   * @defaultValue 0
    */
-  @Input() value = 0;
+  @Input() public value: number = 0;
 
   /**
-   * Кастомный размер спиннера (в px).
-   * @type {number}
+   * @public
+   * @description Кастомный размер спиннера (в px).
+   * @type {number | undefined}
+   * @defaultValue undefined
    */
-  @Input() diameter?: number;
+  @Input() public diameter?: number;
 
   /**
-   * Размер спиннера.
+   * @public
+   * @description Размер спиннера.
    * @type {'large' | 'small'}
+   * @defaultValue 'large'
    */
-  @Input() size: 'large' | 'small' = 'large';
+  @Input() public size: SbiProgressBarSize = 'large';
 
   /**
-   * Режим работы спиннера.
+   * @public
+   * @description Режим работы спиннера.
    * @type {boolean}
+   * @defaultValue true
    */
-  @Input() isIntegrate: boolean = true;
+  @Input() public isIntegrate: boolean = true;
 
   /**
-   * Идентификатор для тестирования.
+   * @public
+   * @description Идентификатор для тестирования.
    * @type {string}
+   * @defaultValue 'sbi-progress-spinner-test-id'
    */
-  @Input() testId = 'sbi-progress-spinner-test-id';
+  @Input() testId: string = 'sbi-progress-spinner-test-id';
 
   /**
-   * Элемент - контейнер determinate спиннера .
+   * @private
+   * @getter
+   * @description Элемент - контейнер determinate спиннера.
+   * @return {HTMLElement | null | undefined}
    */
   private get progressRound(): HTMLElement | null | undefined {
     return this.progressSpinner?._elementRef?.nativeElement?.children?.item(0) as HTMLElement;
   }
 
   /**
-   * Процент прогресса.
+   * @private
+   * @getter
+   * @description Процент прогресса.
+   * @return {number}
    */
-  private get width() {
+  private get width(): number {
     return Math.min(Math.max(this.value, 0), 100);
   }
 
   /**
-   * Градус отклонения для не активной (серой) части.
+   * @private
+   * @getter
+   * @description Градус отклонения для не активной (серой) части.
+   * @return {number}
    */
-  private get degrees() {
+  private get degrees(): number {
     return this.diameter! >= 80 ? 15 : 30;
   }
 
@@ -139,7 +176,8 @@ export class SbiProgressSpinnerComponent implements OnInit, AfterViewInit, OnCha
   }
 
   /**
-   * Добавляем вторую картинку - неактивная часть прогресса.
+   * @private
+   * @description Добавляем вторую картинку - неактивная часть прогресса.
    */
   private initDeterminateSpinner() {
     if (this.progressRound) {
@@ -152,7 +190,8 @@ export class SbiProgressSpinnerComponent implements OnInit, AfterViewInit, OnCha
   }
 
   /**
-   * Добавляем круг - неактивной части прогресса.
+   * @private
+   * @description Добавляем круг - неактивной части прогресса.
    */
   private appendDeterminateSpinner() {
     if (this.progressRound) {
@@ -172,7 +211,8 @@ export class SbiProgressSpinnerComponent implements OnInit, AfterViewInit, OnCha
   }
 
   /**
-   * Изменяет размер неактивной части спиннера
+   * @private
+   * @description Изменяет размер неактивной части спиннера
    */
   private setCircleSize() {
     if (this.progressRound) {
@@ -191,25 +231,28 @@ export class SbiProgressSpinnerComponent implements OnInit, AfterViewInit, OnCha
   }
 
   /**
-   * Преобразует строку с пискелей в число пикселей
-   *
+   * @private
+   * @description Преобразует строку с пискелей в число пикселей.
    * @param px - строковое значение размера (в пикселях)
+   * @return {number}
    */
-  private toNumber(px: string) {
+  private toNumber(px: string): number {
     return Number(px.replace('px', ''));
   }
 
   /**
-   * Преобразует число пискелей в строковое значение размера (в пикселях)
-   *
+   * @private
+   * @description Преобразует число пискелей в строковое значение размера (в пикселях).
    * @param numb - числовое значение размера (в пикселях)
+   * @return {string}
    */
-  private toString(numb: number) {
+  private toString(numb: number): string {
     return `${numb}px`;
   }
 
   /**
-   * Обновление анимации не активной части спиннера. Нужно для анимаций начала и конца круга спиннера.
+   * @private
+   * @description Обновление анимации не активной части спиннера. Нужно для анимаций начала и конца круга спиннера.
    */
   private updateAnimation() {
     if (!this.progressRound) {

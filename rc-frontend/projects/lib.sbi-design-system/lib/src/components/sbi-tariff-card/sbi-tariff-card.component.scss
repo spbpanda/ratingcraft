@@ -1,0 +1,127 @@
+@import '../../../assets/fonts/sbi.typography';
+
+.sbi-tariff-card {
+  width: 100%;
+  height: 100%;
+  min-width: 180px;
+  max-width: 100%;
+  position: relative;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  border-radius: 12px;
+  
+  &__gradient-container {
+    width: 100%;
+    border-radius: 12px;
+    background-image: linear-gradient(90deg, #26C93C 0%, #40E2AC 50%, #F1FC53 100%);
+    box-shadow: 0px 0px 2px rgba(35, 36, 37, 0.06);
+    padding-top: 4px;
+    transition: box-shadow 0.2s ease-in-out;
+    
+    &:hover {
+      box-shadow: 0px 1px 3px 1px rgba(35, 36, 37, 0.04);
+      cursor: pointer;
+    }
+    
+    &:active {
+      outline: 1px var(--border-accent) solid;
+      outline-offset: -1px;
+      box-shadow: none;
+    }
+  }
+  
+  &__white-content {
+    width: 100%;
+    background: var(--surface-primary);
+    border-radius: 8px;
+  }
+  
+  &__regular-content {
+    width: 100%;
+    background: var(--surface-primary);
+    border-radius: 12px;
+    box-shadow: 0px 0px 2px rgba(35, 36, 37, 0.06);
+    transition: box-shadow 0.2s ease-in-out;
+    
+    &:hover {
+      box-shadow: 0px 1px 3px 1px rgba(35, 36, 37, 0.04);
+      cursor: pointer;
+    }
+    
+    &:active {
+      outline: 1px var(--border-accent) solid;
+      outline-offset: -1px;
+      box-shadow: none;
+    }
+  }
+
+  &__badge {
+    position: absolute;
+    left: 16px;
+    top: -10.6px;
+    z-index: 2;
+  }
+
+  &__content {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__header {
+    align-self: stretch;
+    padding-top: 12px;
+    padding-bottom: 8px;
+    padding-left: 16px;
+    padding-right: 16px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 8px;
+    display: inline-flex;
+  }
+
+  &__title {
+    flex: 1 1 0;
+    color: var(--text-primary);
+    @extend .headline-small;
+    font-weight: 600;
+    word-wrap: break-word;
+  }
+
+  &__list {
+    align-self: stretch;
+    padding-left: 16px;
+    padding-right: 16px;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    display: flex;
+  }
+
+  &__price {
+    align-self: stretch;
+    padding-top: 8px;
+    padding-bottom: 12px;
+    padding-left: 16px;
+    padding-right: 16px;
+    justify-content: flex-start;
+    align-items: flex-end;
+    gap: 4px;
+    display: inline-flex;
+
+    &-value {
+      color: var(--text-primary);
+      @extend .headline-small;
+      font-weight: 600;
+      word-wrap: break-word;
+    }
+
+    &-period {
+      color: var(--text-secondary);
+      @extend .body-regular;
+      word-wrap: break-word;
+    }
+  }
+}

@@ -42,15 +42,15 @@ export class BoostServerComponent {
       take(1), 
       catchError((err) => {
         this.snackbarService.openSnackBar({
-          contentText: err.error.error,
-          appearance: 'warning',
+          title: err.error.error,
+          appearance: 'error',
         });
         throw of(err)
       }))
       .subscribe((result) => {
         this.snackbarService.openSnackBar({
-          contentText: 'Оплата прошла успешно! Сервер поднят в рейтинге!',
-          appearance: 'success',
+          title: 'Оплата прошла успешно! Сервер поднят в рейтинге!',
+          appearance: 'error',
         });
         this.dialogRef.close(true);
       })

@@ -1,37 +1,45 @@
-<div class="sbi-card-badge" [class]="{ static: static, 'large': size === 'large', 'small': size === 'small' }"
-     [attr.data-testid]="testId">
-  <sbi-badge
-    class="sbi-card-badge-container"
-    *ngIf="!!badgeContent"
-    [type]="badgeType"
-    [size]="size === 'small' ? size : badgeSize"
-    [content]="badgeContent"></sbi-badge>
-  <div class="sbi-card-container" (click)="onCardClick()">
+<div
+  class="sbi-card-badge"
+  [class]="{ static: static, 'large': size === 'large', 'small': size === 'small' }"
+  [attr.data-testid]="testId">
+  @if (!!badgeContent) {
+    <sbi-badge
+      class="sbi-card-badge-container"
+      [type]="badgeType"
+      [size]="size === 'small' ? size : badgeSize"
+      [content]="badgeContent"></sbi-badge>
+  }
+  <div class="sbi-card-container" #cardContainer (click)="onCardClick()">
     <ng-template [ngTemplateOutlet]="activeElement"></ng-template>
     <div class="sbi-card-container__label-wrapper">
-      <div *ngIf="label" class="sbi-card-container__label-wrapper__label">{{ label }}</div>
-      <div
-        *ngIf="note"
-        class="sbi-card-container__label-wrapper__note"
-        [ngClass]="{ link: isLink }"
-        (click)="onLinkClick()">
-        {{ note }}
-      </div>
+      @if (label) {
+        <div class="sbi-card-container__label-wrapper__label">{{ label }}</div>
+      }
+      @if (note) {
+        <div
+          class="sbi-card-container__label-wrapper__note"
+          [ngClass]="{ link: isLink }"
+          (click)="isLink && onLinkClick(); $event.preventDefault(); $event.stopPropagation()">
+          {{ note }}
+        </div>
+      }
     </div>
-    <sbi-icon
-      [sbiTooltip]="tooltipContent"
-      [tooltipPosition]="tooltipPosition"
-      *ngIf="showInfoIcon"
-      class="icon"
-      [iconImage]="questionIcon"
-      [testId]="testId + '-question-icon'"></sbi-icon>
-    <sbi-checkbox
-      *ngIf="(type === 'icons' || type === 'illustration') && showCheckbox"
-      class="checkbox"
-      [control]="control"
-      [testId]="testId + '-checkbox'"
-      (click)="$event.stopPropagation()"
-      (valueChanged)="onClick()"></sbi-checkbox>
+    @if (showInfoIcon) {
+      <sbi-icon
+        size="24"
+        [sbiTooltip]="tooltipContent"
+        [tooltipPosition]="tooltipPosition"
+        [iconImage]="questionIcon"
+        [testId]="testId + '-question-icon'"></sbi-icon>
+    }
+    @if ((type === 'icons' || type === 'illustration') && showCheckbox) {
+      <sbi-checkbox
+        class="checkbox"
+        [control]="control"
+        [testId]="testId + '-checkbox'"
+        (click)="$event.stopPropagation()"
+        (valueChanged)="onClick()"></sbi-checkbox>
+    }
     <ng-content select="[active-actions]"></ng-content>
   </div>
 </div>
@@ -47,10 +55,10 @@
       (valueChanged)="onClick()"></sbi-checkbox>
     <sbi-radio-button
       *ngSwitchCase="'radio'"
-      [options]="radioOptions"
       class="radio"
-      [control]="control"
-      [testId]="testId + '-radio'"></sbi-radio-button>
+      [value]="value"
+      [testId]="testId + '-radio'"
+      (click)="$event.stopPropagation()"></sbi-radio-button>
     <sbi-slide-toggle
       *ngSwitchCase="'switch'"
       class="toggle"
@@ -58,7 +66,12 @@
       [testId]="testId + '-switch'"
       (click)="$event.stopPropagation()"
       (valueChanged)="onClick()"></sbi-slide-toggle>
-    <sbi-icon *ngSwitchCase="'icons'" class="icon" [iconImage]="icon" [testId]="testId + '-icons'"></sbi-icon>
+    <sbi-icon
+      *ngSwitchCase="'icons'"
+      class="icon"
+      [color]="iconColor"
+      [iconImage]="icon"
+      [testId]="testId + '-icons'"></sbi-icon>
     @if (!!illustrationIcon) {
       <sbi-icon
         *ngSwitchCase="'illustration'"

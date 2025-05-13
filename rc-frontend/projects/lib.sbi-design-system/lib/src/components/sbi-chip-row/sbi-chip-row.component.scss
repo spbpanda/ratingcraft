@@ -1,15 +1,27 @@
 .sbi-chip-row {
   display: flex;
   flex-direction: row;
-  overflow-x: scroll;
+  overflow-x: auto;
   overflow-y: hidden;
+  gap: 4px;
+  align-items: center;
 
-  &__chip:not(:first-child) {
-    margin-left: 4px;
+  &::-webkit-scrollbar {
+    position: relative;
+    height: 3px;
+    background: var(--surface-neutral-5);
+    border-radius: 100px;
   }
-}
 
-.sbi-chip-row::-webkit-scrollbar-thumb,
-.sbi-chip-row::-webkit-scrollbar {
-  display: none;
+  &:hover {
+    &::-webkit-scrollbar {
+      height: 6px;
+    }
+  }
+
+  &::-webkit-scrollbar-thumb {
+    height: 3px;
+    background: var(--surface-neutral-50);
+    border-radius: 100px;
+  }
 }

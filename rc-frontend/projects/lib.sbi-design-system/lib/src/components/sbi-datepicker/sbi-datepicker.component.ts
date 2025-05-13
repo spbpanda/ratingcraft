@@ -23,7 +23,7 @@ import { SbiComponentWithInput } from '../../classes/sbi-component-with-input.co
 import { SbiDateMaskDirective } from '../../directives/sbi-date-mask.directive';
 import { SbiErrorComponent } from '../sbi-error/sbi-error.component';
 import { SbiIconComponent } from '../sbi-icon/sbi-icon.component';
-import { SbiButtonComponent } from './../sbi-button/sbi-button.component';
+import { SbiButtonComponent } from '../sbi-button/sbi-button.component';
 import { DateTime } from 'luxon';
 import { DateRange } from '../../models/date-range.model';
 import { Subscription } from 'rxjs';
@@ -63,6 +63,7 @@ export class SbiDatepickerComponent extends SbiComponentWithInput<DateTime | str
   @ViewChild('datePickerToggle') public datePickerToggle!: ElementRef<HTMLElement>;
   @ViewChild('picker') picker!: MatDatepicker<DateTime>;
 
+  @Input() public declare control: FormControl<DateTime | string | null>;
   @Input() min?: string;
   @Input() max?: string;
   @Input() showDatePickerButtons = false;

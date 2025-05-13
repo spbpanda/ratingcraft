@@ -1,0 +1,26 @@
+<sbi-dialog
+  type="header"
+  [title]="data.title || 'Документы'"
+  [submitButtonTitle]="data.submitButtonTitle || 'Закрыть'"
+  [scrollableContent]="!!data.scrollableContent"
+  (close)="dialogRef.close()"
+  (submitClick)="dialogRef.close()"
+  testId="documents-modal-form">
+  <sbi-optional-card
+    *ngFor="let document of (data.documents || []); let i = index"
+    class="document-card"
+    type="icons"
+    iconColor="accent"
+    [note]="document.note"
+    [sbiTooltip]="document.sbiTooltip || null"
+    [tooltipPosition]="document.tooltipPosition || 'bottom'"
+    [icon]="documentIcon"
+    [value]="false"
+    [showInfoIcon]="false"
+    [label]="document.label"
+    [isLink]="!!document.isLink"
+    [showCheckbox]="false"
+    [testId]="'document-' + i"
+    (valueChanged)="openDocument(document.href)"
+    (linkClick)="openDocument(document.href)"></sbi-optional-card>
+</sbi-dialog>
