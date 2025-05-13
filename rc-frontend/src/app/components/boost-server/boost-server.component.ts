@@ -17,6 +17,7 @@ import { Server } from '../../common/interfaces/server';
     SbiDialogComponent,
     RcButtonComponent
   ],
+  providers: [SbiSnackBarService],
   templateUrl: './boost-server.component.html',
   styleUrl: './boost-server.component.scss'
 })
@@ -42,14 +43,14 @@ export class BoostServerComponent {
       take(1), 
       catchError((err) => {
         this.snackbarService.openSnackBar({
-          contentText: err.error.error,
-          appearance: 'warning',
+          title: err.error.error,
+          appearance: 'error',
         });
         throw of(err)
       }))
       .subscribe((result) => {
         this.snackbarService.openSnackBar({
-          contentText: 'Оплата прошла успешно! Сервер поднят в рейтинге!',
+          title: 'Оплата прошла успешно! Сервер поднят в рейтинге!',
           appearance: 'success',
         });
         this.dialogRef.close(true);

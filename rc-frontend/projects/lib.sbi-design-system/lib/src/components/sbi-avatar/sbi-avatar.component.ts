@@ -1,14 +1,13 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { SbiAvatarGender, SbiAvatarSize } from '../../models/avatar.types';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { SbiAvatarGender, SbiAvatarSize } from './sbi-avatar.models';
 import { SbiBadgeComponent } from '../sbi-badge/sbi-badge.component';
 import { SbiIconComponent } from '../sbi-icon/sbi-icon.component';
 import { CHEVRON_DOWN_OUTLINE } from '../../public-api';
 
 
-
 /**
  * Компонент для отображения аватара пользователя.
- * 
+ *
  * Поддерживает различные размеры.
  * Если передан imageUrl, отображается изображение, иначе - инициалы.
  * Может отображать бейдж и иконку с возможностью клика.
@@ -32,69 +31,85 @@ import { CHEVRON_DOWN_OUTLINE } from '../../public-api';
 })
 export class SbiAvatarComponent {
   /**
-   * Размер аватара. Может быть 'large', 'regular', 'small' или 'extra-small'.
-   * @type {SbiAvatarSize}
+   * @public
+   * @description Размер аватара. Может быть 'large', 'regular', 'small' или 'extra-small'.
+   * @type {'large' | 'regular' | 'small' | 'extra-small'}
+   * @defaultValue 'regular'
    */
-  @Input() size: SbiAvatarSize = 'regular';
+  @Input() public size: SbiAvatarSize = 'regular';
 
   /**
-   * URL изображения аватара. Если задан, показывается изображение.
+   * @public
+   * @description URL изображения аватара. Если задан, показывается изображение.
    * @type {string}
+   * @defaultValue ''
    */
-  @Input() imageUrl = '';
+  @Input() public imageUrl: string = '';
 
   /**
-   * Пол пользователя
+   * @public
+   * @description Пол пользователя
    * @type {SbiAvatarGender}
+   * @defaultValue 'MALE'
    */
-  @Input() gender: SbiAvatarGender = 'MALE';
+  @Input() public gender: SbiAvatarGender = 'MALE';
 
   /**
-   * Инициалы пользователя. Используются, если не задан imageUrl.
+   * @public
+   * @description Инициалы пользователя. Используются, если не задан imageUrl.
    * @type {string}
+   * @defaultValue ''
    */
-  @Input() initials = '';
+  @Input() public initials: string = '';
 
   /**
-   * Показывать ли бейдж (зеленую точку).
+   * @public
+   * @description Показывать ли бейдж (зеленую точку).
    * @type {boolean}
+   * @defaultValue true
    */
-  @Input() showBadge = true;
-  
+  @Input() public showBadge: boolean = true;
+
   /**
-   * Иконка из Дизайн Системы, отображаемой в правом нижнем углу аватара (только для размера 'large').
+   * @public
+   * @description Иконка из Дизайн Системы, отображаемой в правом нижнем углу аватара (только для размера 'large').
    * @type {string}
+   * @defaultValue CHEVRON_DOWN_OUTLINE
    */
-  @Input() sbiIcon = CHEVRON_DOWN_OUTLINE;
-  
+  @Input() public sbiIcon: string = CHEVRON_DOWN_OUTLINE;
+
   /**
-   * Событие клика по иконке.
+   * @public
+   * @description Событие клика по иконке.
    * @type {EventEmitter<MouseEvent>}
    */
-  @Output() iconClick = new EventEmitter<MouseEvent>();
-  
+  @Output() public iconClick: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+
   /**
-   * Событие клика по аватару.
+   * @public
+   * @description Событие клика по аватару.
    * @type {EventEmitter<MouseEvent>}
    */
-  @Output() avatarClick = new EventEmitter<MouseEvent>();
-  
+  @Output() public avatarClick: EventEmitter<MouseEvent> = new EventEmitter<MouseEvent>();
+
   /**
-   * Обработчик клика по иконке.
+   * @public
+   * @description Обработчик клика по иконке.
    * @param {MouseEvent} event - событие клика
    */
-  onIconClick(event: MouseEvent): void {
+  public onIconClick(event: MouseEvent): void {
     event.stopPropagation();
     this.iconClick.emit(event);
   }
-  
+
   /**
-   * Обработчик клика по аватару.
+   * @public
+   * @description Обработчик клика по аватару.
    * @param {MouseEvent} event - событие клика
    */
-  onAvatarClick(event: MouseEvent): void {
+  public onAvatarClick(event: MouseEvent): void {
     // Если иконка не отображается или iconClick не имеет подписчиков,
     // то клик по аватару будет обработан
     this.avatarClick.emit(event);
   }
-} 
+}

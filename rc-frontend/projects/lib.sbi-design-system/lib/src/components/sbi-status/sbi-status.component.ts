@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { NgIf } from '@angular/common';
-import { StatusAppearanceTypes, StatusTypes } from '../../models/status.types';
+import { SbiStatusAppearanceType, SbiStatusModels } from './sbi-status.models';
 import {
   EXCLAMATION_MARK_SVG_ICON,
   INFO_MARK_SVG_ICON,
@@ -8,6 +8,7 @@ import {
   SUCCESS_MARK_SVG_ICON
 } from '../../const/icons';
 import { SbiIconComponent } from '../sbi-icon/sbi-icon.component';
+import { SbiIconColor } from '../sbi-icon/sbi-icon.models';
 
 /**
  * Компонент для отображения статусного индикатора с иконкой и текстом.
@@ -33,50 +34,62 @@ import { SbiIconComponent } from '../sbi-icon/sbi-icon.component';
 })
 export class SbiStatusComponent implements OnInit, OnChanges {
   /**
-   * Иконка по умолчанию для текущего статуса.
+   * @public
+   * @description Иконка по умолчанию для текущего статуса.
    * @type {string}
+   * @defaultValue ''
    */
-  public defaultIcon = '';
+  public defaultIcon: string = '';
 
   /**
-   * Текстовая метка статуса.
+   * @public
+   * @description Текстовая метка статуса.
    * @type {string | undefined}
+   * @defaultValue undefined
    */
-  @Input() label?: string;
+  @Input() public label?: string;
 
   /**
-   * Тип статуса, влияющий на стиль отображения.
-   * @type {StatusTypes}
+   * @public
+   * @description Тип статуса, влияющий на стиль отображения.
+   * @type {'primary' | 'secondary'}
+   * @defaultValue 'primary'
    */
-  @Input() type: StatusTypes = 'primary';
+  @Input() public type: SbiStatusModels = 'primary';
 
   /**
-   * Внешний вид статуса (info, success, warning, error, neutral).
-   * @type {StatusAppearanceTypes}
+   * @public
+   * @description Внешний вид статуса (info, success, warning, error, neutral).
+   * @type {'warning' | 'info' | 'error' | 'neutral' | 'success'}
+   * @defaultValue 'info'
    */
-  @Input() appearance: StatusAppearanceTypes = 'info';
+  @Input() public appearance: SbiStatusAppearanceType = 'info';
 
   /**
-   * Пользовательская иконка статуса. Если не указана, используется иконка по умолчанию.
+   * @public
+   * @description Пользовательская иконка статуса. Если не указана, используется иконка по умолчанию.
    * @type {string}
+   * @defaultValue ''
    */
-  @Input() icon: string = '';
+  @Input() public icon: string = '';
 
   /**
-   * Флаг, указывающий, отображать ли иконку статуса.
+   * @public
+   * @description Флаг, указывающий, отображать ли иконку статуса.
    * @type {boolean}
+   * @defaultValue true
    */
-  @Input() showIcon = true;
+  @Input() public showIcon: boolean = true;
 
   /**
-   * Инициализирует компонент и устанавливает иконку по умолчанию, если пользовательская не указана.
+   * @description Инициализирует компонент и устанавливает иконку по умолчанию, если пользовательская не указана.
    */
   ngOnInit() {
     !this.icon && this.setDefaultIcon();
   }
 
   /**
-   * Обрабатывает изменения входных свойств.
+   * @description Обрабатывает изменения входных свойств.
    * Обновляет иконку по умолчанию при изменении соответствующих свойств.
    * @param {SimpleChanges} changes - Объект с изменениями входных свойств.
    */
@@ -90,8 +103,8 @@ export class SbiStatusComponent implements OnInit, OnChanges {
   }
 
   /**
-   * Устанавливает иконку по умолчанию в зависимости от выбранного внешнего вида статуса.
    * @private
+   * @description Устанавливает иконку по умолчанию в зависимости от выбранного внешнего вида статуса.
    */
   private setDefaultIcon() {
     switch (this.appearance) {
@@ -111,5 +124,30 @@ export class SbiStatusComponent implements OnInit, OnChanges {
         this.defaultIcon = EXCLAMATION_MARK_SVG_ICON;
         break;
     }
+  }
+
+  /**
+   * @public
+   * @getter
+   * @description Устанавливает цвет иконки.
+   * @return {'primary' | 'tertiary' | 'accent' | 'accenttint' | 'warning' | 'error' | 'information' | 'contrast' | undefined} - цвет иконки
+   */
+  public get getIconColor(): SbiIconColor | undefined {
+    if (this.appearance === 'warning') {
+      return 'warning';
+    }
+    if (this.appearance === 'info') {
+      return 'information';
+    }
+    if (this.appearance === 'error') {
+      return 'error';
+    }
+    if (this.appearance === 'neutral') {
+      return 'tertiary';
+    }
+    if (this.appearance === 'success') {
+      return 'accent';
+    }
+    return undefined;
   }
 }

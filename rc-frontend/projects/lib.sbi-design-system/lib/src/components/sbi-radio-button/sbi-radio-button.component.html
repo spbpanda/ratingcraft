@@ -1,20 +1,18 @@
-<mat-radio-group class="sbi-radio" [formControl]="control" color="primary" [attr.data-testid]="testId">
-  <mat-radio-button
-    *ngFor="let option of options; let idx = index"
-    [value]="option.value"
-    class="sbi-radio-content"
-    [disabled]="option.disabled">
-    <div
-      class="sbi-radio-label"
-      [ngClass]="{ link: option.isLink, 'margin-label': !!option.label || !!option.note }"
-      (click)="onClickToLink(option)"
-      [attr.data-testid]="testId + '-radio-label'">
-      @if (option.label || option.note) {
-        <div *ngIf="option.label" class="label">{{ option.label }}</div>
-        <div *ngIf="option.note" class="note">{{ option.note }}</div>
-      } @else {
-        <ng-container *ngTemplateOutlet="option.customContent ?? null"></ng-container>
-      }
-    </div>
-  </mat-radio-button>
-</mat-radio-group>
+<mat-radio-button
+  [value]="value"
+  class="sbi-radio-content"
+  (click)="$event.stopPropagation()"
+  [disabled]="disabled">
+  <div
+    class="sbi-radio-label"
+    [ngClass]="{ link: isLink, 'margin-label': !!label || !!note }"
+    (click)="$event.stopPropagation(); $event.preventDefault(); onClickToLink();"
+    [attr.data-testid]="testId + '-radio-label'">
+    @if (label || note) {
+      <div *ngIf="label" class="label">{{ label }}</div>
+      <div *ngIf="note" class="note">{{ note }}</div>
+    } @else {
+      <ng-container *ngTemplateOutlet="customContent ?? null"></ng-container>
+    }
+  </div>
+</mat-radio-button>

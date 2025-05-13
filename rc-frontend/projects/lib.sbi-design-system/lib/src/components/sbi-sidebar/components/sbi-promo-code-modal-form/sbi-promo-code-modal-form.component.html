@@ -1,0 +1,20 @@
+<sbi-dialog
+  type="header"
+  [title]="data.title || 'Введите промокод'"
+  [submitButtonTitle]="data.submitButtonTitle || 'Применить'"
+  [scrollableContent]="false"
+  [openCloseDelta]="50"
+  (close)="dialogRef.close()"
+  (submitClick)="applyPromo()"
+  testId="promo-code-modal-form">
+  <div class="full-width">
+    <sbi-input class="full-width" label="Промокод" placeholder="Промокод" [control]="data.promoCodeControl"></sbi-input>
+    <div class="promo-status-wrapper" *ngIf="showPromoCodeStatusText()">
+      @if (data.promoCodeCheck$ | async) {
+        <div class="valid-promo-code">{{ data.validApplyPromoLabel || 'Промокод успешно применён' }}</div>
+      } @else {
+        <div class="invalid-promo-code">{{ data.inValidApplyPromoLabel || 'Промокод не найден' }}</div>
+      }
+    </div>
+  </div>
+</sbi-dialog>

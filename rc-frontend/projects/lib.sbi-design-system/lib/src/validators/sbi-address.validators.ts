@@ -1,11 +1,12 @@
-import { AbstractControl, ValidationErrors } from "@angular/forms";
-import { SbiAddressBase } from "../components/sbi-address/sbi-address.model";
+import { AbstractControl, ValidationErrors } from '@angular/forms';
+import { SbiAddressBase } from '../models/sbi-da-data-models';
+import { SbiDaDataAddress } from '../components/sbi-dadata-address/sbi-dadata-address.model';
 
 export class SbiAddressValidator {
 
   /**
    * Валидатор проверки выбран ли адрес из списка предложенных
-   * @param control 
+   * @param control
    * @returns Объект с ошибкой `{ manualEnter: true }`, если значение не выбрано из списка,
    *          null - адрес выбран из подсказок
    */
@@ -22,7 +23,7 @@ export class SbiAddressValidator {
    *          Объект с ошибкой `{ regionNotFound: true }` - адрес выбран из списка cdi, но не выбран регион
    */
   public static regionValidator(control: AbstractControl): ValidationErrors | null {
-    const value = control.value as undefined | null | string | SbiAddressBase;
+    const value = control.value as undefined | null | string | SbiAddressBase | SbiDaDataAddress;
 
     if (value && typeof value === 'object') {
       if (!value?.region) {
@@ -39,7 +40,7 @@ export class SbiAddressValidator {
    *          Объект с ошибкой `{ cityNotFound: true } - адрес выбран из списка cdi, но не выбран город или поселение
    */
   public static cityValidator(control: AbstractControl): ValidationErrors | null {
-    const value = control.value as undefined | null | string | SbiAddressBase;
+    const value = control.value as undefined | null | string | SbiAddressBase | SbiDaDataAddress;
 
 
     if (value && typeof value === 'object') {
@@ -47,7 +48,7 @@ export class SbiAddressValidator {
         return { cityNotFound: true };
       }
     }
-    
+
     return null;
   };
 
@@ -57,14 +58,14 @@ export class SbiAddressValidator {
    *          Объект с ошибкой `{ houseNotFound: true } - адрес выбран из списка cdi, но не выбран номер дома
    */
   public static houseValidator(control: AbstractControl): ValidationErrors | null {
-    const value = control.value as undefined | null | string | SbiAddressBase;
+    const value = control.value as undefined | null | string | SbiAddressBase | SbiDaDataAddress;
 
     if (value && typeof value === 'object') {
       if (!value?.house) {
         return { houseNotFound: true };
       }
     }
-    
+
     return null;
   };
 
@@ -74,14 +75,14 @@ export class SbiAddressValidator {
    *          Объект с ошибкой `{ flatNotFound: true } - адрес выбран из списка cdi, но не выбран номер квартиры
    */
   public static flatValidator(control: AbstractControl): ValidationErrors | null {
-    const value = control.value as undefined | null | string | SbiAddressBase;
+    const value = control.value as undefined | null | string | SbiAddressBase | SbiDaDataAddress;
 
     if (value && typeof value === 'object') {
       if (!value?.flat) {
         return { flatNotFound: true };
       }
     }
-    
+
     return null;
   };
 

@@ -20,20 +20,26 @@ import { NgClass } from '@angular/common';
 })
 export class SbiSuggestChipComponent<T> {
   /**
-   * Лейбл чипа.
+   * @public
+   * @description Лейбл чипа.
    * @type {string}
+   * @defaultValue ''
    */
-  @Input() label = '';
+  @Input() public label: string = '';
 
   /**
-   * Выбран чир или нет.
+   * @public
+   * @description Выбран чир или нет.
    * @type {boolean}
+   * @defaultValue false
    */
-  @Input() active = false;
+  @Input() public active: boolean = false;
 
   /**
-   * Идентификатор для тестирования.
+   * @public
+   * @description Идентификатор для тестирования.
    * @type {string}
+   * @defaultValue 'sbi-suggest-chip'
    */
-  @Input() testId = 'sbi-suggest-chip';
+  @Input() public testId: string = 'sbi-suggest-chip';
 }

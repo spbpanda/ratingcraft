@@ -6,6 +6,8 @@ import { SbiIconComponent } from '../sbi-icon/sbi-icon.component';
 import { BUTTON_CROSS, SUCCESS_DIALOG_ICON } from '../../const/icons';
 import { SbiDividerComponent } from '../sbi-divider/sbi-divider.component';
 import { SbiButtonComponent } from '../sbi-button/sbi-button.component';
+import { SbiDialogSize, SbiDialogType } from "./sbi-dialog.models";
+import { SbiButtonAppearance } from "../sbi-button/sbi-button.models";
 
 /**
  * Компонент - обёртка для отображения модального окна.
@@ -35,103 +37,165 @@ import { SbiButtonComponent } from '../sbi-button/sbi-button.component';
 export class SbiDialogComponent extends SbiSwipeComponent {
 
   /**
-   * Текст заголовка модального окна.
+   * @public
+   * @description Текст заголовка модального окна.
    * @type {string | undefined}
+   * @defaultValue undefined
    */
-  @Input() title?: string;
+  @Input() public title?: string;
 
   /**
-   * Текст подзаголовка модального окна.
+   * @public
+   * @description Текст подзаголовка модального окна.
    * @type {string | undefined}
+   * @default undefined
    */
-  @Input() note?: string;
+  @Input() public note?: string;
 
   /**
-   * Флаг - показывать иконку в заголовке модального окна.
+   * @public
+   * @description Флаг - показывать иконку в заголовке модального окна.
    * @type {boolean}
+   * @defaultValue false
    */
-  @Input() showIcon: boolean = false;
+  @Input() public showIcon: boolean = false;
 
   /**
-   * Флаг - показывать иконку закрытия модального окна.
+   * @public
+   * @description Флаг - показывать иконку закрытия модального окна.
    * @type {boolean}
+   * @defaultValie true
    */
-  @Input() showCloseIcon: boolean = true;
+  @Input() public showCloseIcon: boolean = true;
 
   /**
-   * Минимальный размер модального окна.
+   * @public
+   * @description Минимальный размер модального окна.
    * @type {'large' | 'small'}
+   * @defaultValue 'large'
    */
-  @Input() size: 'large' | 'small' = 'large'
+  @Input() public size: SbiDialogSize = 'large'
 
   /**
-   * Svg код иконка заголовка модального окна.
+   * @public
+   * @description Svg код иконка заголовка модального окна.
    * @type {string}
+   * @defaultValue SUCCESS_DIALOG_ICON
    */
-  @Input() icon: string = SUCCESS_DIALOG_ICON;
+  @Input() public icon: string = SUCCESS_DIALOG_ICON;
 
   /**
-   * Тип модального окна.
+   * @public
+   * @description Тип модального окна.
    * @type {'illustration' | 'header'}
+   * @defaultValue 'illustration'
    */
-  @Input() type: 'illustration' | 'header' = 'illustration';
+  @Input() public type: SbiDialogType = 'illustration';
 
   /**
-   * Дельта (в пикселях) насколько пользователю нужно свайпнуть модальное окно до его закрытия.
+   * @public
+   * @description Дельта (в пикселях) насколько пользователю нужно свайпнуть модальное окно до его закрытия.
    * @type {number | undefined}
+   * @defaultValue undefined
    */
-  @Input() openCloseDelta?: number;
+  @Input() public openCloseDelta?: number;
 
   /**
-   * Максимальная высота модального окна в мобильной вестии.
+   * @public
+   * @description Максимальная высота модального окна в мобильной версии.
    * @type {number}
+   * @defaultValue 700
    */
-  @Input() maxHeight: number = 700;
+  @Input() public maxHeight: number = 700;
 
   /**
-   * Флаг, указывающий на возможность скролить контент модального окна.
+   * @public
+   * @description Флаг, указывающий на возможность скролить контент модального окна.
    * @type {boolean}
+   * @defaultValue true
    */
-  @Input() scrollableContent: boolean = true;
+  @Input() public scrollableContent: boolean = true;
 
   /**
-   * Текст основной кнопки модального окна.
+   * @public
+   * @description Текст основной кнопки модального окна.
    * @type {string | undefined}
+   * @defaultvalue undefined
    */
-  @Input() submitButtonTitle?: string;
+  @Input() public submitButtonTitle?: string;
 
   /**
-   * Текст вспомогательной кнопки модального окна.
+   * @public
+   * @description Текст вспомогательной кнопки модального окна.
    * @type {string | undefined}
+   * @defaultValue undefined
    */
-  @Input() secondButtonTitle?: string;
+  @Input() public secondButtonTitle?: string;
 
   /**
-   * Идентификатор для авто тестов.
+   * @public
+   * @description Тип основной кнопки.
+   * @type {'primary' | 'warn' | 'primary-tint' | 'warn-tint' | 'overlay'}
+   * @defaultValue 'primary'
+   */
+  @Input() public submitButtonAppearance: SbiButtonAppearance = 'primary';
+
+  /**
+   * @public
+   * @description Тип вспомогательной кнопки.
+   * @type {'primary' | 'warn' | 'primary-tint' | 'warn-tint' | 'overlay'}
+   * @defaultValue 'primary-tint'
+   */
+  @Input() public secondaryButtonAppearance: SbiButtonAppearance = 'primary-tint';
+
+  /**
+   * @public
+   * @description Идентификатор для авто тестов.
    * @type {string}
+   * @defaultValue 'sbi-dialog-test-id'
    */
-  @Input() testId: string = 'sbi-dialog-test-id';
+  @Input() public testId: string = 'sbi-dialog-test-id';
 
   /**
-   * Событие клика на крестик.
+   * @public
+   * @description Событие клика на крестик.
    * @type {EventEmitter<void>}
    */
-  @Output() close: EventEmitter<void> = new EventEmitter();
+  @Output() public close: EventEmitter<void> = new EventEmitter();
 
   /**
-   * Событие клика на основную кнопку.
+   * @public
+   * @description Событие клика на основную кнопку.
    * @type {EventEmitter<void>}
    */
-  @Output() submitClick: EventEmitter<void> = new EventEmitter();
+  @Output() public submitClick: EventEmitter<void> = new EventEmitter();
 
   /**
-   * Событие клика на вспомогательную кнопку.
+   * @public
+   * @description Событие клика на вспомогательную кнопку.
    * @type {EventEmitter<void>}
    */
-  @Output() secondaryClick: EventEmitter<void> = new EventEmitter();
+  @Output() public secondaryClick: EventEmitter<void> = new EventEmitter();
 
   /**
-   * Возвращает SVG иконку для закрытия модального окна.
+   * @public
+   * @getter
+   * @description возвращает актуальную высоту модального окна.
+   * @return {string}
+   * */
+  public get scrollContainerHeight(): string {
+    if (!this.scrollableContent) {
+      return '100%';
+    }
+    const delta = this.type === 'header' ? 64 : 12;
+    const height = SbiSwipeComponent.isMobile(window) ? this.maxHeight : window.innerHeight * 0.85;
+    return `${height - delta}px`;
+  }
+
+  /**
+   * @public
+   * @getter
+   * @description Возвращает SVG иконку для закрытия модального окна.
    * @returns {string} SVG строка иконки закрытия модального окна.
    */
   public get closeIcon(): string {
@@ -139,7 +203,9 @@ export class SbiDialogComponent extends SbiSwipeComponent {
   }
 
   /**
-   * Возвращает актуальный размер модального окна.
+   * @public
+   * @getter
+   * @description Возвращает актуальный размер модального окна.
    * @returns {'large' | 'small'} актуальный размер модального окна.
    */
   public get adaptiveSize(): 'large' | 'small' {
@@ -147,7 +213,9 @@ export class SbiDialogComponent extends SbiSwipeComponent {
   }
 
   /**
-   * Возвращает флаг - текущее устройство мобильное или нет.
+   * @public
+   * @getter
+   * @description Возвращает флаг - текущее устройство мобильное или нет.
    * @returns {boolean} текущее устройство мобильное или нет.
    */
   public get isMobile(): boolean {
@@ -155,7 +223,9 @@ export class SbiDialogComponent extends SbiSwipeComponent {
   }
 
   /**
-   * Возвращает флаг - текущее модальное окно активно для закрытия свайпом или нет.
+   * @public
+   * @getter
+   * @description Возвращает флаг - текущее модальное окно активно для закрытия свайпом или нет.
    * @returns {boolean} текущее модальное окно активно для закрытия свайпом или нет.
    */
   public get meIsActive(): boolean {
@@ -163,21 +233,24 @@ export class SbiDialogComponent extends SbiSwipeComponent {
   }
 
   /**
-   * Обрабатывает закрытие модального окна нажатием на крестик.
+   * @public
+   * @description Обрабатывает закрытие модального окна нажатием на крестик.
    */
   public onClose() {
     this.close.emit();
   }
 
   /**
-   * Обрабатывает событие нажатия на submit кнопку.
+   * @public
+   * @description Обрабатывает событие нажатия на submit кнопку.
    */
   public onSubmitClick() {
     this.submitClick.emit();
   }
 
   /**
-   * Обрабатывает событие нажатия на secondary кнопку.
+   * @public
+   * @description Обрабатывает событие нажатия на secondary кнопку.
    */
   public onSecondaryClick() {
     this.secondaryClick.emit();

@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class SbiSwipeService {
-  private _actualPopUpModalForm: string[] = [];
+  private _actualPopUpModalForm: Array<string> = [];
 
   public addPopUpModalName(actualName: string) {
     this._actualPopUpModalForm.push(actualName);

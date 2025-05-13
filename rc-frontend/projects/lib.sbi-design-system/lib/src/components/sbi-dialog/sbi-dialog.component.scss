@@ -13,7 +13,7 @@
 
 .sbi-modal-form-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   gap: 10px;
   max-height: 90vh;
   overflow: hidden;
@@ -30,7 +30,6 @@
 }
 
 .sbi-modal-info-block {
-  padding: 0 4px;
   background-color: var(--surface-primary);
   border-radius: 16px;
   overflow: hidden;
@@ -55,7 +54,6 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
-    height: 100%;
 
     .sbi-modal-form-header {
       display: flex;
@@ -106,7 +104,7 @@
 
 .scrollable {
   .scroll-container {
-    overflow-y: scroll !important;
+    overflow-y: auto !important;
 
     &:hover {
       padding-right: 17px;

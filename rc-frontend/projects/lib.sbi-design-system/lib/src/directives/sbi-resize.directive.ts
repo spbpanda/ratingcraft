@@ -35,6 +35,12 @@ export class SbiResizableDirective implements OnChanges, OnDestroy {
     return Math.min(Math.round(window.innerHeight), this.maxHeight);
   }
 
+  private get paddingBottom() {
+    const padding = window.getComputedStyle(this.el.nativeElement).getPropertyValue('padding-bottom').replace('px', '');
+    const numberedPadding = Number(padding);
+    return isNaN(numberedPadding) ? 0 : numberedPadding;
+  }
+
   private get maxOpenCloseDelta() {
     if (this.openCloseDelta) {
       return this.openCloseDelta;
@@ -147,14 +153,14 @@ export class SbiResizableDirective implements OnChanges, OnDestroy {
     }
     this.inDragRegion(evt);
     const touch = getTouch(evt);
-    const offset = Number(this.el.nativeElement.offsetHeight ?? 0);
+    const offset = Number(this.el.nativeElement.offsetHeight ?? 0) - this.paddingBottom;
     const height = Math.min(window.innerHeight * 0.9, this.maxHeight);
     const startMaxHeight = offset > height ? Math.floor(height) : offset;
     this.startMaxHeight = this.open ? startMaxHeight : this.actualBaseSize;
     this.defaultTouchY = touch.clientY;
   }
 
-  constructor(private el: ElementRef) {
+  constructor(private el: ElementRef<HTMLDivElement>) {
   }
 
   inDragRegion(evt: TouchEvent | MouseEvent) {

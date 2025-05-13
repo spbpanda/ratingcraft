@@ -1,7 +1,23 @@
-<div class="sbi-snackbar__wrapper sbi-snackbar__wrapper--{{data.appearance}}" >
-  <sbi-icon class="sbi-snackbar__icon" [iconImage]="svgIcon"></sbi-icon>
+<div class="sbi-snackbar__wrapper">
+  @switch (data.appearance) {
+    @case ('error') {
+      <sbi-icon class="sbi-snackbar__icon" color="error" [iconImage]="errorIcon"></sbi-icon>
+    }
+    @case ('success') {
+      <sbi-icon class="sbi-snackbar__icon" color="accent" [iconImage]="successIcon"></sbi-icon>
+    }
+    @case ('info') {
+      <sbi-icon class="sbi-snackbar__icon" color="information" [iconImage]="infoIcon"></sbi-icon>
+    }
+  }
   <div class="sbi-snackbar__content">
-    <p class="body-regular">{{ data.contentText }}</p>
+    <p class="body-large sbi-snackbar__content-title">{{ data.title }}</p>
+    <p class="body-regular sbi-snackbar__content-subtitle">{{ data.subtitle }}</p>
   </div>
-  <sbi-icon class="sbi-snackbar__icon-close" [iconImage]="clearIcon" (click)="onClose()"></sbi-icon>
+  <sbi-icon
+    size="24"
+    class="sbi-snackbar__icon-close"
+    color="contrast"
+    [iconImage]="clearIcon"
+    (click)="onClose()"></sbi-icon>
 </div>

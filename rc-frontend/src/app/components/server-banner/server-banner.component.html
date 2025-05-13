@@ -23,12 +23,12 @@
             </div>
             <div class="server-banner__version">
                 <mat-icon>games</mat-icon>
-                Версия: {{server.version | getItemValue}}
+                Версия: {{server.versions | version}}
             </div>
         </div>
         <div class="server-banner__buttons">
             <div class="server-banner__play">
-                <sbi-chip [showClearIcon]="false" [label]="getServerDomain(server)"></sbi-chip>
+                <sbi-chip [showClearIcon]="false" [label]="getServerDomain(server)" (clickChipEvent)="copyText(server)"></sbi-chip>
             </div>
             <rc-button (click)="copyText(server)">Копировать IP</rc-button> 
             <rc-button [type]="'submit'">Играть</rc-button>

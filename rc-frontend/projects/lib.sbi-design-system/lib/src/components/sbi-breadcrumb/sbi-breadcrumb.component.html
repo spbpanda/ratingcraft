@@ -1,0 +1,29 @@
+<div class="sbi-breadcrumb">
+  <ng-container *ngFor="let item of visibleItems; let isLast = last; let i = index">
+    <!-- Элемент хлебных крошек -->
+    <div class="sbi-breadcrumb-item {{getItemClass(item)}}">
+      <a [routerLink]="item.link" class="sbi-breadcrumb-link">{{ item.label }}</a>
+    </div>
+
+    <!-- Разделитель (кроме последнего элемента) -->
+    <div class="sbi-breadcrumb-separator" *ngIf="!isLast">/</div>
+    
+    <!-- Троеточие после элемента с индексом dotsIndex (по умолчанию после третьего) -->
+    <ng-container *ngIf="showDots && i === dotsIndex">
+      <div class="sbi-breadcrumb-item dots-item" [matMenuTriggerFor]="menu">
+        <span class="sbi-breadcrumb-link">...</span>
+      </div>
+      <div class="sbi-breadcrumb-separator">/</div>
+      
+      <!-- Выпадающее меню с скрытыми элементами -->
+      <mat-menu #menu="matMenu" class="sbi-breadcrumb-menu" xPosition="after">
+        <div class="sbi-breadcrumb-menu-content">
+          <button mat-menu-item *ngFor="let hiddenItem of hiddenItems; let j = index" 
+                  [routerLink]="hiddenItem.link">
+            <span>{{ hiddenItem.label }}</span>
+          </button>
+        </div>
+      </mat-menu>
+    </ng-container>
+  </ng-container>
+</div> 

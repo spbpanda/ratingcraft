@@ -1,0 +1,28 @@
+@if (stepperService.steps().length) {
+  <div class="sbi-stepper">
+    @for (step of stepperService.steps(); track $index) {
+      <div
+        class="sbi-step"
+        [ngClass]="{
+          'active': step.state === 'active',
+          'disabled': step.state === 'disabled',
+          'completed': step.state === 'visited' || step.state === 'completed',
+          'visited': isStepClickable && step.state === 'visited',
+          'active-cursor': isStepClickable && step.state !== 'disabled'
+        }"
+        (click)="isStepClickable && step.state !== 'disabled' && goTo(step)"
+      >
+        <div class="sbi-step__circle-wrapper">
+          @if (step.state === 'completed') {
+            <sbi-icon color="accent" [iconImage]="checkMark"></sbi-icon>
+          } @else {
+            <span class="label-small sbi-step__circle_number">{{ step.number }}</span>
+          }
+        </div>
+        <div class="body-regular sbi-step__name">{{ step.name }}</div>
+      </div>
+    }
+  </div>
+  <sbi-divider></sbi-divider>
+}
+

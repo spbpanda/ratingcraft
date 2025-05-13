@@ -1,0 +1,60 @@
+<div class="sticky-container">
+  <div class="sbi-sidebar-container" *ngIf="!!priceLabel">
+    <div class="sber-grad-wrapper">
+      <div class="sber-grad"></div>
+    </div>
+    <div class="price-container">
+      <div class="sbi-sidebar-container__label-wrapper" [ngClass]="{ 'full-wrapper': !price || price === '0' }">
+        <span class="sbi-sidebar-container__label">{{ priceLabel }}</span>
+      </div>
+      <div *ngIf="price && price !== '0'" class="discount-container">
+        <div class="price-value">{{ price }}</div>
+        <div *ngIf="showDiscount" class="price-discount">{{ fullPrice }}</div>
+      </div>
+    </div>
+  </div>
+
+  @if (mainElements.length > 0) {
+    <sbi-divider class="big-divider" *ngIf="!isDesktop"></sbi-divider>
+
+    <div class="sbi-sidebar-main-info">
+      <div class="sbi-main-info-container">
+        <div
+          class="sbi-main-info-block"
+          *ngFor="let element of mainElements; let i = index"
+          [sbiTooltip]="element.tooltip || null"
+          [tooltipPosition]="element.tooltipPosition || 'bottom'">
+          <div class="label">{{ element.label }}</div>
+          @if (isStringType(element.note)) {
+            <div class="note">{{ element.note | sbiDynamic : element.pipe : element.pipeArgs }}</div>
+          } @else {
+            <div class="note hideOverText" *ngFor="let note of getNoteList(element.note)">
+              {{ note | sbiDynamic : element.pipe : element.pipeArgs }}
+            </div>
+          }
+          <sbi-divider [ngClass]="{ divider: !isDesktop }" *ngIf="i < mainElements.length - 1"></sbi-divider>
+        </div>
+      </div>
+    </div>
+  }
+
+  <div class="sbi-sidebar-main-info">
+    <ng-content select="[main-info]"></ng-content>
+  </div>
+
+  @if (showPromo || showDocs) {
+    <sbi-divider class="big-divider" *ngIf="!isDesktop"></sbi-divider>
+
+    <div class="sbi-sidebar-container">
+      <div class="sbi-sidebar-container__actions-wrapper">
+        <div class="sbi-sidebar-container__label" *ngIf="showPromo" (click)="onPromoClick($event)">{{ promoLabel }}
+        </div>
+        <div class="sbi-sidebar-container__label" *ngIf="showDocs" (click)="onDocsClick($event)">{{ docsLabel }}</div>
+      </div>
+    </div>
+  }
+
+  <div class="sbi-sidebar-main-info">
+    <ng-content select="[after-docs-and-promo-info]"></ng-content>
+  </div>
+</div>

@@ -2,22 +2,29 @@
   <div class="sbi-section-header">
     <div class="sbi-section-header-block" *ngIf="title || badgeContent || tooltipContent">
       <div class="sbi-section-header-title-content">
-        <span *ngIf="title" class="sbi-section-title">{{ title }}</span>
+        <span *ngIf="title" class="sbi-section-title headline-regular">{{ title }}</span>
         <sbi-badge *ngIf="badgeContent" size="small" [content]="badgeContent" [type]="badgeType"></sbi-badge>
         <sbi-question-info *ngIf="tooltipContent" [tooltipPosition]="tooltipPosition" [tooltipContent]="tooltipContent"
                            [testId]="testId + '-info'"></sbi-question-info>
       </div>
-      <sbi-icon class="expand-icon" *ngIf="isExpanded" [iconImage]="arrowIcon"
-                (click)="expand = !expand"></sbi-icon>
+      <div class="sbi-section-left-container">
+        <span *ngIf="linkTitle" class="sbi-link body-large" (click)="onLinkClick()">{{linkTitle}}</span>
+        <sbi-icon
+          *ngIf="isExpanded"
+          class="expand-icon"
+          color="accent"
+          [iconImage]="arrowIcon"
+          (click)="expand = !expand"></sbi-icon>
+      </div>
     </div>
-    <span *ngIf="note" class="sbi-section-note">{{ note }}</span>
+    <span *ngIf="note" class="sbi-section-note body-regular">{{ note }}</span>
   </div>
   @if (!isExpanded || expand) {
     <div class="sbi-section-body" *ngIf="infoItems.length">
       <div class="sbi-section-body-element" [ngClass]="{ invert: invertItemsContent }"
            *ngFor="let infoItem of infoItems">
-        <span class="title" *ngIf="infoItem.title">{{ infoItem.title | sbiDynamic : infoItem.titlePipe : infoItem.titleArgs }}</span>
-        <span class="note" *ngIf="infoItem.note">{{ infoItem.note | sbiDynamic : infoItem.notePipe : infoItem.noteArgs }}</span>
+        <span class="title body-small" *ngIf="infoItem.title">{{ infoItem.title | sbiDynamic : infoItem.titlePipe : infoItem.titleArgs }}</span>
+        <span class="note body-regular" *ngIf="infoItem.note">{{ infoItem.note | sbiDynamic : infoItem.notePipe : infoItem.noteArgs }}</span>
       </div>
     </div>
     <ng-content></ng-content>

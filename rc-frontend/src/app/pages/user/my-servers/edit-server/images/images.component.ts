@@ -17,7 +17,7 @@ export class ImagesComponent {
   @Input() images: string[] = []; // Массив Base64 изображений
   @Output() imagesChange = new EventEmitter<string[]>(); // Для передачи изменений родительскому компоненту
   @Input() maxImages = 5; // Максимальное количество изображений
-  @Input() maxSizeInBytes = 50; // Максимальный размер изображения 
+  @Input() maxSizeInBytes = 500; // Максимальный размер изображения 
   trashBin = TRASH_BIN;
 
   onFileSelected(event: Event) {

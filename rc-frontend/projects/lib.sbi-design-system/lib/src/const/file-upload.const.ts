@@ -1,4 +1,4 @@
-import { UploadFileErrors } from '../models/upload-files';
+import { UploadFileErrors } from '../components/sbi-file-uploader/sbi-file-uploader.models';
 
 export const BASE_FILE_UPLOAD_ERRORS: Record<UploadFileErrors, string> = {
   [UploadFileErrors.fileAlreadyUploaded]: 'Файл уже загружен.',

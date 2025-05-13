@@ -1,0 +1,23 @@
+<sbi-dropdown
+  [control]="control"
+  [label]="label"
+  [placeholder]="placeholder"
+  [options]="suggestions$ | async"
+  [mask]="mask"
+  [inputMode]="inputMode"
+  [type]="inputType"
+  [displayFunc]="displayFnInstance()"
+  [inputMultiUppercaseActive]="inputMultiUppercaseActive"
+  [customFilterVoid]="true"
+  [errorMessages]="validationErrors"
+  [showChevron]="showChevron"
+  [dropSpecialCharacters]="dropSpecialCharacters"
+  [hasDisabledOptions]="hasDisabledOptions"
+  [suffixIconType]="showProgressIndicator && isLoading() ? 'custom' : 'clear'"
+  [testId]="testId">
+  @if (showProgressIndicator && isLoading()) {
+    <div suffix-content>
+      <sbi-progress-spinner size="small"></sbi-progress-spinner>
+    </div>
+  }
+</sbi-dropdown>

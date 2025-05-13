@@ -98,7 +98,6 @@ $default-box-shadow: #3338640f !default;
         cursor: pointer;
 
         ::ng-deep svg path {
-          fill: var(--surface-neutral-50);
           fill-opacity: 1;
         }
       }

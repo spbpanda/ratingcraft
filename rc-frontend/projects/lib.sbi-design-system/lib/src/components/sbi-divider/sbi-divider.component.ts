@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 /**
  * Компонент для отображения разделителя (divider) с возможностью настройки размера.
@@ -12,14 +12,15 @@ import {Component, Input} from '@angular/core';
 @Component({
   selector: 'sbi-divider',
   standalone: true,
-  imports: [],
   templateUrl: './sbi-divider.component.html',
   styleUrl: './sbi-divider.component.scss',
 })
 export class SbiDividerComponent {
   /**
-   * Идентификатор для тестирования.
+   * @public
+   * @description Идентификатор для тестирования.
    * @type {string}
+   * @defaultValue 'sbi-divider'
    */
-  @Input() testId: string = 'sbi-divider';
+  @Input() public testId: string = 'sbi-divider';
 }

@@ -1,0 +1,23 @@
+<mat-radio-group
+  #radioGroup
+  class="sbi-radio"
+  style="flex-direction: column"
+  [formControl]="control"
+  color="primary"
+  [attr.data-testid]="testId">
+  @if (options.length) {
+    <sbi-radio-button
+      *ngFor="let option of options; let idx = index"
+      [value]="option.value"
+      [disabled]="option.disabled"
+      [label]="option.label"
+      [note]="option.note"
+      [isLink]="option.isLink"
+      [customContent]="option.customContent"
+      [testId]="testId + '-radio-button-' + idx"
+      (clickToLink)="onClickToLink(option)"
+    ></sbi-radio-button>
+  } @else {
+    <ng-content></ng-content>
+  }
+</mat-radio-group>

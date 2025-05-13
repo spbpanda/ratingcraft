@@ -6,15 +6,17 @@
     "name": "hmb.diamondworld.pro",
     "createDate": "2025-04-06T16:06:33.408Z",
     "ownerId": "112194226574548936431",
-    "rating": 369,
-    "onlinePlayers": 525,
+    "rating": 492,
+    "onlinePlayers": 306,
     "maxPlayers": 2000,
     "description": "",
-    "version": {
-      "id": 12,
-      "value": "1.19.4",
-      "protocol": 762
-    },
+    "versions": [
+      {
+        "id": 12,
+        "value": "1.19.4",
+        "protocol": 762
+      }
+    ],
     "slogan": null,
     "banner": null,
     "site": null,
@@ -29,5 +31,84 @@
     "plugins": [],
     "miniGames": [],
     "premiumBoosts": 1
+  },
+  {
+    "id": "0765ff7c-4d3a-4b91-b4cc-8eaa2355a04e",
+    "address": "game.alumenator.net",
+    "port": 25565,
+    "name": "game.alumenator.net",
+    "createDate": "2025-05-04T15:27:35.714Z",
+    "ownerId": "112194226574548936431",
+    "rating": 1455,
+    "onlinePlayers": 14,
+    "maxPlayers": 2000,
+    "description": "",
+    "versions": [
+      {
+        "id": 1,
+        "value": "1.21.3",
+        "protocol": 767,
+        "active": false
+      },
+      {
+        "id": 2,
+        "value": "1.21.2",
+        "protocol": 767,
+        "active": false
+      },
+      {
+        "id": 3,
+        "value": "1.21.1",
+        "protocol": 767,
+        "active": false
+      }
+    ],
+    "slogan": null,
+    "banner": null,
+    "site": null,
+    "vk": null,
+    "discord": null,
+    "videoUrl": null,
+    "launcher": null,
+    "screenshots": null,
+    "borderColor": null,
+    "bases": [],
+    "mods": [],
+    "plugins": [],
+    "miniGames": []
+  },
+  {
+    "id": "c88c3d07-4073-4a1f-bef6-ba69f7f34761",
+    "address": "play.mlegacy.net",
+    "port": 25565,
+    "name": "play.mlegacy.net",
+    "createDate": "2025-05-13T14:51:51.906Z",
+    "ownerId": "112194226574548936431",
+    "rating": 0,
+    "onlinePlayers": 5408,
+    "maxPlayers": 7000,
+    "description": "",
+    "versions": [
+      {
+        "id": 48,
+        "value": "1.8.9",
+        "protocol": 47
+      },
+      {
+        "id": 49,
+        "value": "1.8.8",
+        "protocol": 47
+      },
+      {
+        "id": 50,
+        "value": "1.8.3",
+        "protocol": 47
+      },
+      {
+        "id": 51,
+        "value": "1.8",
+        "protocol": 47
+      }
+    ]
   }
 ]

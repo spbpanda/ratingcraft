@@ -1,5 +1,10 @@
-<mat-form-field appearance="fill" class="sbi-autocomplete sbi-input" [attr.data-testid]="testId"
-                [hideRequiredMarker]="hideRequiredMarker">
+<mat-form-field
+  *ngIf="((filteredOptions$ | async) || []) as filteredOptions"
+  [class]="chipPosition"
+  appearance="fill"
+  class="sbi-autocomplete sbi-input"
+  [attr.data-testid]="testId"
+  [hideRequiredMarker]="hideRequiredMarker">
   <span matPrefix *ngIf="prefixIconType === 'custom'">
     <ng-content select="[prefix-icon]"></ng-content>
   </span>
@@ -17,41 +22,42 @@
       sbiInputUppercase
       sbiTitleCase
       sbiInputMode
-      [ngClass]="{ 'ml-4': !!control.value.length }"
+      [ngClass]="{ 'ml-4': !!control.value?.length }"
       [type]="type"
       [inputMode]="inputMode"
       [maxlength]="maxLength"
       [inputUppercaseActive]="inputUppercaseActive"
-      [placeholder]="!control.value.length ? placeholder : ''"
+      [placeholder]="!control.value?.length ? placeholder : ''"
       [inputTitleCaseActive]="inputTitleCaseActive"
       [formControl]="searchControl"
       [maskito]="mask"
-      [readonly]="readonly || disabledByMaxElems"
+      [readonly]="readonly"
       [matAutocomplete]="auto"
       [attr.data-testid]="testId + '-input'"
       (blur)="onInputBlur($event)"
-      (click)="$event.stopPropagation(); scrollToRight()"
+      (click)="$event.stopPropagation(); scrollToRightByClick()"
       (focusin)="onFocusChange(true); activeInput()"
       (focusout)="onFocusChange(false)"
       (input)="onInputChange($event)"/>
   </sbi-chip-row>
   <div class="icon-container" matSuffix>
     <div
-      *ngIf="suffixIconType === 'clear' && (!!control.value.length || !!searchControl.value) && control.enabled && focused() && !readonly"
       class="clear-icon"
+      *ngIf="suffixIconType === 'clear' && !readonly"
+      [hidden]="(!control.value?.length && !searchControl.value) || control.disabled && !focused()"
       [class.invalid]="control.touched && control.invalid"
       [class.focused]="control.valid && focused()"
       [attr.data-testid]="testId + '-clear-icon'"
       (mousedown)="onClearControl($event)"
       (tap)="onClearControl($event)">
-      <sbi-icon [iconImage]="clearIcon"></sbi-icon>
+      <sbi-icon size="24" [iconImage]="clearIcon"></sbi-icon>
     </div>
 
     <div
       class="chevron-icon"
       [class.invalid]="control.touched && control.invalid"
-      [class.open]="focused() && !disabledByMaxElems"
-      [class.disabled]="control.disabled || disabledByMaxElems"
+      [class.open]="focused()"
+      [class.disabled]="control.disabled"
       [class.focused]="focused()">
       <sbi-icon [iconImage]="chevronIcon"></sbi-icon>
     </div>
@@ -67,11 +73,14 @@
     #auto="matAutocomplete"
     [displayWith]="displayFunc"
     [attr.data-testid]="testId + '-autocomplete'"
-    (optionSelected)="onSelectionChange($event)"
     (opened)="onAutoCompleteOpened()">
-    <div class="sbi-options">
+    <div
+      [ngClass]="{ 'fix-max-width': filteredOptions.length > 5 && showSelectAll }"
+      class="sbi-options"
+      #autocompleteOptions>
       <mat-option
-        *ngFor="let option of filteredOptions$ | async; trackBy: trackByFn"
+        *ngFor="let option of filteredOptions; trackBy: trackByFn; let idx = index"
+        id="mat-option-{{idx}}"
         class="sbi-autocomplete-option"
         [disabled]="isDisabledOption(option)"
         [attr.data-testid]="testId + '-option-' + option.viewValue"
@@ -83,6 +92,18 @@
           [label]="option.viewValue"></sbi-checkbox>
       </mat-option>
     </div>
+    @if ((options || []).length > 5 && showSelectAll) {
+      <div class="indentation"></div>
+      <sbi-divider class="full-divider"></sbi-divider>
+      <div class="select-all-wrapper">
+        <div
+          class="select-all label-large"
+          (click)="changeSelectionAll()">
+          {{ allIsSelected ? 'Снять ' : 'Выбрать ' }}все
+        </div>
+      </div>
+    }
+
   </mat-autocomplete>
 </mat-form-field>
 

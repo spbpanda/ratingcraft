@@ -4,7 +4,7 @@ import { STAR_ICON_SVG } from '../../const/icons';
 import { NgIf } from '@angular/common';
 import { SbiFeedbackPointsComponent } from './sbi-feedback-points/sbi-feedback-points.component';
 import { SbiFeedbackQuestionsComponent } from './sbi-feedback-questions/sbi-feedback-questions.component';
-import { FeedbackQuestion } from '../../models/feedback-question';
+import { SbiFeedbackQuestion, SbiFeedbackStep } from "./sbi-feedback.models";
 
 /**
  * @deprecated Возможно не будет использоваться из-за использования обратной формы связи из ЛК
@@ -22,8 +22,8 @@ import { FeedbackQuestion } from '../../models/feedback-question';
   styleUrl: './sbi-feedback.component.scss',
 })
 export class SbiFeedbackComponent {
-  private _step = signal<'points' | 'questions' | 'custom'>('custom')
-  @Input() set step(step: 'points' | 'questions' | 'custom') {
+  private _step = signal<SbiFeedbackStep>('custom')
+  @Input() set step(step: SbiFeedbackStep) {
     this._step.set(step);
   }
 
@@ -38,8 +38,9 @@ export class SbiFeedbackComponent {
   @Input() icon = STAR_ICON_SVG;
   @Input() testId = 'sbi-feedback-test-id';
 
-  private _questions: FeedbackQuestion[] = [];
-  @Input() public set questions(questions: FeedbackQuestion[]) {
+  private _questions: Array<SbiFeedbackQuestion> = [];
+  @Input()
+  public set questions(questions: Array<SbiFeedbackQuestion>) {
     this._questions = [...questions, { label: 'Другое' }]
   };
 
@@ -48,13 +49,13 @@ export class SbiFeedbackComponent {
   };
 
   @Output() sendPointsFeedback = new EventEmitter<number>();
-  @Output() sendInfoFeedback = new EventEmitter<FeedbackQuestion[]>();
+  @Output() sendInfoFeedback = new EventEmitter<Array<SbiFeedbackQuestion>>();
   @Output() sendFeedbackComment = new EventEmitter<string>();
   @Output() primaryButtonClick = new EventEmitter();
   @Output() secondaryButtonClick = new EventEmitter();
 
   public selectedPoints = signal(0);
-  public selectedQuestions: WritableSignal<FeedbackQuestion[]> = signal([]);
+  public selectedQuestions: WritableSignal<Array<SbiFeedbackQuestion>> = signal([]);
   public comment: WritableSignal<string> = signal('');
   public disabled: Signal<boolean> = computed(() => {
     if (this._step() === 'points') {

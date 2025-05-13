@@ -51,7 +51,8 @@
   </div>
   <div class="icon-container" matSuffix>
     <div
-      *ngIf="suffixIconType === 'clear' && !disabled && focused() && !readonly"
+      *ngIf="suffixIconType === 'clear' && !readonly"
+      [hidden]="disabled || !focused()"
       class="clear-icon"
       [class.invalid]="activeElement?.control?.touched && activeElement?.control?.invalid"
       [class.focused]="focused()"

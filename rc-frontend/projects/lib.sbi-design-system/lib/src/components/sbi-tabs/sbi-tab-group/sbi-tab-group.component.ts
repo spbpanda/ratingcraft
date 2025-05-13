@@ -12,10 +12,11 @@ import {
 import { MatTabsModule } from '@angular/material/tabs';
 import { SbiTabComponent } from '../sbi-tab/sbi-tab.component';
 import { NgClass, NgForOf, NgIf, NgTemplateOutlet } from '@angular/common';
+import { SbiTabGroupAlignTabs, SbiTabGroupSize } from './sbi-tab-group.models';
 
 /**
  * Компонент для группировки и отображения вкладок SbiTabComponent.
- * 
+ *
  * Предоставляет контейнер для вкладок с возможностью настройки их выравнивания.
  * Автоматически собирает и отображает вложенные вкладки SbiTabComponent.
  *
@@ -41,45 +42,51 @@ import { NgClass, NgForOf, NgIf, NgTemplateOutlet } from '@angular/common';
 })
 export class SbiTabGroupComponent implements AfterViewInit, AfterContentInit {
   /**
-   * Выравнивание вкладок в группе.
-   * - 'start': выравнивание по левому краю
-   * - 'center': выравнивание по центру
-   * - 'end': выравнивание по правому краю
-   * - 'stretch': равномерное распределение (по умолчанию)
+   * @public
+   * @description Выравнивание вкладок в группе.
+   * - 'start': выравнивание по левому краю;
+   * - 'center': выравнивание по центру;
+   * - 'end': выравнивание по правому краю;
+   * - 'stretch': равномерное распределение.
    * @type {'start' | 'center' | 'end' | 'stretch'}
+   * @defaultValue 'stretch'
    */
-  @Input() alignTabs: 'start' | 'center' | 'end' | 'stretch' = 'stretch';
+  @Input() public alignTabs: SbiTabGroupAlignTabs = 'stretch';
 
   /**
-   * Размер вкладок в группе.
-   * - 'small': маленькие
-   * - 'large': большие (по умолчанию)
+   * @public
+   * @description Размер вкладок в группе:
+   * - 'small': маленькие;
+   * - 'large': большие (по умолчанию);
    * @type {'large' | 'small'}
+   * @defaultValue 'large'
    */
-  @Input() size: 'large' | 'small' = 'large';
+  @Input() public size: SbiTabGroupSize = 'large';
 
   /**
-   * Коллекция дочерних компонентов вкладок.
+   * @public
+   * @description Коллекция дочерних компонентов вкладок.
    * @type {QueryList<SbiTabComponent>}
    */
   @ContentChildren(SbiTabComponent, { descendants: true })
   public tabs!: QueryList<SbiTabComponent>;
 
   /**
-   * Массив дочерних компонентов вкладок для отображения.
-   * @type {SbiTabComponent[]}
+   * @description Массив дочерних компонентов вкладок для отображения.
+   * @type {Array<SbiTabComponent>}
    */
-  public tabsArray: SbiTabComponent[] = [];
+  public tabsArray: Array<SbiTabComponent> = [];
 
   /**
    * @param {ChangeDetectorRef} cdr - Ссылка на детектор изменений Angular.
    * @param {Renderer2} renderer - Renderer2 для манипуляций с DOM.
    * @param {ElementRef} el - Ссылка на элемент компонента.
    */
-  constructor(private cdr: ChangeDetectorRef, private renderer: Renderer2, private el: ElementRef) {}
+  constructor(private cdr: ChangeDetectorRef, private renderer: Renderer2, private el: ElementRef) {
+  }
 
   /**
-   * Инициализирует массив вкладок после инициализации содержимого.
+   * @description Инициализирует массив вкладок после инициализации содержимого.
    */
   ngAfterContentInit(): void {
     Promise.resolve().then(() => {
@@ -89,7 +96,7 @@ export class SbiTabGroupComponent implements AfterViewInit, AfterContentInit {
   }
 
   /**
-   * Настраивает стили выравнивания вкладок после инициализации представления.
+   * @description Настраивает стили выравнивания вкладок после инициализации представления.
    */
   ngAfterViewInit() {
     const element = this.el.nativeElement.querySelector('.mat-mdc-tab-labels');
@@ -106,11 +113,12 @@ export class SbiTabGroupComponent implements AfterViewInit, AfterContentInit {
   }
 
   /**
-   * Функция для отслеживания индекса элемента в цикле NgFor.
+   * @public
+   * @description Функция для отслеживания индекса элемента в цикле NgFor.
    * @param {number} index - Индекс элемента.
    * @returns {number} Тот же индекс, для оптимизации рендеринга.
    */
-  trackByIndex(index: number): number {
+  public trackByIndex(index: number): number {
     return index;
   }
 }

@@ -5,6 +5,7 @@
   --mat-tab-header-inactive-label-text-color: var(--text-secondary);
   --mat-tab-header-inactive-hover-label-text-color: var(--text-primary);
   --mdc-tab-indicator-active-indicator-color: var(--border-accent);
+  --mat-tab-header-pagination-icon-color: var(--icons-primary);
   --mdc-tab-indicator-active-indicator-height: 3px;
   --mdc-tab-indicator-active-indicator-shape: 0;
   --mat-tab-header-divider-height: 0;
@@ -15,6 +16,7 @@
   background-color: var(--surface-secondary);
   border-radius: 16px;
 }
+
 :host ::ng-deep {
   .align-stretch .mat-mdc-tab-labels {
     .mdc-tab.mat-mdc-tab {
@@ -29,6 +31,7 @@
       }
     }
   }
+
   .mat-mdc-tab {
     &.mdc-tab--active {
       &:hover, &:focus {
@@ -39,7 +42,7 @@
         }
       }
     }
-    
+
     &:not(.mdc-tab--active) {
       &:hover {
         .mdc-tab-indicator__content {
@@ -48,6 +51,7 @@
           border-width: 3px;
         }
       }
+
       &:focus {
         .mdc-tab-indicator__content {
           opacity: 1;
@@ -63,48 +67,49 @@
   &:focus {
     outline: none;
   }
-  
+
   &--large {
     @extend .body-large;
   }
+
   &--small {
     @extend .body-regular;
   }
-  
+
   &--default {
     &.sbi-tab--inactive {
       color: var(--text-secondary);
-      
+
       &:hover, &:focus {
         color: var(--text-primary);
       }
     }
-    
+
     &:not(.sbi-tab--inactive) {
       color: var(--text-primary);
-      
+
       &:hover, &:focus {
         color: var(--text-primary);
       }
     }
   }
-  
+
   &--overlay {
     color: var(--text-contrast);
-    
+
     &.sbi-tab--inactive {
       color: var(--text-contrast);
       opacity: var(--opacity-opacity40);
-      
+
       &:hover, &:focus {
         color: var(--text-contrast);
         opacity: 1;
       }
     }
-    
+
     &:not(.sbi-tab--inactive) {
       color: var(--text-contrast);
-      
+
       &:hover, &:focus {
         color: var(--text-contrast);
       }

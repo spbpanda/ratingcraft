@@ -1,4 +1,5 @@
-<mat-form-field appearance="fill" class="sbi-input" [attr.data-testid]="testId" [hideRequiredMarker]="hideRequiredMarker">
+<mat-form-field appearance="fill" class="sbi-input" [attr.data-testid]="testId"
+                [hideRequiredMarker]="hideRequiredMarker">
   <mat-label>{{ label }}</mat-label>
   <div class="range-inputs">
     <input
@@ -16,7 +17,7 @@
       (dateChange)="onDateSelectChange($event)"
       (input)="onInputChange($event)"
       (focusin)="onFocusChange(true)"
-      (focusout)="onFocusChange(false)" />
+      (focusout)="onFocusChange(false)"/>
 
     <input
       *ngIf="isRange && endControl"
@@ -27,7 +28,7 @@
       [matDatepicker]="picker"
       [readonly]="true"
       [placeholder]="'До'"
-      [sbiMaskDate]="showTimePicker" />
+      [sbiMaskDate]="showTimePicker"/>
   </div>
 
   <mat-datepicker-toggle matSuffix [for]="picker" [attr.data-testid]="testId + '-toggle'">
@@ -37,7 +38,7 @@
       [class.focused]="focused()"
       [class.disabled]="control.disabled"
       matDatepickerToggleIcon>
-      <sbi-icon [iconImage]="calendarIcon"></sbi-icon>
+      <sbi-icon color="primary" [iconImage]="calendarIcon"></sbi-icon>
     </div>
   </mat-datepicker-toggle>
 
@@ -58,25 +59,27 @@
         [size]="'small'"
         [appearance]="'primary-tint'"
         matDatepickerCancel
-      >{{ cancelButtonText }}</sbi-button>
+      >{{ cancelButtonText }}
+      </sbi-button>
       <sbi-button
         (click)="onApply()"
         [size]="'small'"
         matDatepickerApply
-      >{{ applyButtonText }}</sbi-button>
+      >{{ applyButtonText }}
+      </sbi-button>
     </mat-datepicker-actions>
   </mat-datepicker>
 </mat-form-field>
 
 <!-- todo: Мб вынести в отдельный компонент?-->
-@if(control.invalid && control.touched) {
-<sbi-error [testId]="testId + '-error-message'" [errors]="control.errors" [errorMessages]="errorMessages"></sbi-error>
+@if (control.invalid && control.touched) {
+  <sbi-error [testId]="testId + '-error-message'" [errors]="control.errors" [errorMessages]="errorMessages"></sbi-error>
 } @else {
-<div
-  *ngIf="subtitle !== undefined"
-  class="subtitle"
-  [class.disabled]="control.disabled"
-  [attr.data-testid]="testId + '-subtitle-message'">
-  {{ subtitle }}
-</div>
+  <div
+    *ngIf="subtitle !== undefined"
+    class="subtitle"
+    [class.disabled]="control.disabled"
+    [attr.data-testid]="testId + '-subtitle-message'">
+    {{ subtitle }}
+  </div>
 }

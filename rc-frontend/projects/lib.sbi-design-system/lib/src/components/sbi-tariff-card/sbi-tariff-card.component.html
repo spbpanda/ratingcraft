@@ -1,0 +1,36 @@
+<div class="sbi-tariff-card" [ngClass]="{'sbi-tariff-card--premium': type === 'premium'}" [attr.data-testid]="testId">
+  <div [ngClass]="{'sbi-tariff-card__gradient-container': type === 'premium', 'sbi-tariff-card__regular-content': type !== 'premium'}">
+    <div [ngClass]="{'sbi-tariff-card__white-content': type === 'premium'}">
+      <div class="sbi-tariff-card__content">
+        <div class="sbi-tariff-card__header">
+          <div class="sbi-tariff-card__title">{{ title }}</div>
+          <sbi-question-info
+            *ngIf="!!tooltipContent"
+            [tooltipContent]="tooltipContent"
+            [tooltipPosition]="tooltipPosition"
+            [testId]="testId + '-question-icon'"></sbi-question-info>
+        </div>
+        
+        <div class="sbi-tariff-card__list" *ngIf="list.length > 0">
+          <sbi-text-list
+            [list]="list"
+            [testId]="testId + '-list'"></sbi-text-list>
+        </div>
+        
+        <ng-content></ng-content>
+        
+        <div class="sbi-tariff-card__price">
+          <div class="sbi-tariff-card__price-value">{{ price }}</div>
+          <div class="sbi-tariff-card__price-period" *ngIf="period">{{ period }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <sbi-badge
+    class="sbi-tariff-card__badge"
+    *ngIf="!!badgeContent"
+    [type]="badgeType"
+    [size]="badgeSize"
+    [content]="badgeContent"></sbi-badge>
+</div> 

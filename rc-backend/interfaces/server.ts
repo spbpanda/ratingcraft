@@ -13,7 +13,7 @@ export interface Server {
     rating?: number;
     ownerId?: string;
     createDate?: Date;
-    version?: Item;
+    versions?: Item[];
     site?: string;
     vk?: string;
     discord?: string;

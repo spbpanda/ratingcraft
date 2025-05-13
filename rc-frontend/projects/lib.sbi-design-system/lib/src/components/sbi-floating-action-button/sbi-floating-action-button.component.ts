@@ -1,79 +1,75 @@
 import { Component, Input } from '@angular/core';
 import { SbiIconComponent } from '../sbi-icon/sbi-icon.component';
-
-/**
- * Размер кнопки плавающего действия
- * - L - большой размер (56px)
- * - S - малый размер (44px)
- */
-export type SbiFloatingActionButtonSize = 'L' | 'S';
-
-/**
- * Внешний вид кнопки плавающего действия
- * - accent - акцентный стиль (цветной фон)
- * - overlay - полупрозрачный стиль
- * - neutral - нейтральный стиль (белый фон)
- */
-export type SbiFloatingActionButtonAppearance = 'accent' | 'overlay' | 'neutral';
-
-/**
- * Тип кнопки плавающего действия
- * - button - обычная кнопка
- * - submit - кнопка отправки
- * - reset - кнопка сброса
- */
-export type SbiFloatingActionButtonType = 'button' | 'submit' | 'reset';
+import { SbiFloatingActionButtonAppearance, SbiFloatingActionButtonSize, } from './sbi-floating-action-button.model';
+import { SbiButtonType } from "../sbi-button/sbi-button.models";
 
 /**
  * Компонент плавающей кнопки действия (FAB)
- * 
- * Плавающая кнопка действия (FAB) — это круглая кнопка с иконкой, которая выполняет основное 
+ *
+ * Плавающая кнопка действия (FAB) — это круглая кнопка с иконкой, которая выполняет основное
  * действие на странице.
- * 
- * @example
- * <sbi-floating-action-button
- *   [icon]="plusIcon"
- *   [appearance]="'accent'"
- *   [size]="'L'"
- * ></sbi-floating-action-button>
+ *
+ * @Component
+ * @selector: 'sbi-floating-action-button'
+ * @standalone: true
+ * @imports: [SbiIconComponent]
+ * @templateUrl: './sbi-floating-action-button.component.html'
+ * @styleUrl: './sbi-floating-action-button.component.scss'
  */
 @Component({
   selector: 'sbi-floating-action-button',
   standalone: true,
-  imports: [
-    SbiIconComponent
-  ],
+  imports: [SbiIconComponent],
   templateUrl: './sbi-floating-action-button.component.html',
   styleUrl: './sbi-floating-action-button.component.scss'
 })
 export class SbiFloatingActionButtonComponent {
   /**
-   * SVG иконка
+   * @public
+   * @requred
+   * @description SVG иконка.
+   * @type {string}
+   * @defaultValue ''
    */
-  @Input({ required: true }) icon: string = '';
+  @Input({ required: true }) public icon: string = '';
 
   /**
-   * Внешний вид кнопки
+   * @public
+   * @description Внешний вид кнопки.
+   * @type {'accent' | 'overlay' | 'neutral'}
+   * @defaultValue 'accent'
    */
-  @Input() appearance: SbiFloatingActionButtonAppearance = 'accent';
+  @Input() public appearance: SbiFloatingActionButtonAppearance = 'accent';
 
   /**
-   * Размер кнопки
+   * @public
+   * @description Размер кнопки.
+   * @type {'L' | 'S'}
+   * @defaultValue 'L'
    */
-  @Input() size: SbiFloatingActionButtonSize = 'L';
+  @Input() public size: SbiFloatingActionButtonSize = 'L';
 
   /**
-   * Активное/неактивное состояние
+   * @public
+   * @description Активное/неактивное состояние.
+   * @type {boolean}
+   * @defaultValue false
    */
-  @Input() disabled: boolean = false;
+  @Input() public disabled: boolean = false;
 
   /**
-   * Тип кнопки
+   * @public
+   * @description Тип кнопки.
+   * @type {SbiButtonType}
+   * @defaultValue 'button'
    */
-  @Input() type: SbiFloatingActionButtonType = 'button';
+  @Input() public type: SbiButtonType = 'button';
 
   /**
-   * ID для автотестов
+   * @public
+   * @description ID для авто тестов.
+   * @type {string}
+   * @defaultValue 'sbi-floating-action-button'
    */
   @Input() testId: string = 'sbi-floating-action-button';
-} 
+}

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatSlider, MatSliderThumb } from '@angular/material/slider';
 import { NgClass, NgIf } from '@angular/common';
 import { SbiInputComponent } from '../sbi-input/sbi-input.component';
@@ -37,66 +37,92 @@ import { DEFAULT_MAX_VALUE, DEFAULT_MIN_VALUE, DEFAULT_STEP_SLIDER_VALUE } from 
 export class SbiSliderComponent extends SbiComponentWithInput<number> {
 
   /**
-   * Максимальное значение.
-   * @type {number}
+   * @public
+   * @description Форм контролл.
+   * @type {FormControl<number | null>}
    */
-  @Input() max = DEFAULT_MAX_VALUE;
+  @Input() public declare control: FormControl<number | null>;
 
   /**
-   * Заголовок slider-а.
+   * @public
+   * @description Максимальное значение.
+   * @type {number}
+   * @defaultValue DEFAULT_MAX_VALUE
+   */
+  @Input() public max: number = DEFAULT_MAX_VALUE;
+
+  /**
+   * @public
+   * @description Заголовок slider-а.
    * @type {string | undefined}
+   * @defaultValue undefined
    */
-  @Input() mainLabel?: string;
+  @Input() public mainLabel?: string;
 
   /**
-   * Минимальное значение.
+   * @public
+   * @description Минимальное значение.
    * @type {number}
+   * @defaultValue DEFAULT_MIN_VALUE
    */
-  @Input() min = DEFAULT_MIN_VALUE;
+  @Input() public min: number = DEFAULT_MIN_VALUE;
 
   /**
-   * Шаг изменения значения.
+   * @public
+   * @description Шаг изменения значения.
    * @type {number}
+   * @defaultValue DEFAULT_STEP_SLIDER_VALUE
    */
-  @Input() step = DEFAULT_STEP_SLIDER_VALUE;
+  @Input() public step: number = DEFAULT_STEP_SLIDER_VALUE;
 
   /**
-   * Суффикс для отображения после значения.
+   * @public
+   * @description Суффикс для отображения после значения.
    * @type {string}
+   * @defaultValue ''
    */
-  @Input() suffix = '';
+  @Input() public suffix: string = '';
 
   /**
-   * Префикс для отображения перед значением.
+   * @public
+   * @description Префикс для отображения перед значением.
    * @type {string}
+   * @defaultValue ''
    */
-  @Input() prefix = '';
+  @Input() public prefix: string = '';
 
   /**
-   * Текст под слайдером слева.
+   * @public
+   * @description Текст под слайдером слева.
    * @type {string}
+   * @defaultValue ''
    */
-  @Input() underTitleLeft = '';
+  @Input() public underTitleLeft: string = '';
 
   /**
-   * Текст под слайдером справа.
+   * @public
+   * @description Текст под слайдером справа.
    * @type {string}
+   * @defaultValue ''
    */
-  @Input() underTitleRight = '';
+  @Input() underTitleRight: string = '';
 
   /**
-   * Событие, которое срабатывает при фокусировке.
+   * @public
+   * @description Событие, которое срабатывает при фокусировке.
    * @type {EventEmitter<boolean>}
+   * @defaultValue ''
    */
-  @Output() sliderFocus = new EventEmitter<boolean>();
+  @Output() sliderFocus: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   /**
-   * Функция отображения значения.
+   * @public
+   * @description Функция отображения значения.
    * Также обновляет значение, если оно изменилось извне и не в фокусе.
    * @param {number} value - Текущее числовое значение.
    * @returns {string} Строковое представление значения.
    */
-  displayFn = (value: number) => {
+  public displayFn(value: number): string {
     if (this.sliderValue !== value && !this.focused()) {
       this.sliderValue = value;
     }
@@ -104,15 +130,19 @@ export class SbiSliderComponent extends SbiComponentWithInput<number> {
   };
 
   /**
-   * Получает текущее значение из контрола.
+   * @public
+   * @getter
+   * @description Получает текущее значение из контрола.
    * @returns {number | null} Текущее значение.
    */
-  public get sliderValue() {
+  public get sliderValue(): number | null {
     return this.control.value;
   }
 
   /**
-   * Устанавливает значение в контрол.
+   * @public
+   * @setter
+   * @description Устанавливает значение в контрол.
    * @param {number | null} value - Новое значение.
    */
   public set sliderValue(value: number | null) {
@@ -120,7 +150,8 @@ export class SbiSliderComponent extends SbiComponentWithInput<number> {
   }
 
   /**
-   * Обрабатывает изменение фокуса на поле ввода.
+   * @public
+   * @description Обрабатывает изменение фокуса на поле ввода.
    * Ограничивает введенное значение диапазоном min-max.
    * @param {boolean} focus - Состояние фокуса.
    */
@@ -136,7 +167,8 @@ export class SbiSliderComponent extends SbiComponentWithInput<number> {
   }
 
   /**
-   * Обрабатывает изменение фокуса.
+   * @public
+   * @description Обрабатывает изменение фокуса.
    * Эмитит событие sliderFocus с новым состоянием фокуса.
    * @param {boolean} focus - Состояние фокуса.
    */

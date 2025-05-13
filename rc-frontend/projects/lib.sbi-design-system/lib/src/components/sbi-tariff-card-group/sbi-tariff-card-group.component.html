@@ -1,0 +1,35 @@
+<div class="sbi-tariff-card-group" [attr.data-testid]="testId">
+  <div class="sbi-tariff-card-group__header" *ngIf="maxSelectable > 1">
+    <div class="sbi-tariff-card-group__select-text">
+      Выберите {{ maxSelectable }} варианта
+    </div>
+    <div class="sbi-tariff-card-group__selected-counter">
+      {{ selectedCardIds.length }} из {{ maxSelectable }}
+    </div>
+  </div>
+
+  <div class="sbi-tariff-card-group__cards">
+    <div 
+      *ngFor="let card of tariffCards; let i = index" 
+      class="sbi-tariff-card-group__card-wrapper"
+      [ngClass]="{'sbi-tariff-card-group__card-wrapper--selected': isCardSelected(card.id)}"
+      (click)="handleCardClick(card)"
+      [attr.data-testid]="testId + '-card-' + i">
+      
+      <!-- Тарифная карточка -->
+      <sbi-tariff-card
+        [title]="card.title"
+        [price]="card.price"
+        [period]="card.period"
+        [list]="card.list"
+        [badgeContent]="card.badgeContent || ''"
+        [badgeType]="card.badgeType || 'accent'"
+        [badgeSize]="card.badgeSize || 'small'"
+        [tooltipContent]="card.tooltipContent || null"
+        [tooltipPosition]="card.tooltipPosition || 'bottom'"
+        [type]="card.type || 'simple'"
+        [testId]="testId + '-tariff-card-' + i">
+      </sbi-tariff-card>
+    </div>
+  </div>
+</div> 

@@ -9,15 +9,11 @@
                     [subtitle]="'Краткое описание, которое будет отображаться в списке серверов сразу под названием до 130 символов.'"></sbi-input>
                 <sbi-input label="IP адрес" [control]="serverForm.controls.address" [subtitle]="'Изменение текстового или циферного IP-адреса Вашего сервера, до 200 символов.'"></sbi-input>
                 <sbi-input label="Порт" [control]="serverForm.controls.port" [subtitle]="'Порт вашего сервера, значение по умолчанию 25565'"></sbi-input>
-                <sbi-dropdown
-                    placeholder="Версия"
-                    label="Версия сервера"
-                    [control]="serverForm.controls.version"
-                    [options]="versions"
-                    [displayFunc]="displayViewValue"
-                ></sbi-dropdown>
+                <sbi-autocomplete placeholder="Версия" [control]="serverForm.controls.versions" [options]="versions"
+                    [displayFunc]="displayViewValue"></sbi-autocomplete>
                 <sbi-divider></sbi-divider>
                 <h3>Баннер</h3>
+                <span>Баннер сервера в формате gif, png или jpg размером 468x60 пикселей.</span>
                 <rc-banner [bannerControl]="serverForm.controls.banner"></rc-banner>
                 <sbi-divider></sbi-divider>
                 <h3>Параметры</h3>

@@ -1,4 +1,5 @@
 import { Component, ContentChild, Input, TemplateRef, ViewChild, } from '@angular/core';
+import { SbiTabAppearance, SbiTabSize } from './sbi-tab.models';
 
 /**
  * Компонент для отображения отдельной вкладки в группе вкладок SbiTabGroup.
@@ -22,46 +23,58 @@ import { Component, ContentChild, Input, TemplateRef, ViewChild, } from '@angula
 })
 export class SbiTabComponent {
   /**
-   * Размер вкладки ('large' или 'small').
+   * @public
+   * @deprecated Размер вкладки ('large' или 'small').
    * @type {'large' | 'small'}
+   * @defaultValue 'large'
    */
-  @Input() size: 'large' | 'small' = 'large';
+  @Input() public size: SbiTabSize = 'large';
 
   /**
-   * Внешний вид вкладки.
-   * - 'default': Стандартный вид на светлом фоне (по умолчанию)
-   * - 'overlay': Вид с адаптацией для темного фона
+   * @public
+   * @description Внешний вид вкладки.
+   * - 'default': Стандартный вид на светлом фоне (по умолчанию);
+   * - 'overlay': Вид с адаптацией для темного фона.
    * @type {'default' | 'overlay'}
+   * @defaultValue 'default'
    */
-  @Input() appearance: 'default' | 'overlay' = 'default';
+  @Input() public appearance: SbiTabAppearance = 'default';
 
   /**
-   * Идентификатор для тестирования.
+   * @public
+   * @description Текстовая метка вкладки.
    * @type {string}
+   * @defaultValue ''
    */
-  @Input() testId: string = 'sbiTab';
+  @Input() public label: string = '';
 
   /**
-   * Текстовая метка вкладки.
-   * @type {string}
-   */
-  @Input() label: string = ''; // Обычный текстовый label
-
-  /**
-   * Флаг, указывающий, отключена ли вкладка.
+   * @public
+   * @description Флаг, указывающий, отключена ли вкладка.
    * @type {boolean}
+   * @defaultValue false
    */
-  @Input() disabled: boolean = false;
+  @Input() public disabled: boolean = false;
 
   /**
-   * Ссылка на шаблон содержимого вкладки.
+   * @public
+   * @description Идентификатор для тестирования.
+   * @type {string}
+   * @defaultValue 'sbiTab'
+   */
+  @Input() public testId: string = 'sbiTab';
+
+  /**
+   * @public
+   * @description Ссылка на шаблон содержимого вкладки.
    * @type {TemplateRef<any>}
    */
-  @ViewChild('templateRef') templateRef!: TemplateRef<any>; // Содержимое вкладки
+  @ViewChild('templateRef') public templateRef!: TemplateRef<any>;
 
   /**
-   * Ссылка на кастомный шаблон метки вкладки, если он предоставлен.
+   * @public
+   * @description Ссылка на кастомный шаблон метки вкладки, если он предоставлен.
    * @type {TemplateRef<any> | null}
    */
-  @ContentChild('sbiTabLabel', { read: TemplateRef }) customLabel: TemplateRef<any> | null = null; // Кастомный label
+  @ContentChild('sbiTabLabel', { read: TemplateRef }) public customLabel: TemplateRef<any> | null = null;
 }

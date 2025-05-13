@@ -1,29 +1,10 @@
-import { NgClass, NgFor, NgIf, NgTemplateOutlet } from '@angular/common';
+import { NgClass, NgIf, NgTemplateOutlet } from '@angular/common';
 import { Component, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatRadioModule } from '@angular/material/radio';
 
 /**
- * Интерфейс для опций радио-кнопок.
- * Содержит все необходимые свойства для отображения и управления отдельной радио-кнопкой.
- */
-export interface SbiRadioButtonOption {
-  /** Значение радио-кнопки. */
-  value: string | boolean;
-  /** Лейбл для радио-кнопки. */
-  label?: string;
-  /** Флаг, указывающий, отключена ли радио-кнопка. */
-  disabled?: boolean;
-  /** Дополнительное описание для радио-кнопки. */
-  note?: string;
-  /** Флаг, указывающий, является ли радио-кнопка ссылкой. */
-  isLink?: boolean;
-  /** Пользовательский шаблон содержимого для радио-кнопки. */
-  customContent?: TemplateRef<any>;
-}
-
-/**
- * Компонент для отображения группы радио-кнопок с поддержкой лейбла, заметки, ошибок и ссылки.
+ * Компонент для отображения радио-кнопки с поддержкой лейбла, заметки, ошибок и ссылки.
  *
  * Поддерживает отображение пользовательского контента через ngTemplateOutlet.
  *
@@ -31,61 +12,87 @@ export interface SbiRadioButtonOption {
  * @selector: 'sbi-radio-button'
  * @standalone: true
  * @imports: [NgIf, NgFor, NgClass, ReactiveFormsModule, MatRadioModule, NgTemplateOutlet]
- * @templateUrl: './sbi-radio-button.component.html'
- * @styleUrl: './sbi-radio-button.component.scss'
+ * @templateUrl: './sbi-radio-button-group.component.html'
+ * @styleUrl: './sbi-radio-button-group.component.scss'
  */
 @Component({
   selector: 'sbi-radio-button',
   standalone: true,
-  imports: [NgIf, NgFor, NgClass, ReactiveFormsModule, MatRadioModule, NgTemplateOutlet],
+  imports: [NgIf, NgClass, ReactiveFormsModule, MatRadioModule, NgTemplateOutlet],
   templateUrl: './sbi-radio-button.component.html',
   styleUrl: './sbi-radio-button.component.scss',
 })
 export class SbiRadioButtonComponent {
-  /**
-   * Массив опций для радио-кнопок.
-   * @type {SbiRadioButtonOption[]}
-   */
-  @Input() options: SbiRadioButtonOption[] = [];
 
   /**
-   * Форм-контроль для управления состоянием выбранной радио-кнопки.
-   * @type {FormControl}
+   * @public
+   * @description Значение радио-кнопки.
+   * @type {string | boolean}
+   * @defaultValue false
    */
-  @Input() control: FormControl = new FormControl();
+  @Input() public value: string | boolean = false;
 
   /**
-   * Идентификатор для тестирования.
+   * @public
+   * @description Лейбл для радио-кнопки.
+   * @type {string | undefined}
+   * @defaultValue undefined
+   */
+  @Input() public label?: string;
+
+  /**
+   * @public
+   * @description Флаг, указывающий, отключена ли радио-кнопка.
+   * @type {boolean | undefined}
+   * @defaultValue undefined
+   */
+  @Input() public disabled?: boolean;
+
+  /**
+   * @public
+   * @description Дополнительное описание для радио-кнопки.
+   * @type {string | undefined}
+   * @defaultValue undefined
+   */
+  @Input() public note?: string;
+
+  /**
+   * @public
+   * @description Флаг, указывающий, является ли радио-кнопка ссылкой.
+   * @type {boolean | undefined}
+   * @defaultValue undefined
+   */
+  @Input() public isLink?: boolean;
+
+  /**
+   * @public
+   * @description Пользовательский шаблон содержимого для радио-кнопки.
+   * @type {TemplateRef<any> | undefined}
+   * @defaultValue 'undefined'
+   */
+  @Input() public customContent?: TemplateRef<any>;
+
+  /**
+   * @public
+   * @description Идентификатор для тестирования.
    * @type {string}
+   * @defaultValue 'sbi-radio'
    */
-  @Input() testId: string = 'sbi-radio';
+  @Input() public testId: string = 'sbi-radio';
 
   /**
-   * Сообщения об ошибках для валидации.
-   * @type {Record<string, string> | undefined}
+   * @public
+   * @description Событие, которое срабатывает при клике на ссылку (если isLink = true).
+   * @type {EventEmitter<void>}
    */
-  @Input() errorMessages?: Record<string, string>;
+  @Output() public clickToLink: EventEmitter<void> = new EventEmitter<void>();
 
   /**
-   * Флаг, указывающий, нужно ли показывать ошибки.
-   * @type {boolean}
-   */
-  @Input() showErrors: boolean = true;
-
-  /**
-   * Событие, которое срабатывает при клике на ссылку (если isLink = true).
-   * @type {EventEmitter<SbiRadioButtonOption>}
-   */
-  @Output() clickToLink = new EventEmitter<SbiRadioButtonOption>();
-
-  /**
-   * Обрабатывает клик на ссылку (если isLink = true).
+   * @public
+   * @description Обрабатывает клик на ссылку (если isLink = true).
    * Вызывает событие `clickToLink` с выбранной опцией.
-   * @param {SbiRadioButtonOption} option - Опция, на которую был сделан клик.
    */
-  onClickToLink(option: SbiRadioButtonOption) {
-    if (option.isLink) {
-      this.clickToLink.emit(option);
-    }
+  onClickToLink() {
+    this.isLink && this.clickToLink.emit();
   }
 }

@@ -8,6 +8,9 @@
     [showInfoIcon]="false"
     [testId]="testId + 'question-' + i"
     (valueChanged)="onSelectedFeedbackQuestions(question)"></sbi-optional-card>
-  <sbi-textarea *ngIf="showComment" label="Коментарий" placeholder="Коментарий"
-                [control]="commentControl"></sbi-textarea>
+  <sbi-textarea
+    *ngIf="showComment"
+    label="Комментарий"
+    placeholder="Комментарий"
+    [control]="commentControl"></sbi-textarea>
 </div>

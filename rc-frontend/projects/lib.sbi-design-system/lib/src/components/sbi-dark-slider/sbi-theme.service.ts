@@ -1,0 +1,17 @@
+import { Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
+
+@Injectable(
+  { providedIn: 'root' }
+)
+export class SbiThemeService {
+  private isDarkTheme = new BehaviorSubject<boolean>(false);
+  isDarkTheme$ = this.isDarkTheme.asObservable();
+
+  constructor() {
+  }
+
+  toggleTheme(): void {
+    this.isDarkTheme.next(!this.isDarkTheme.value);
+  }
+}

@@ -19,6 +19,18 @@ import { SbiComponentWithOptions } from '../../classes/sbi-component-with-option
  * @standalone: true
  * @templateUrl: './sbi-select.component.html'
  * @styleUrls: ['./sbi-select.component.scss']
+ * @imports: [
+ *   MatFormField,
+ *   NgIf,
+ *   MatSelect,
+ *   ReactiveFormsModule,
+ *   MatOption,
+ *   SbiErrorComponent,
+ *   NgForOf,
+ *   MatSuffix,
+ *   SbiIconComponent,
+ *   MatLabel,
+ * ]
  */
 @Component({
   selector: 'sbi-select',
@@ -40,22 +52,22 @@ import { SbiComponentWithOptions } from '../../classes/sbi-component-with-option
 })
 export class SbiSelectComponent<T> extends SbiComponentWithOptions<T | string | null> {
   /**
-   * Функция сравнения для определения, какие элементы считать эквивалентными.
+   * @public
+   * @description Функция сравнения для определения, какие элементы считать эквивалентными.
    * Используется при поиске и выделении выбранного элемента в списке опций.
-   *
    * @type {(elem1: T | string | number, elem2: T | string | number) => boolean}
+   * @defaultValue (elem1, elem2): boolean => elem1 && elem2 && typeof elem1 === 'object' && typeof elem2 === 'object' ? JSON.stringify(elem1) === JSON.stringify(elem2) : elem1 === elem2;
    */
-  @Input() compareFn: (elem1: T | string | number, elem2: T | string | number) => boolean = (elem1, elem2) =>
+  @Input() public compareFn: (elem1: T | string | number, elem2: T | string | number) => boolean = (elem1, elem2): boolean =>
     elem1 && elem2 && typeof elem1 === 'object' && typeof elem2 === 'object'
       ? JSON.stringify(elem1) === JSON.stringify(elem2)
       : elem1 === elem2;
 
   /**
-   * Обрабатывает событие изменения выбранного значения в селекте.
-   * Устанавливает фокус в неактивное состояние и эмитит событие с выбранным значением.
-   *
-   * @param {MatSelectChange} val - Событие изменения селекта, содержащее новое выбранное значение.
    * @public
+   * @description Обрабатывает событие изменения выбранного значения в селекте.
+   * Устанавливает фокус в неактивное состояние и эмитит событие с выбранным значением.
+   * @param {MatSelectChange} val - Событие изменения селекта, содержащее новое выбранное значение.
    */
   public onSelectionChange(val: MatSelectChange) {
     this.focused.set(false);

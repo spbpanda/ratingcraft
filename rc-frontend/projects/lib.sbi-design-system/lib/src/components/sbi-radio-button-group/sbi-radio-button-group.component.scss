@@ -1,0 +1,9 @@
+@import '../../../assets/fonts/sbi.typography.scss';
+
+.sbi-radio {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: pre;
+}

@@ -8,23 +8,66 @@ import {
   OnDestroy,
   OnInit,
   signal,
-  TemplateRef
+  TemplateRef,
+  WritableSignal
 } from '@angular/core';
 import { ConnectionPositionPair, Overlay, OverlayPositionBuilder, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 import { SbiTooltipComponent } from './sbi-tooltip.component';
 import { SbiSwipeComponent } from '../../classes/sbi-swipe-component';
+import { SbiTooltipContent, SbiTooltipPosition } from "./sbi-tooltip.models";
 
+/**
+ * Компонент всплывающей подсказки.
+ *
+ * @Directive
+ * @selector: '[sbiTooltip]'
+ * @standalone: true
+ */
 @Directive({
   selector: '[sbiTooltip]',
   standalone: true,
 })
 export class SbiTooltipDirective implements OnInit, OnDestroy {
-  @Input('sbiTooltip') content: string | TemplateRef<any> | null = null;
-  @Input('tooltipPosition') tooltipPosition: 'top' | 'bottom' | 'left' | 'right' = 'bottom';
+  /**
+   * @public
+   * @description Наполнение всплывающей подсказки.
+   * @type {string | TemplateRef<any> | null}
+   * @defaultValue null
+   * */
+  @Input('sbiTooltip') content: SbiTooltipContent = null;
+
+  /**
+   * @public
+   * @description Положение всплывающей подсказки.
+   * @type {'top' | 'bottom' | 'left' | 'right'}
+   * @defaultValue null
+   * */
+  @Input('tooltipPosition') tooltipPosition: SbiTooltipPosition = 'bottom';
+
+  /**
+   * @private
+   * @description
+   * @type {OverlayRef}
+   * @defaultValue OverlayRef
+   * */
   private overlayRef!: OverlayRef;
-  private readonly hideTooltipsEvent = new CustomEvent('hideTooltip');
-  private clickDelay = signal(false);
+
+  /**
+   * @private
+   * @description Кстомное событие скрытия всплывающей подсказки.
+   * @type {CustomEvent<unknown>}
+   * @defaultValue null
+   * */
+  private readonly hideTooltipsEvent: CustomEvent<unknown> = new CustomEvent('hideTooltip');
+
+  /**
+   * @private
+   * @description Блокировка обработки события клика.
+   * @type {WritableSignal<boolean>}
+   * @defaultValue false
+   * */
+  private clickDelay: WritableSignal<boolean> = signal(false);
 
   constructor(
     private overlay: Overlay,
@@ -34,11 +77,21 @@ export class SbiTooltipDirective implements OnInit, OnDestroy {
   ) {
   }
 
+  /**
+   * @HostListener ('click', ['$event'])
+   * @public
+   * @description Отрисовка подсказки в мобильной версии.
+   * */
   @HostListener('click', ['$event'])
-  showTooltipByMobile(event: UIEvent) {
+  public showTooltipByMobile(event: UIEvent) {
     !SbiSwipeComponent.isDesktop(window) && this.show(event);
   }
 
+  /**
+   * @HostListener ('mouseenter', ['$event'])
+   * @public
+   * @description Отрисовка подсказки.
+   * */
   @HostListener('mouseenter', ['$event'])
   show(event: UIEvent) {
     if (this.content == null) {
@@ -65,17 +118,25 @@ export class SbiTooltipDirective implements OnInit, OnDestroy {
     tooltipRef.instance.context = { $implicit: this.elementRef.nativeElement };
     tooltipRef.instance.tooltipPosition = this.tooltipPosition;
 
-    setTimeout(() => this.positionArrow(tooltipRef, event), 10);
+    setTimeout(() => this.positionArrow(), 10);
 
     this.delayForHideTooltip();
   }
 
+  /**
+   * @private
+   * @description Блокирует скрытие подсказки нажатием на 100 миллисекунд.
+   * */
   private delayForHideTooltip() {
     this.clickDelay.set(true);
     setTimeout(() => this.clickDelay.set(false), 100);
   }
 
-  private positionArrow(tooltipRef: ComponentRef<SbiTooltipComponent>, event: UIEvent) {
+  /**
+   * @private
+   * @description Устанавливает положение элемента - указателя.
+   * */
+  private positionArrow() {
     const tooltipElement = this.overlayRef.overlayElement?.querySelector('.tooltip-container') as HTMLElement;
     const arrowElement = tooltipElement?.querySelector('.tooltip-arrow') as HTMLElement;
     const parentElement = this.elementRef.nativeElement;
@@ -110,22 +171,36 @@ export class SbiTooltipDirective implements OnInit, OnDestroy {
   }
 
 
+  /**
+   * @HostListener ('mouseleave')
+   * @private
+   * @description Скрытие подсказки на desktop.
+   * */
   @HostListener('mouseleave')
-  hide() {
+  private hide() {
     if (this.overlayRef) {
       this.overlayRef.detach();
       this.cdr.detectChanges();
     }
   }
 
+  /**
+   * @HostListener ('document:click')
+   * @private
+   * @description Скрытие подсказки на планшете и мобильном устройстве.
+   * */
   @HostListener('document:click')
-  hideByMobile() {
+  private hideByMobile() {
     if (!SbiSwipeComponent.isDesktop(window) && !this.clickDelay()) {
       this.hide();
     }
   }
 
-  private getPositions(): ConnectionPositionPair[] {
+  /**
+   * @private
+   * @description Устанавливает положение всплывающей подсказки.
+   * */
+  private getPositions(): Array<ConnectionPositionPair> {
     switch (this.tooltipPosition) {
       case 'top':
         return [

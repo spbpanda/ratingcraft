@@ -1,6 +1,6 @@
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask';
 import { Component, Input, OnInit } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatSuffix } from '@angular/material/form-field';
 import { NgIf } from '@angular/common';
 import { MatInputModule } from '@angular/material/input';
@@ -8,9 +8,9 @@ import { SbiErrorComponent } from '../sbi-error/sbi-error.component';
 import { SbiUppercaseDirective } from '../../directives/sbi-uppercase.directive';
 import { SbiNameUppercaseDirective } from '../../directives/sbi-name-uppercase.directive';
 import { SbiIconComponent } from '../sbi-icon/sbi-icon.component';
-import { BUTTON_CROSS } from '../../const/icons';
+import { BUTTON_CROSS, BUTTON_SEARCH } from '../../const/icons';
 import { SbiComponentWithInput } from '../../classes/sbi-component-with-input.component';
-import { PrefixIconType, SuffixIconType } from '../../models/input.types';
+import { SbiPrefixIconType, SbiSuffixIconType } from './sbi-input.models';
 import { SbiMultiUppercaseDirective } from '../../directives/sbi-multi-uppercase.directive';
 import { SbiInputModeDirective } from '../../directives/sbi-input-mode.directive';
 import { SbiTitleCaseDirective } from '../../directives/sbi-title-case.directive';
@@ -30,6 +30,27 @@ import { SbiTitleCaseDirective } from '../../directives/sbi-title-case.directive
  * @selector: 'sbi-input'
  * @templateUrl: './sbi-input.component.html'
  * @styleUrls: ['./sbi-input.component.scss']
+ * @imports: [
+ *   NgIf,
+ *   ReactiveFormsModule,
+ *   MatInputModule,
+ *   MatSuffix,
+ *   NgxMaskDirective,
+ *   SbiErrorComponent,
+ *   SbiIconComponent,
+ *   SbiUppercaseDirective,
+ *   SbiNameUppercaseDirective,
+ *   SbiMultiUppercaseDirective,
+ *   SbiInputModeDirective,
+ *   SbiTitleCaseDirective,
+ * ]
+ * @providers: [provideNgxMask({
+      patterns: {
+        'X': { pattern: /[a-zA-Z0-9._\-]/ },
+        'R': { pattern: /[а-яА-ЯёЁa-zA-Z0-9._\-]/},
+        '0': { pattern: /[0-9]/ }
+      }
+    })]
  * @standalone: true
  */
 @Component({
@@ -49,126 +70,187 @@ import { SbiTitleCaseDirective } from '../../directives/sbi-title-case.directive
     SbiMultiUppercaseDirective,
     SbiInputModeDirective,
     SbiTitleCaseDirective,
+
   ],
-  providers: [provideNgxMask()],
+  providers: [
+    provideNgxMask({
+      patterns: {
+        'X': { pattern: /[a-zA-Z0-9._\-]/ }, //латиница и цифры
+        'R': { pattern: /[а-яА-ЯёЁa-zA-Z0-9._\-]/}, //латиница, кириллица и цифры
+        '0': { pattern: /[0-9]/ } //цифры
+      },
+    })
+  ],
   standalone: true,
 })
-export class SbiInputComponent<T>
-  extends SbiComponentWithInput<T>
-  implements OnInit {
+export class SbiInputComponent<T> extends SbiComponentWithInput<T> implements OnInit {
   /**
-   * Возвращает SVG иконку очистки поля ввода.
+   * @public
+   * @readonly
+   * @description Иконка поиска.
+   * @type {string}
+   * @defaultValue BUTTON_SEARCH
+   */
+  public readonly searchIcon: string = BUTTON_SEARCH;
+
+  /**
+   * @public
+   * @getter
+   * @description Возвращает SVG иконку очистки поля ввода.
    * @returns {string} SVG строка иконки очистки.
    */
-  public get clearIcon() {
+  public get clearIcon(): string {
     return BUTTON_CROSS;
   }
 
   /**
-   * Максимальная длина вводимого текста.
+   * @public
+   * @description Форм контролл.
+   * @type {FormControl<T | null>}
+   */
+  @Input() public declare control: FormControl<T | null>;
+
+  /**
+   * @public
+   * @description Максимальная длина вводимого текста.
    * @type {number | string | null}
+   * @defaultValue null
    */
-  @Input() maxLength: number | string | null = null;
+  @Input() public maxLength: number | string | null = null;
 
   /**
-   * Минимальная длина вводимого текста.
+   * @public
+   * @description Минимальная длина вводимого текста.
    * @type {number | string | null}
+   * @defaultValue null
    */
-  @Input() minLength: number | string | null = null;
+  @Input() public minLength: number | string | null = null;
 
   /**
-   * Тип иконки, отображаемой в конце поля ввода.
-   * @type {SuffixIconType}
+   * @public
+   * @description Тип иконки, отображаемой в конце поля ввода.
+   * @type {'clear' | 'custom'}
+   * @defaultValue 'clear'
    */
-  @Input() suffixIconType: SuffixIconType = 'clear';
+  @Input() public suffixIconType: SbiSuffixIconType = 'clear';
 
   /**
-   * Тип иконки, отображаемой в начале поля ввода.
-   * @type {PrefixIconType}
+   * @public
+   * @description Тип иконки, отображаемой в начале поля ввода.
+   * @type {'search' | 'custom' | 'none'}
+   * @defaultValue ''none
    */
-  @Input() prefixIconType: PrefixIconType = 'none';
+  @Input() public prefixIconType: SbiPrefixIconType = 'none';
 
   /**
-   * Флаг активации автоматического преобразования текста в верхний регистр.
+   * @public
+   * @description Флаг активации автоматического преобразования текста в верхний регистр.
    * @type {boolean}
+   * @defaultValue false
    */
-  @Input() inputUppercaseActive = false;
+  @Input() public inputUppercaseActive: boolean = false;
 
   /**
-   * Флаг активации преобразования имён в формат с заглавной буквы.
+   * @public
+   * @description Флаг активации преобразования имён в формат с заглавной буквы.
    * @type {boolean}
+   * @defaultValue false
    */
-  @Input() inputNameUppercaseActive = false;
+  @Input() public inputNameUppercaseActive: boolean = false;
 
   /**
-   * Флаг активации преобразования первой буквы ввода в верхний регистр.
+   * @public
+   * @description Флаг активации преобразования первой буквы ввода в верхний регистр.
    * @type {boolean}
+   * @defaultValue false
    */
-  @Input() inputTitleCaseActive = false;
+  @Input() public inputTitleCaseActive: boolean = false;
 
   /**
-   * Маска для форматирования ввода (через библиотеку ngx-mask).
+   * @public
+   * @description Флаг активации расширенного преобразования текста в верхний регистр.
+   * Преобразует первую букву каждого слова в верхний регистр
+   * @type {boolean}
+   * @defaultValue false
+   */
+  @Input() public inputMultiUppercaseActive: boolean = false;
+
+  /**
+   * @public
+   * @description Маска для форматирования ввода (через библиотеку ngx-mask).
    * @type {string | null}
+   * @defaultValue null
    */
-  @Input() ngxMask: string | null = null;
+  @Input() public ngxMask: string | null = null;
 
   /**
-   * Суффикс для маски ввода.
+   * @public
+   * @description Суффикс для маски ввода.
    * @type {string}
+   * @defaultValue ''
    */
-  @Input() ngxSuffix: string = '';
+  @Input() public ngxSuffix: string = '';
 
   /**
-   * Префикс для маски ввода.
+   * @public
+   * @description Префикс для маски ввода.
    * @type {string}
+   * @defaultValue ''
    */
-  @Input() ngxPrefix: string = '';
+  @Input() public ngxPrefix: string = '';
 
   /**
-   * Шаблон (паттерн) для маски ввода.
+   * @public
+   * @description Шаблон (паттерн) для маски ввода.
    * @type {any}
+   * @defaultValue null
    */
-  @Input() ngxPattern: any = null;
+  @Input() public ngxPattern: any = null;
 
   /**
-   * Лимит разделителя для маски ввода.
+   * @public
+   * @description Лимит разделителя для маски ввода.
    * @type {string}
+   * @defaultValue ''
    */
-  @Input() ngxSeparatorLimit: string = '';
+  @Input() public ngxSeparatorLimit: string = '';
 
   /**
-   * Флаг, указывающий, нужно ли удалять специальные символы при применении маски.
+   * @public
+   * @description Разделитель тысяч для числовых значений.
+   * @type {string}
+   * @defaultValue ''
+   */
+  @Input() public ngxThousandSeparator: string = '';
+
+  /**
+   * @public
+   * @description Флаг, указывающий, нужно ли удалять специальные символы при применении маски.
    * @type {boolean}
+   * @defaultValue true
    */
-  @Input() dropSpecialCharacters = true;
+  @Input() public dropSpecialCharacters: boolean = true;
 
   /**
-   * Минимальное допустимое числовое значение для ввода.
+   * @public
+   * @description Минимальное допустимое числовое значение для ввода.
+   * @type {number | null}
+   * @defaultValue null
+   */
+  @Input() public min: number | null = null;
+
+  /**
+   * @public
+   * @description Максимальное допустимое числовое значение для ввода.
    * @type {number | null}
    */
-  @Input() min: number | null = null;
+  @Input() public max: number | null = null;
 
   /**
-   * Максимальное допустимое числовое значение для ввода.
-   * @type {number | null}
-   */
-  @Input() max: number | null = null;
-
-  /**
-   * Флаг, указывающий, нужно ли показывать ошибки валидации.
+   * @public
+   * @description Флаг, указывающий, нужно ли показывать ошибки валидации.
    * @type {boolean}
+   * @defaultValue true
    */
-  @Input() showErrors: boolean = true;
-
-  /**
-   * Флаг активации расширенного преобразования текста в верхний регистр.
-   * @type {boolean}
-   */
-  @Input() inputMultiUppercaseActive = false;
-
-  /**
-   * Разделитель тысяч для числовых значений.
-   * @type {string}
-   */
-  @Input() ngxThousandSeparator = '';
+  @Input() public showErrors: boolean = true;
 }

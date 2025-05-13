@@ -35,21 +35,97 @@ import { SbiChipComponent } from '../sbi-chip/sbi-chip.component';
   imports: [SbiChipComponent],
 })
 export class SbiChipRowComponent<T> implements OnInit, OnChanges {
+  /**
+   * @public
+   * @description HTML элемент списка chip-ов из DOM-а.
+   * @type {ElementRef<HTMLDivElement>}
+   */
   @ViewChild('sbiChipRow') public sbiChipRow!: ElementRef<HTMLDivElement>;
 
-  @Input() control!: FormControl<T[] | null>;
-  @Input() value?: T[];
-  @Input() selectedChips: T[] = [];
-  @Input() displayFn: (value: T) => string = value => JSON.stringify(value);
-  @Input() compareFn: (elem1: T, elem2: T) => boolean = (elem1, elem2) =>
-    JSON.stringify(elem1) === JSON.stringify(elem2);
-  @Input() disabled = false;
-  @Input() chipShowClearIcon = true;
-  @Input() testId = 'sbi-chip-row';
+  /**
+   * @public
+   * @description Форм контрол.
+   * @type {FormControl<Array<T> | null>}
+   */
+  @Input() public control!: FormControl<Array<T> | null>;
 
-  @Output() clearChipEvent = new EventEmitter<Event>();
-  @Output() clickChipEvent = new EventEmitter<T>();
-  @Output() removeChipEvent = new EventEmitter<T>();
+  /**
+   * @public
+   * @description Значение списка chip-ов. Используется, если не планируется передавать control.
+   * @type {Array<T>}
+   * @defaultValue undefined
+   */
+  @Input() public value?: Array<T>;
+
+  /**
+   * @public
+   * @description Список выбранных chip-ов.
+   * @type {Array<T>}
+   * @defaultValue []
+   */
+  @Input() public selectedChips: Array<T> = [];
+
+  /**
+   * @public
+   * @description Функция преобразования значения chip-а в человеко читаемый виж.
+   * @type {(value: T) => string}
+   * @defaultValue value => JSON.stringify(value)
+   */
+  @Input() public displayFn: (value: T) => string = (value): string => JSON.stringify(value);
+
+  /**
+   * @public
+   * @description Функция сравнения двух элементов.
+   * @type {(elem1: T, elem2: T) => boolean}
+   * @defaultValue (elem1, elem2) => JSON.stringify(elem1) === JSON.stringify(elem2)
+   */
+  @Input() public compareFn: (elem1: T, elem2: T) => boolean = (elem1, elem2): boolean =>
+    JSON.stringify(elem1) === JSON.stringify(elem2);
+
+  /**
+   * @public
+   * @description Флаг, указывающий возможность элемента для взаимодействия.
+   * @type {boolean}
+   * @defaultValue false
+   */
+  @Input() public disabled: boolean = false;
+
+  /**
+   * @public
+   * @description Флаг, указывающий, отображать ли иконку для удаления элемента.
+   * @type {boolean}
+   * @defaultValue true
+   */
+  @Input() public chipShowClearIcon: boolean = true;
+
+  /**
+   * @public
+   * @description Идентификатор для авто тестов.
+   * @type {string}
+   * @defaultValue sbi-chip-row
+   */
+  @Input() public testId: string = 'sbi-chip-row';
+
+  /**
+   * @public
+   * @description Событие нажатия на удаление чипа (нажатие на крестик).
+   * @type {EventEmitter<Event>}
+   */
+  @Output() public clearChipEvent: EventEmitter<Event> = new EventEmitter<Event>();
+
+  /**
+   * @public
+   * @description Событие нажатия на чип (нажатие на элемент chip-a).
+   * @type {EventEmitter<T>}
+   */
+  @Output() public clickChipEvent: EventEmitter<T> = new EventEmitter<T>();
+
+  /**
+   * @public
+   * @description Событие удаления чипа. Возвращает удалённый элемент.
+   * @type {EventEmitter<T>}
+   */
+  @Output() public removeChipEvent: EventEmitter<T> = new EventEmitter<T>();
 
   ngOnInit() {
     if (this.value) {
@@ -73,6 +149,12 @@ export class SbiChipRowComponent<T> implements OnInit, OnChanges {
     }
   }
 
+  /**
+   * @public
+   * @description Обрабатывает событие удаления chip-а.
+   * @param {Event} event
+   * @param {T} chip
+   */
   public onClearChip(event: Event, chip: T) {
     this.clearChipEvent.emit(event);
     this.removeChipEvent.emit(chip);
@@ -82,10 +164,21 @@ export class SbiChipRowComponent<T> implements OnInit, OnChanges {
     this.control.setValue(newValue);
   }
 
-  public chipIsSelected(chip: T) {
+  /**
+   * @public
+   * @description Проверяет выбран ли chip.
+   * @param {T} chip
+   * @return boolean
+   */
+  public chipIsSelected(chip: T): boolean {
     return this.selectedChips.some(elem => this.compareFn(elem, chip));
   }
 
+  /**
+   * @public
+   * @description Обрабатывает событие нажатия на chip.
+   * @param {T} chip
+   */
   public onClickChipEvent(chip: T) {
     this.clickChipEvent.emit(chip);
   }

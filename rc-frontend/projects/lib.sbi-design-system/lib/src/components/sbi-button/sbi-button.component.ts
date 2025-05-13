@@ -1,6 +1,7 @@
 import { NgClass } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { SbiButtonAppearance, SbiButtonSize, SbiButtonType } from "./sbi-button.models";
 
 /**
  * Кнопки — это один из ключевых интерактивных элементов интерфейса, которые позволяют пользователям выполнять действия,
@@ -13,7 +14,7 @@ import { MatButtonModule } from '@angular/material/button';
  * @standalone: true
  * @imports: [SbiIconComponent, NgIf, NgClass]
  * @templateUrl: './sbi-button.component.html'
- * @styleUrl: './sbi-button.component.scss',
+ * @styleUrl: './sbi-button.component.scss'
  * @host: { '[class.disabled]': 'disabled' },
  *  */
 @Component({
@@ -29,32 +30,42 @@ import { MatButtonModule } from '@angular/material/button';
 export class SbiButtonComponent {
 
   /**
-   * Размер кнопки.
+   * @public
+   * @description Размер кнопки.
    * @type {'large' | 'small'}
+   * @defaultValue 'large'
    * */
-  @Input() size: 'large' | 'small' = 'large';
+  @Input() public size: SbiButtonSize = 'large';
 
   /**
-   * Цвет кнопки.
+   * @public
+   * @description Цвет кнопки.
    * @type {'primary' | 'warn' | 'primary-tint' | 'warn-tint' | 'overlay'}
+   * @defaultValue 'primary'
    * */
-  @Input() appearance: 'primary' | 'warn' | 'primary-tint' | 'warn-tint' | 'overlay' = 'primary';
+  @Input() public appearance: SbiButtonAppearance = 'primary';
 
   /**
-   * Тип кнопки.
+   * @public
+   * @description Тип кнопки.
    * @type {'button' | 'submit' | 'reset'}
+   * @defaultValue 'button'
    * */
-  @Input() type: 'button' | 'submit' | 'reset' = 'button';
+  @Input() public type: SbiButtonType = 'button';
 
   /**
-   * Если true, кнопка будет отключена..
+   * @public
+   * @description Если true, кнопка будет отключена.
    * @type {boolean}
+   * @defaultValue false
    * */
-  @Input() disabled: boolean = false;
+  @Input() public disabled: boolean = false;
 
   /**
-   * Id для авто тестов.
+   * @public
+   * @description Id для авто тестов.
    * @type {string}
+   * @defaultValue 'sbi-button'
    * */
-  @Input() testId: string = 'sbi-button';
+  @Input() public testId: string = 'sbi-button';
 }

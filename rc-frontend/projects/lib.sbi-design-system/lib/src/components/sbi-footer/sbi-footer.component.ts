@@ -15,44 +15,51 @@ import { Component, HostBinding, Input } from '@angular/core';
 @Component({
   selector: 'sbi-footer',
   standalone: true,
-  imports: [],
   templateUrl: './sbi-footer.component.html',
   styleUrls: ['./sbi-footer.component.scss']
 })
 export class SbiFooterComponent {
 
   /**
-   * Ширина компонента.
+   * @public
+   * @description Ширина компонента.
    * @type {number}
+   * @default 1440
    */
-  @Input() maxWidth: number = 1440;
+  @Input() public maxWidth: number = 1440;
 
   /**
-   * Отступ с низу страницы.
+   * @public
+   * @description Отступ снизу страницы.
    * @type {number}
+   * @defaultValue 20
    */
-  @Input() paddingBottom: number = 20;
+  @Input() public paddingBottom: number = 20;
 
   /**
-   * Текст компонента.
-   *
+   * @private
+   * @description Текст компонента.
    * @type {string}
+   * @defaultValue `© ${new Date().getFullYear()} ООО СК «Сбербанк страхование». Лицензии Банка России: СИ № 4331 выдана 12.10.2020 бессрочно, СЛ № 4331 выдана 12.10.2020 бессрочно, ПС № 4331 выдана 12.10.2020 бессрочно, ОС № 4331 – 05 выдана 12.10.2020 бессрочно, ОС № 4331 – 04 выдана 12.10.2020 бессрочно, ОС № 4331-03 выдана 10.06.2021 бессрочно.`
    */
   private _footerText: string = `© ${new Date().getFullYear()} ООО СК «Сбербанк страхование». Лицензии Банка России: СИ № 4331 выдана 12.10.2020 бессрочно, СЛ № 4331 выдана 12.10.2020 бессрочно, ПС № 4331 выдана 12.10.2020 бессрочно, ОС № 4331 – 05 выдана 12.10.2020 бессрочно, ОС № 4331 – 04 выдана 12.10.2020 бессрочно, ОС № 4331-03 выдана 10.06.2021 бессрочно.`;
 
   /**
-   * Установка текста компонента.
-   *
+   * @public
+   * @setter
+   * @description Установка текста компонента.
    * @param {string} footerText
    * @type {number}
    */
-  @Input() public set footerText(footerText: string) {
+  @Input()
+  public set footerText(footerText: string) {
     this._footerText = footerText;
   }
 
   /**
-   * Возвращает текст компонента.
-   *
+   * @public
+   * @getter
+   * @description Возвращает текст компонента.
    * @returns {string}
    */
   public get footerText(): string {
@@ -60,29 +67,33 @@ export class SbiFooterComponent {
   }
 
   /**
-   * Ссылка на политику обработки ПД.
-   *
+   * @public
+   * @description Ссылка на политику обработки ПД.
    * @type {string}
+   * @defaultValue `https://sberbankins.ru/upload/files/doc/prilozhenie-politika-pnd.pdf`
    */
   public POLICY_LINK: string = `https://sberbankins.ru/upload/files/doc/prilozhenie-politika-pnd.pdf`;
 
   /**
-   * Ссылка на политику обработки cookie.
-   *
+   * @public
+   * @description Ссылка на политику обработки cookie.
    * @type {string}
+   * @defaultValue `https://sberbankins.ru/upload/files/doc/politika-obrabotki-cookie.pdf`
    */
   public COOCKIE_LINK: string = `https://sberbankins.ru/upload/files/doc/politika-obrabotki-cookie.pdf`;
 
   /**
-   * Ссылка на порядок запросов субъектов ПД.
-   *
+   * @public
+   * @description Ссылка на порядок запросов субъектов ПД.
    * @type {string}
+   * @defaultValue `https://sberbankins.ru/upload/docs/poryadok-raboti-s-zaprosami.pdf`
    */
   public RULES_LINK: string = `https://sberbankins.ru/upload/docs/poryadok-raboti-s-zaprosami.pdf`;
 
   /**
-   * Устанавливает ширину текста.
-   *
+   * @HostBinding ('style.--max-width.px')
+   * @getter
+   * @description Устанавливает ширину текста.
    * @returns {number}
    */
   @HostBinding('style.--max-width.px')
@@ -91,8 +102,9 @@ export class SbiFooterComponent {
   }
 
   /**
-   * Устанавливает отступ текста с низу страницы.
-   *
+   * @HostBinding ('style.--padding-bottom.px')
+   * @getter
+   * @description Устанавливает отступ текста с низу страницы.
    * @returns {number}
    */
   @HostBinding('style.--padding-bottom.px')

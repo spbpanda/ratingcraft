@@ -90,23 +90,23 @@ app.post('/add-server', authMiddleware, async (req, res): Promise<any> => {
     // Получаем информацию о сервере
     const serverInfo = await getServerInfo(address, port);
     // Загружаем список версий
-    const versions = readJsonFile('./data/versions.json');
+    const versions: Array<any> = readJsonFile('./data/versions.json');
     // Находим версию сервера в списке
-    const serverVersion = versions.find((version: any) => 
+    const serverVersions = versions.filter((version: any) => 
       version.protocol === serverInfo.version?.protocol
     );
 
-    // console.log(serverInfo)
+    console.log(serverInfo)
     // Если версия не найдена, возвращаем ошибку
-    if (!serverVersion) {
+    if (!serverVersions) {
       return res.status(400).json({ error: 'Версия сервера не поддерживается' });
     }
 
     // Создание нового сервера
     const newServer: Server = {
       id: randomUUID(),
-      address,
-      port,
+      address: serverInfo.host,
+      port: serverInfo.port,
       ...rest, // Остальные параметры (если есть)
       name: serverInfo.host,
       createDate: new Date(), // Автоматически добавляем дату создания
@@ -115,7 +115,7 @@ app.post('/add-server', authMiddleware, async (req, res): Promise<any> => {
       onlinePlayers: serverInfo.players?.online ?? 0, // Добавляем информацию о сервере
       maxPlayers: serverInfo.players?.max ?? 0,
       description: convertMOTDToHTML(serverInfo.description),
-      version: serverVersion, // Добавляем версию из списка
+      versions: serverVersions, // Добавляем версию из списка
     };
 
     // Добавление сервера в массив
@@ -190,20 +190,13 @@ app.put('/servers/:id', authMiddleware, (req, res): any => {
 app.post('/servers', async (req, res) => {
   const { search, versions, bases, mods, plugins, miniGames, page = 0, pageSize = 10 } = req.body;
 
-  // const sortingServers = servers.sort((a: { rating: number; }, b: { rating: number; }) => {
-  //   if (!b.rating || !a.rating) {
-  //     return -1
-  //   }
-  //   return b.rating - a.rating
-  // }).map((server: Server, index: number) => {return {...server, ratingPlace: index+1}});
-
   let filteredServers: Server[] = filterServers(servers, {
     search: typeof search === 'string' ? search : undefined,
-    versions: Array.isArray(versions) && versions.length > 0 ? versions.map(version => Number(version)) : undefined,
-    bases: Array.isArray(bases) && bases.length > 0 ? bases.map(base => Number(base)) : undefined,
-    mods: Array.isArray(mods) && mods.length > 0 ? mods.map(mod => Number(mod)) : undefined,
-    plugins: Array.isArray(plugins) && plugins.length > 0 ? plugins.map(plugin => Number(plugin)) : undefined,
-    miniGames: Array.isArray(miniGames) && miniGames.length > 0 ? miniGames.map(miniGame => Number(miniGame)) : undefined,
+    versions: Array.isArray(versions) && versions.length > 0 ? versions.map(Number) : undefined,
+    bases: Array.isArray(bases) && bases.length > 0 ? bases.map(Number) : undefined,
+    mods: Array.isArray(mods) && mods.length > 0 ? mods.map(Number) : undefined,
+    plugins: Array.isArray(plugins) && plugins.length > 0 ? plugins.map(Number) : undefined,
+    miniGames: Array.isArray(miniGames) && miniGames.length > 0 ? miniGames.map(Number) : undefined,
   });
 
   for (const server of filteredServers) {
@@ -214,21 +207,21 @@ app.post('/servers', async (req, res) => {
     } catch (err) {
       console.error(`Ошибка при обновлении сервера ${server.id}:`, err);
     }
-}
+  }
 
-  // Пагинация
+  // Сортировка до пагинации
+  const sortedServers = filteredServers
+    .slice() // копия массива, чтобы не мутировать оригинал
+    .sort((a, b) => (b.rating ?? 0) - (a.rating ?? 0))
+    .map((server, index) => ({ ...server, ratingPlace: index + 1 }));
+
+  // Пагинация после сортировки
   const startIndex = page * pageSize;
-  const endIndex = startIndex + pageSize;
-  const paginatedServers = filteredServers.slice(startIndex, endIndex).sort((a , b) => {
-    if (!b.rating || !a.rating) {
-      return -1
-    }
-    return b.rating - a.rating
-  })
+  const paginatedServers = sortedServers.slice(startIndex, startIndex + pageSize);
 
   res.json({
     data: paginatedServers,
-    total: filteredServers.length, // Общее количество серверов для пагинации
+    total: sortedServers.length,
     page,
     pageSize,
   });
@@ -420,12 +413,12 @@ const filterServers = (servers: Server[], criteria: {
 }) => {
   return servers.filter(server => {
     const nameMatch = criteria.search && server.name ? server.name.toLowerCase().includes(criteria.search.toLowerCase()) || server.address.toLowerCase().includes(criteria.search.toLowerCase()) : true;
-    const versionMatch = criteria.versions && server.version ? criteria.versions.includes(server.version.id) : true;
+    const versionsMatch = criteria.versions && server.versions && server.versions.length > 0 ? criteria.versions.every(versionId => server.versions!.filter(item => item.id === versionId)) : true;
     const basesMatch = criteria.bases && server.bases && server.bases.length > 0 ? criteria.bases.every(baseId => server.bases!.filter(item => item.id === baseId)) : true;
     const modsMatch = criteria.mods && server.mods && server.mods.length > 0 ? criteria.mods.every(modId => server.mods!.filter(item => item.id === modId)) : true;
     const pluginsMatch = criteria.plugins && server.plugins && server.plugins.length > 0 ? criteria.plugins.every(pluginId => server.plugins!.filter(item => item.id === pluginId)) : true;
     const miniGamesMatch = criteria.miniGames && server.miniGames && server.miniGames.length > 0 ? criteria.miniGames.every(miniGameId => server.miniGames!.filter(item => item.id === miniGameId)) : true;
-    return nameMatch && versionMatch && basesMatch && modsMatch && pluginsMatch && miniGamesMatch;
+    return nameMatch && versionsMatch && basesMatch && modsMatch && pluginsMatch && miniGamesMatch;
   });
 };
 

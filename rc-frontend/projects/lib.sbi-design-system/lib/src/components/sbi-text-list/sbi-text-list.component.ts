@@ -2,7 +2,7 @@ import { Component, Input } from '@angular/core';
 import { NgClass, NgForOf, NgIf } from '@angular/common';
 import { SbiBadgeComponent } from '../sbi-badge/sbi-badge.component';
 import { SbiIconComponent } from '../sbi-icon/sbi-icon.component';
-import { SbiTextList } from '../../models/sbi-text-list.model';
+import { SbiTextListElement } from './sbi-text-list.models';
 
 
 /**
@@ -26,20 +26,34 @@ import { SbiTextList } from '../../models/sbi-text-list.model';
 })
 export class SbiTextListComponent {
   /**
-   * Список отображаемых элементов.
-   * @type {Array<SbiTextList>}
+   * @public
+   * @description Список отображаемых элементов.
+   * @type {Array<SbiTextListElement>}
+   * @defaultValue []
    */
-  @Input() list: Array<SbiTextList> = [];
+  @Input() public list: Array<SbiTextListElement> = [];
 
   /**
-   * Выравнять ли элементы (badge и icon) поверху.
+   * @public
+   * @description Выравнять ли элементы (badge и icon) поверху.
    * @type {boolean}
+   * @defaultValue false
    */
-  @Input() leftContentInTop: boolean = false;
+  @Input() public leftContentInTop: boolean = false;
 
   /**
-   * Идентификатор для авто тестов.
+   * @public
+   * @description Класс отвечающий за типографику всех элементов списка.
    * @type {string}
+   * @defaultValue 'body-regular'
    */
-  @Input() testId: string = 'sbi-text-list';
+  @Input() public labelClass: string = 'body-regular';
+
+  /**
+   * @public
+   * @description Идентификатор для авто тестов.
+   * @type {string}
+   * @defaultValue 'sbi-text-list'
+   */
+  @Input() public testId: string = 'sbi-text-list';
 }

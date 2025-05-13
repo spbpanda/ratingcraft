@@ -8,8 +8,8 @@ import { RcButtonComponent } from '../../../components/rc-button/rc-button.compo
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteServerComponent } from '../../../components/delete-server/delete-server.component';
 import { Router } from '@angular/router';
-import { GetItemValuePipe } from '../../../common/pipes/get-item-value.pipe';
 import { BoostServerComponent } from '../../../components/boost-server/boost-server.component';
+import { VersionPipe } from '../../../common/pipes/version.pipe';
 
 @Component({
   selector: 'rc-my-servers',
@@ -18,7 +18,7 @@ import { BoostServerComponent } from '../../../components/boost-server/boost-ser
     AsyncPipe,
     RcButtonComponent,
     MatIconModule,
-    GetItemValuePipe
+    VersionPipe
   ],
   templateUrl: './my-servers.component.html',
   styleUrl: './my-servers.component.scss'

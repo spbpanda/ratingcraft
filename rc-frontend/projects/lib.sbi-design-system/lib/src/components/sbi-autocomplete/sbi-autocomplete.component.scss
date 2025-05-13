@@ -2,6 +2,50 @@
 @import '../../../assets/styles/common-styles/input';
 @import '../../../assets/fonts/sbi.typography.scss';
 
+:host {
+  width: 100%;
+
+  ::ng-deep {
+    .mat-mdc-form-field {
+      width: 100%;
+    }
+
+    .mdc-text-field__input {
+      min-width: 75px;
+    }
+  }
+}
+
+.wrap {
+  ::ng-deep {
+    .sbi-chip-row {
+      flex-wrap: wrap;
+    }
+
+    .sbi-chip {
+      height: 100%;
+
+      .label {
+        word-break: break-word;
+        white-space: pre-line;
+      }
+    }
+
+    .mdc-text-field__input {
+      width: auto;
+    }
+
+    .mat-mdc-text-field-wrapper,
+    .mat-mdc-form-field-flex {
+      height: 100% !important;
+    }
+
+    .sbi-chip-content-wrapper {
+      align-items: center;
+    }
+  }
+}
+
 mat-form-field {
   width: 100%;
 }
@@ -11,3 +55,34 @@ mat-form-field {
     display: none !important;
   }
 }
+
+.select-all-wrapper {
+  padding-top: 2px;
+  cursor: pointer;
+  height: 40px;
+
+  .select-all {
+    padding: 8px 12px;
+    color: var(--text-primary);
+
+    &:hover {
+      border-radius: 12px;
+      background-color: var(--state-neutral-surfaceprimary---hover);
+    }
+  }
+}
+
+.full-divider {
+  position: relative;
+  left: -4px;
+  width: calc(100% + 8px);
+}
+
+.fix-max-width {
+  max-height: 200px;
+}
+
+.indentation {
+  height: 2px;
+}
+
