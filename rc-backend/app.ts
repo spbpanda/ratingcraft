@@ -6,7 +6,7 @@ const app = express();
 const PORT = Number(process.env.PORT) || 10000;
 
 const corsOptions = {
-  origin: 'https://ratingcraft.onrender.com', // замени на адрес фронтенда  'https://ratingcraft.onrender.com'
+  origin: 'http://localhost:3030', // замени на адрес фронтенда  'https://ratingcraft.onrender.com'
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true, // если используешь cookies
@@ -23,6 +23,6 @@ app.listen(PORT, '0.0.0.0', () => {
 });
 
 // Start server
-// app.listen(PORT, 'localhost', () => {
-//   console.log(`Server is running on http://localhost:${PORT}`);
-// });
+app.listen(PORT, 'localhost', () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});

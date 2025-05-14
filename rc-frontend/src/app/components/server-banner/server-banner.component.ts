@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import { GetItemValuePipe } from '../../common/pipes/get-item-value.pipe';
 import { BEDROCK_DEFAULT_PORT, JAVA_DEFAULT_PORT } from '../../common/consts/ports';
 import { VersionPipe } from '../../common/pipes/version.pipe';
+import { FavoriteButtonComponent } from "../favorite-button/favorite-button.component";
 
 @Component({
   selector: 'rc-server-banner',
@@ -16,8 +17,10 @@ import { VersionPipe } from '../../common/pipes/version.pipe';
     MatIconModule,
     SbiChipComponent,
     RcButtonComponent,
-    VersionPipe
-  ],
+    FavoriteButtonComponent,
+    VersionPipe,
+    FavoriteButtonComponent
+],
   providers: [SbiSnackBarService],
   templateUrl: './server-banner.component.html',
   styleUrl: './server-banner.component.scss'

@@ -20,6 +20,7 @@ export class RcBackendService {
   readonly servers = signal<any>([]);
   readonly paginator = signal<Paginator>({page: 1, pageSize: 10}); 
   readonly filter = signal<Filter | null>(null);
+  readonly favoriteServers = signal<Server[]>([]);
   
   readonly transactions = signal<any>([]);
 
@@ -128,5 +129,48 @@ export class RcBackendService {
       tap((res: any) => this.transactions.set(res)),
       shareReplay(1)
     );
+  }
+
+  /**
+   * Загрузка избранных серверов пользователя
+   */
+  loadFavoriteServers(): Observable<Server[]> {
+    return this.http.get<Server[]>(`${this.api}/favorite-servers`).pipe(
+      tap((servers) => this.favoriteServers.set(servers)),
+      shareReplay(1)
+    );
+  }
+
+  /**
+   * Добавить сервер в избранное
+   */
+  addFavoriteServer(serverId: string): Observable<void> {
+    return this.http.post<void>(`${this.api}/favorite-servers`, { serverId }).pipe(
+      tap(() => {
+        const current = this.favoriteServers();
+        const server = this.servers().find((s: Server) => s.id === serverId);
+        if (server && !current.some(s => s.id === serverId)) {
+          this.favoriteServers.set([...current, server]);
+        }
+      })
+    );
+  }
+
+  /**
+   * Удалить сервер из избранного
+   */
+  removeFavoriteServer(serverId: string): Observable<void> {
+    return this.http.delete<void>(`${this.api}/favorite-servers/${serverId}`).pipe(
+      tap(() => {
+        this.favoriteServers.set(this.favoriteServers().filter(s => s.id !== serverId));
+      })
+    );
+  }
+
+  /**
+   * Проверить, находится ли сервер в избранном
+   */
+  isServerFavorite(serverId: string): boolean {
+    return this.favoriteServers().some(s => s.id === serverId);
   }
 }

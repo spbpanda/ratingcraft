@@ -32,6 +32,7 @@
             </div>
             <rc-button (click)="copyText(server)">Копировать IP</rc-button> 
             <rc-button [type]="'submit'">Играть</rc-button>
+            <rc-favorite-button [serverId]="server.id"></rc-favorite-button>
         </div>
     </div>
 </div>
