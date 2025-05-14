@@ -4,7 +4,7 @@
         <div class="content">
             <sbi-input [control]="boostControl" type="number" placeholder="Сколько баллов добавить" label="Баллы"></sbi-input>
             <!-- TODO: сделать то что будет показывать сумму -->
-            Будет стоить: {{boostControl.value ?? 0 | sbiSumFormatter }}
+            Будет стоить: {{(boostControl.value ?? 0) * 30 | sbiSumFormatter }}
         </div>
         <div class="dialog--actions">
             <rc-button [type]="'default'" (click)="dialogRef.close()">Отмена</rc-button>

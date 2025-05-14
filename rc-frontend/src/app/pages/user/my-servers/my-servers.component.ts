@@ -28,7 +28,7 @@ export class MyServersComponent implements OnDestroy {
   rcBackend = inject(RcBackendService);
   dialog = inject(MatDialog);
   router = inject(Router);
-  servers$: Observable<Server[]> = this.rcBackend.getUserServers()
+  servers$: Observable<Server[]> = this.rcBackend.getUserServers();
 
   boost(server: Server) {
     const dialogRef = this.dialog.open(BoostServerComponent, {

@@ -2,7 +2,7 @@ import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import {MatMenuModule} from '@angular/material/menu';
-import { SbiDarkSliderComponent, SbiButtonComponent, SbiIconComponent, BUTTON_ARROWS_DOWN } from '@sbi/design-system';
+import { SbiDarkSliderComponent, SbiButtonComponent, SbiIconComponent, BUTTON_ARROWS_DOWN, SbiAvatarComponent } from '@sbi/design-system';
 import { LoginComponent } from '../components/login/login.component';
 import { AuthService } from '../services/auth.service';
 import { User } from '../common/interfaces/user';
@@ -17,11 +17,10 @@ import { RcButtonComponent } from '../components/rc-button/rc-button.component';
     MatToolbarModule,
     MatMenuModule,
     SbiDarkSliderComponent,
-    SbiButtonComponent,
-    SbiIconComponent,
     RcButtonComponent,
     RouterLink,
-    RouterLinkActive
+    RouterLinkActive,
+    SbiAvatarComponent
   ],
   templateUrl: './toolbar.component.html',
   styleUrl: './toolbar.component.scss'

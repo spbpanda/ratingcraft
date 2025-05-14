@@ -51,62 +51,7 @@ export class BannerComponent {
     };
   }
 
-  imageDimensionsValidator(
-    requiredWidth: number,
-    requiredHeight: number
-  ): AsyncValidatorFn {
-    return (control: AbstractControl): Observable<ValidationErrors | null> => {
-      const file = control.value as File;
-      
-      if (!file) {
-        return of(null); // Если файла нет, пропускаем валидацию
-      }
-  
-      if (!file.type.startsWith('image/')) {
-        return of({ notAnImage: true }); // Проверяем, что это изображение
-      }
-  
-      return new Observable<ValidationErrors | null>(observer => {
-        const img = new Image();
-        const url = URL.createObjectURL(file);
-  
-        img.onload = () => {
-          URL.revokeObjectURL(url);
-          
-          const errors: ValidationErrors = {};
-          if (img.width !== requiredWidth) {
-            errors['invalidWidth'] = {
-              actual: img.width,
-              required: requiredWidth
-            };
-          }
-          
-          if (img.height !== requiredHeight) {
-            errors['invalidHeight'] = {
-              actual: img.height,
-              required: requiredHeight
-            };
-          }
-  
-          observer.next(Object.keys(errors).length ? errors : null);
-          observer.complete();
-        };
-  
-        img.onerror = () => {
-          URL.revokeObjectURL(url);
-          observer.next({ invalidImage: true });
-          observer.complete();
-        };
-  
-        img.src = url;
-      }).pipe(
-        catchError(() => of({ imageLoadError: true }))
-      );
-    };
-  }
-
   ngAfterViewInit() {
     this.bannerControl.setValidators(this.validateFileSize(this.maxSizeInBytes));
-    this.bannerControl.setAsyncValidators(this.imageDimensionsValidator(80, 468));
   }
 }

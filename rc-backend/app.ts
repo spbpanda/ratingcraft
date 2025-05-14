@@ -1,8 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import fs from 'fs';
-import { Server } from './interfaces/server';
-import { authMiddleware } from './middleware/auth'; // Импортируем middleware
+import { authMiddleware } from './middleware/authMiddleware';
 import { pingBedrock } from "./mineping/bedrock";
 import { pingJava } from "./mineping/java";
 import { OpenAI } from 'openai';
@@ -11,8 +10,10 @@ import { convertMOTDToHTML } from './utils/convert-motd-to-html';
 import getMinecraftServerStatus from './minecraft-server-util/minecraft-server-util';
 import { BEDROCK_DEFAULT_PORT, JAVA_DEFAULT_PORT } from './consts/ports';
 import { randomUUID, UUID } from 'crypto';
-import { BoostRequest } from './interfaces/boost-request';
-import { Transaction } from './interfaces/transaction';
+import routes from './routes/index';
+import { BoostRequest } from './interfaces/boost.interface';
+import { Transaction } from './interfaces/transaction.interface';
+import { Server } from './interfaces/server.interface';
 
 const app = express();
 const PORT = Number(process.env.PORT) || 10000;
@@ -23,6 +24,8 @@ const api = new OpenAI({
   apiKey,
   baseURL,
 });
+
+app.use('/api', routes);
 
 app.use(cors());
 app.use(express.json({limit: '50mb'}));
@@ -336,7 +339,7 @@ app.post('/servers/:id/boost', authMiddleware, async (req, res): Promise<any> =>
   const userId = (req as any).user.id;
 
   // 1. Находим сервер
-  const server = servers.find((s: Server) => s.id === id);
+  const server: Server = servers.find((s: Server) => s.id === id);
   if (!server) {
     return res.status(404).json({ error: 'Сервер не найден' });
   }
@@ -359,6 +362,7 @@ app.post('/servers/:id/boost', authMiddleware, async (req, res): Promise<any> =>
     id: randomUUID(),
     userId,
     serverId: id,
+    serverName: server.name || server.id!,
     amount: cost,
     ratingAdded: amount,
     paymentMethod,
@@ -366,9 +370,8 @@ app.post('/servers/:id/boost', authMiddleware, async (req, res): Promise<any> =>
     status: 'completed'
   };
 
-  const transactions = readJsonFile('./data/transactions.json');
-  transactions.push(transaction);
-  fs.writeFileSync('./data/transactions.json', JSON.stringify(transactions, null, 2));
+  // transactions.push(transaction);
+  // fs.writeFileSync('./data/transactions.json', JSON.stringify(transactions, null, 2));
 
   // 6. Сохраняем обновленный сервер
   fs.writeFileSync('./data/servers.json', JSON.stringify(servers, null, 2));
@@ -423,14 +426,14 @@ const filterServers = (servers: Server[], criteria: {
 };
 
 // // Start server prod
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Server is running on http://0.0.0.0:${PORT}`);
-});
+// app.listen(PORT, '0.0.0.0', () => {
+//   console.log(`Server is running on http://0.0.0.0:${PORT}`);
+// });
 
 // Start server
-// app.listen(PORT, 'localhost', () => {
-//   console.log(`Server is running on http://localhost:${PORT}`);
-// });
+app.listen(PORT, 'localhost', () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
 
 
 async function pingJavaServer(host: any, port: number = JAVA_DEFAULT_PORT, timeout: number = DEFAULT_TIMEOUT) {

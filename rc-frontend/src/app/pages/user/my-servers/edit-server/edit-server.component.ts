@@ -137,6 +137,7 @@ export class EditServerComponent implements OnInit {
   }
 
   onSubmit(): void {
+    console.log(this.serverForm.value)
     if (this.serverForm.valid) {
       const updatedServer: any = this.serverForm.value;
       // Отправляем данные на сервер

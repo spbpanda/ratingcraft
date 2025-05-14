@@ -19,7 +19,9 @@ export class RcBackendService {
   readonly versions = signal<any[]>([]);
   readonly servers = signal<any>([]);
   readonly paginator = signal<Paginator>({page: 1, pageSize: 10}); 
-  readonly filter = signal<Filter | null>(null)
+  readonly filter = signal<Filter | null>(null);
+  
+  readonly transactions = signal<any>([]);
 
   constructor(private http: HttpClient) {}
 
@@ -119,5 +121,12 @@ export class RcBackendService {
       amount: boostAmount,
       paymentMethod: 'card'
     })
+  }
+
+  loadTransactions() {
+    return this.http.get(`${this.api}/transactions`).pipe(
+      tap((res: any) => this.transactions.set(res)),
+      shareReplay(1)
+    );
   }
 }

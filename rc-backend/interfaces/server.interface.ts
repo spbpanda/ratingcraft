@@ -1,4 +1,4 @@
-import { Item } from "./item";
+import { Item } from "./item.interface";
 
 export interface Server {
     id?: string; // Опционально, так как ID будет генерироваться автоматически

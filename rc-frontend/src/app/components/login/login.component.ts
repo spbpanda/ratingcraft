@@ -28,7 +28,7 @@ export class LoginComponent {
       size: 'large',
       shape: 'pill',
       text: 'Логин через Google',
-      width: document.getElementById("google-btn")?.offsetWidth
+      width: '328'
     })
   }
 

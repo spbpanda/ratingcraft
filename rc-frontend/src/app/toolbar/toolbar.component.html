@@ -8,7 +8,12 @@
     <div class="rc-toolbar--actions">
         <sbi-dark-slider></sbi-dark-slider>
         @if (authService.isUserLoggedIn() && user) {
-            <sbi-button appearance="overlay" [matMenuTriggerFor]="menu"><img src="/assets/avatar.svg" class="avatar" alt="avatar"><sbi-icon [iconImage]="arrow_down"></sbi-icon></sbi-button>
+            <sbi-avatar 
+                size="regular" 
+                [showBadge]="false"
+                [imageUrl]="user.picture || '/assets/avatar.svg'"
+                [matMenuTriggerFor]="menu">
+            </sbi-avatar>
         } @else {
             <rc-button (click)="openLoginDialog()" [type]="'submit'">Войти</rc-button>
         }
