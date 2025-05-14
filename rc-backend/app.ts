@@ -332,57 +332,6 @@ app.post('/find-server-ai', async (req, res) => {
   }
 });
 
-// Эндпоинт для буста рейтинга
-app.post('/servers/:id/boost', authMiddleware, async (req, res): Promise<any> => {
-  const { id } = req.params;
-  const { amount, paymentMethod }: BoostRequest = req.body;
-  const userId = (req as any).user.id;
-
-  // 1. Находим сервер
-  const server: Server = servers.find((s: Server) => s.id === id);
-  if (!server) {
-    return res.status(404).json({ error: 'Сервер не найден' });
-  }
-
-  // 2. Рассчитываем стоимость
-  const cost = calculateBoostCost(amount);
-  
-  // 3. Проверяем платеж (это упрощенный пример)
-  const paymentSuccess = await processPayment(userId, cost, paymentMethod);
-  
-  if (!paymentSuccess) {
-    return res.status(400).json({ error: 'Ошибка оплаты' });
-  }
-
-  // 4. Обновляем рейтинг
-  server.rating = Number(server.rating) + Number(amount);
-  
-  // 5. Сохраняем транзакцию
-  const transaction: Transaction = {
-    id: randomUUID(),
-    userId,
-    serverId: id,
-    serverName: server.name || server.id!,
-    amount: cost,
-    ratingAdded: amount,
-    paymentMethod,
-    date: new Date(),
-    status: 'completed'
-  };
-
-  // transactions.push(transaction);
-  // fs.writeFileSync('./data/transactions.json', JSON.stringify(transactions, null, 2));
-
-  // 6. Сохраняем обновленный сервер
-  fs.writeFileSync('./data/servers.json', JSON.stringify(servers, null, 2));
-
-  res.json({
-    success: true,
-    newRating: server.rating,
-    transactionId: transaction.id
-  });
-});
-
 // Получение истории бустов для сервера
 app.get('/servers/:id/boosts', (req, res) => {
   const { id } = req.params;

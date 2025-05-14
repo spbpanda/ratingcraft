@@ -1,10 +1,10 @@
 import express from 'express';
-import transactionsRouter from './transactions.routes';
-// import serversRouter from './servers.routes';
+import transactionsRoutes from './transactions.routes';
+import boostRoutes from './boost.routes';
 
 const router = express.Router();
 
-router.use('/', transactionsRouter);
-// router.use('/', serversRouter);
+router.use('/', transactionsRoutes);
+router.use('/', boostRoutes);
 
 export default router;
