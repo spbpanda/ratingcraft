@@ -27,7 +27,8 @@ export class LoginComponent {
       theme: 'filled_black',
       size: 'large',
       shape: 'pill',
-      text: 'Login with Google'
+      text: 'Логин через Google',
+      width: document.getElementById("google-btn")?.offsetWidth
     })
   }
 
