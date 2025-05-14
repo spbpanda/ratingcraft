@@ -8,7 +8,7 @@ import { Item } from '../interfaces/filter';
 export class VersionPipe implements PipeTransform {
 
   transform(values: Item[], ...args: unknown[]): unknown {
-    return values && values.length > 0 ? values.length > 1 ? `${values[0].value} - ${values[values.length-1].value}` : values[0].value : '';
+    return values && values.length > 0 ? values.length > 1 ? `${values[values.length-1].value} - ${values[0].value}` : values[0].value : '';
   }
 
 }
