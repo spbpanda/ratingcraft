@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
 import { ToolbarComponent } from './toolbar/toolbar.component';
 import { FooterComponent } from './footer/footer.component';
 import { GoBackComponent } from './components/go-back/go-back.component';
@@ -17,5 +17,9 @@ import { GoBackComponent } from './components/go-back/go-back.component';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'rc-frontend';
+  router = inject(Router);
+
+  isAdminRoute(): boolean {
+    return this.router.url.startsWith('/admin');
+  }
 }

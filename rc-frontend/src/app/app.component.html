@@ -3,10 +3,14 @@
     <rc-toolbar></rc-toolbar>
     <!-- TODO: pages -->
     <div class="rc-router">
-        <rc-go-back></rc-go-back>
-        <div class="rc-pages">
+        @if (isAdminRoute()) {
             <router-outlet></router-outlet>
-        </div>
+        } @else {
+            <rc-go-back></rc-go-back>
+            <div class="rc-pages">
+                <router-outlet></router-outlet>
+            </div>
+        }
     </div>
     <!-- TODO: footer -->
     <rc-footer></rc-footer>

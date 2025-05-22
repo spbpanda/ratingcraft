@@ -1,9 +1,8 @@
 [
   {
-    "id": "gcdt7rb3p7n0d0uakym8fb4k",
-    "userName": "Alex123",
-    "password": "Alex123",
-    "email": "alex@ya.ru",
-    "confirmPassword": ""
+    "id": "00000000-0000-0000-0000-000000000000",
+    "passwordHash": "$2b$10$hwVLOLwVMv3GfTt4M1oywe3R3kT1C2ehXyNgtAwM6oDuX.U2Q0MdO",
+    "name": "AlumenatorAdmin",
+    "role": "admin"
   }
 ]

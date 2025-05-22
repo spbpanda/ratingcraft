@@ -1,0 +1,16 @@
+.rc-sidenav-admin {
+  max-width: 180px;
+  padding: 16px;
+  border-right: 1px solid #676767;
+
+  nav {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+.rc-sidenav-content-admin {
+  padding: 16px;
+  min-height: 100vh;
+}

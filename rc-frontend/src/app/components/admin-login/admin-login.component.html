@@ -1,0 +1,10 @@
+<sbi-dialog (close)="dialogRef.close()" [title]="'Выполните вход'" [scrollableContent]="false" [showCloseIcon]="false" >
+    <div class="dialog-login">
+        <form [formGroup]="loginForm" class="login-form">
+            <sbi-input label="Имя" [control]="loginForm.controls['username']"></sbi-input>
+            <sbi-input label="Пароль" [control]="loginForm.controls['password']"></sbi-input>
+            <rc-button type="submit" (click)="onSumbit()">Войти</rc-button>
+        </form>
+    </div>
+</sbi-dialog>
+  

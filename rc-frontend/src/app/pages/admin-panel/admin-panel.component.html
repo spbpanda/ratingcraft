@@ -1,0 +1,26 @@
+@if (isAdmin$ | async) {
+<div class="rc-page">
+    <mat-sidenav-container>
+        <mat-sidenav mode="side" opened class="rc-sidenav-admin">
+            <nav>
+                <sbi-suggest-chip label="Платежи" [active]="paymentsLink.isActive" routerLink="/admin-panel/payments"
+                    #paymentsLink="routerLinkActive" routerLinkActive></sbi-suggest-chip>
+
+                <sbi-suggest-chip label="Сервера" [active]="serversLink.isActive" routerLink="/admin-panel/servers"
+                    #serversLink="routerLinkActive" routerLinkActive></sbi-suggest-chip>
+
+                <sbi-suggest-chip label="Статистика" [active]="statisticsLink.isActive" routerLink="/admin-panel/statistics"
+                    #statisticsLink="routerLinkActive" routerLinkActive></sbi-suggest-chip>
+
+                <sbi-suggest-chip label="Пользователи" [active]="usersLink.isActive" routerLink="/admin-panel/users"
+                    #usersLink="routerLinkActive" routerLinkActive></sbi-suggest-chip>
+            </nav>
+        </mat-sidenav>
+        <mat-sidenav-content class="rc-sidenav-content-admin">
+            <router-outlet></router-outlet>
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>
+} @else {
+<h1> Ты не Админ! </h1>
+}
